@@ -184,8 +184,8 @@
 
         .age-digit-drum {
             position: relative;
-            width: 90px;
-            height: 130px;
+            width: 75px;
+            height: 120px;
             background: linear-gradient(180deg, #18120e 0%, #080605 50%, #18120e 100%);
             border: 3px solid rgba(212, 175, 55, 0.6);
             border-radius: 16px;
@@ -197,7 +197,7 @@
         }
 
         @media (min-width: 768px) {
-            .age-digit-drum { width: 130px; height: 180px; border-width: 4px; border-radius: 20px; }
+            .age-digit-drum { width: 110px; height: 160px; border-width: 4px; border-radius: 20px; }
         }
 
         .age-drum-track {
@@ -212,9 +212,9 @@
         .age-drum-number {
             font-family: 'Cinzel', serif;
             font-weight: 900;
-            font-size: 75px;
-            height: 130px;
-            line-height: 130px;
+            font-size: 65px;
+            height: 120px;
+            line-height: 120px;
             background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #AA7C11 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -225,7 +225,7 @@
         }
 
         @media (min-width: 768px) {
-            .age-drum-number { font-size: 110px; height: 180px; line-height: 180px; }
+            .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
         .fire-burn-fx {
@@ -390,30 +390,33 @@
 
         #sec4WishesContainer.active { opacity: 1; }
 
-        /* 🌟 FULL SCREEN WIDE SPAN FOR WISH BUBBLES (Extending beyond left & right with natural half-cut effect) */
+        /* 🌟 LIQUID GLASS BUBBLES WITH GOLDEN SPARK BORDER GLOW */
         .sec4-bubble {
             position: absolute;
-            background: rgba(22, 15, 18, 0.96);
-            backdrop-filter: blur(14px);
-            border: 1.5px solid #D4AF37;
-            border-radius: 40px;
-            padding: 8px 20px 8px 10px;
+            background: linear-gradient(135deg, rgba(40, 25, 30, 0.75) 0%, rgba(15, 10, 12, 0.85) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(212, 175, 55, 0.7);
+            border-radius: 35px;
+            padding: 8px 16px 8px 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35), inset 0 0 12px rgba(255, 246, 209, 0.2);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 270px;
-            max-width: 75vw;
+            width: 240px;
+            max-width: 65vw;
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            transition: all 0.3s ease;
         }
 
         .sec4-bubble:hover {
-            border-color: #FFF;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+            border-color: #FFF6D1;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 246, 209, 0.7), inset 0 0 18px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
             z-index: 60;
         }
 
@@ -429,22 +432,18 @@
             50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 80px rgba(255,246,209,0.9); }
         }
 
-        @keyframes organicSparkFloat {
-            0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
-            20% { opacity: 0.9; transform: translate(10px, -20px) scale(1) rotate(15deg); }
-            80% { opacity: 0.6; transform: translate(-10px, -50px) scale(0.8) rotate(40deg); }
-            100% { transform: translate(6px, -75px) scale(0.1); opacity: 0; }
+        /* 🌟 TWINKLING GOLDEN SPARKS ON GLASS BUBBLES */
+        @keyframes bubbleSparkle {
+            0%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(45deg); opacity: 1; text-shadow: 0 0 10px #FFD700; }
         }
 
-        .gold-organic-spark {
+        .bubble-spark {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
-            border-radius: 50%;
+            color: #FFD700;
+            font-size: 10px;
             pointer-events: none;
-            box-shadow: 0 0 8px #D4AF37;
-            animation: organicSparkFloat 3s infinite ease-in-out;
+            animation: bubbleSparkle 2s infinite ease-in-out;
         }
 
         #wishCardModal {
@@ -628,17 +627,29 @@
                 <div class="age-slot-container">
                     <div class="age-digit-drum">
                         <div id="drum1Track" class="age-drum-track">
-                            <div class="age-drum-number">25</div>
-                            <div class="age-drum-number">26</div>
-                            <div class="age-drum-number">20</div>
+                            <div class="age-drum-number">0</div>
+                            <div class="age-drum-number">1</div>
+                            <div class="age-drum-number">2</div>
+                            <div class="age-drum-number">3</div>
+                            <div class="age-drum-number">4</div>
+                            <div class="age-drum-number">5</div>
+                            <div class="age-drum-number">6</div>
+                            <div class="age-drum-number">7</div>
+                            <div class="age-drum-number">8</div>
+                            <div class="age-drum-number">9</div>
+                            <div class="age-drum-number">2</div>
                         </div>
                     </div>
                     <div class="age-digit-drum">
                         <div id="drum2Track" class="age-drum-track">
-                            <div class="age-drum-number">24</div>
-                            <div class="age-drum-number">25</div>
-                            <div class="age-drum-number">26</div>
-                            <div class="age-drum-number">27</div>
+                            <div class="age-drum-number">0</div>
+                            <div class="age-drum-number">1</div>
+                            <div class="age-drum-number">2</div>
+                            <div class="age-drum-number">3</div>
+                            <div class="age-drum-number">4</div>
+                            <div class="age-drum-number">5</div>
+                            <div class="age-drum-number">6</div>
+                            <div class="age-drum-number">7</div>
                         </div>
                     </div>
                 </div>
@@ -755,10 +766,10 @@
     <!-- EXPANDED WISH CARD POPUP MODAL -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
-            <div class="gold-organic-spark spark-type-1" style="top: 15px; left: 20px;"></div>
-            <div class="gold-organic-spark spark-type-2" style="top: 25px; right: 25px; animation-delay: 0.8s;"></div>
-            <div class="gold-organic-spark spark-type-1" style="bottom: 30px; left: 30px; animation-delay: 1.5s;"></div>
-            <div class="gold-organic-spark spark-type-2" style="bottom: 20px; right: 35px; animation-delay: 2.1s;"></div>
+            <!-- Twinkling Golden Sparks inside Card -->
+            <div class="gold-organic-spark" style="top: 12px; left: 15px;"></div>
+            <div class="gold-organic-spark" style="top: 20px; right: 20px; animation-delay: 0.7s;"></div>
+            <div class="gold-organic-spark" style="bottom: 25px; left: 25px; animation-delay: 1.4s;"></div>
 
             <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
@@ -1023,7 +1034,7 @@
                         document.getElementById('cropModalTitle').innerText = "Portrait Media Frame (4:6)";
                         document.getElementById('cropModalSub').innerText = "Position your photo in 4:6 portrait box!";
                         viewport.style.width = '180px';
-                        viewport.style.height = '270px'; // Exact 4:6 Ratio Box
+                        viewport.style.height = '270px';
                         viewport.style.borderRadius = '16px';
                     }
 
@@ -1105,7 +1116,7 @@
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
             const targetW = (cropTargetType === 'avatar') ? 500 : 800;
-            const targetH = (cropTargetType === 'avatar') ? 500 : 1200; // Exact 4:6 Portrait Ratio (800 x 1200)
+            const targetH = (cropTargetType === 'avatar') ? 500 : 1200;
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
@@ -1165,16 +1176,16 @@
                 const osc = globalAudioCtx.createOscillator();
                 const gain = globalAudioCtx.createGain();
                 osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(1200, globalAudioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(300, globalAudioCtx.currentTime + 0.18);
-                gain.gain.setValueAtTime(0.98, globalAudioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.18);
+                osc.frequency.setValueAtTime(1300, globalAudioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(300, globalAudioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(1.0, globalAudioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.2);
                 osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.19);
+                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.21);
             } catch(e) {}
         }
 
-        // --- WIDE NATURAL FLOW WISH BUBBLES (Left & Right Edge Cut Span) ---
+        // --- NATURAL WIDE SPAN WISH FLOW WITH GLASS BUBBLES ---
         let lastZoneIndex = -1;
 
         function initSection4WishesFlow() {
@@ -1190,7 +1201,7 @@
                     
                     const zones = [
                         () => -8 + Math.random() * 25,   
-                        () => 25 + Math.random() * 32,  
+                        () => 28 + Math.random() * 28,  
                         () => 62 + Math.random() * 30   
                     ];
                     
@@ -1202,7 +1213,9 @@
                     const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
 
                     b.innerHTML = `
-                        <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0">
+                        <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
+                        <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
+                        <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
                         <div class="flex flex-col text-left overflow-hidden">
                             <span class="font-cinzel font-bold text-gold text-xs">${randomWish.name}</span>
                             <span class="text-[11px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
@@ -1390,13 +1403,13 @@
         function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightboxModal').classList.remove('hidden'); }
         function closeLightbox() { document.getElementById('lightboxModal').classList.add('hidden'); }
 
-        // --- AUTHENTIC WHEEL ROLL SLOT MACHINE (Section 2) ---
+        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN (Section 2) ---
         let prevValues = { d1:'', d2:'', h1:'', h2:'', m1:'', m2:'', s1:'', s2:'' };
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
             const track = document.getElementById(trackId); if (!track) return;
-            const cardHeight = window.innerWidth >= 640 ? 66 : 50;
-            const newElem = document.createElement('div'); newElem.className = 'reel-digit'; newElem.innerText = newVal;
+            const cardHeight = window.innerWidth >= 640 ? 160 : 120;
+            const newElem = document.createElement('div'); newElem.className = 'age-drum-number'; newElem.innerText = newVal;
             track.insertBefore(newElem, track.firstChild);
             gsap.set(track, { y: -cardHeight });
             gsap.to(track, { y: 0, duration: 0.38, ease: "power2.out", onComplete: () => { while (track.children.length > 1) track.removeChild(track.lastChild); } });
@@ -1405,13 +1418,8 @@
         function updateCountdown() {
             const now = new Date().getTime(); const difference = targetDate - now;
             if (difference <= 0) { ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); } 
-            else {
-                const d = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'); const h = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-                const m = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0'); const s = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
-                updateDigit('d1', d[0]); updateDigit('d2', d[1]); updateDigit('h1', h[0]); updateDigit('h2', h[1]); updateDigit('m1', m[0]); updateDigit('m2', m[1]); updateDigit('s1', s[0]); updateDigit('s2', s[1]);
-            }
         }
-        updateCountdown(); setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         function triggerCurtainAndUnlock() {
             if (isUnlocked) return; isUnlocked = true;
@@ -1432,8 +1440,9 @@
             const fireBurnOverlay = document.getElementById('fireBurnOverlay');
             const bdayBanner = document.getElementById('bdayBanner');
 
-            const itemHeight = window.innerWidth >= 768 ? 180 : 130;
+            const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
+            // Casino physics: Wheel 1 scrolls bottom to top, Wheel 2 scrolls top to bottom to reach 26
             gsap.fromTo(drum1Track, { y: itemHeight * 2 }, { y: -itemHeight, duration: 2.2, ease: "power2.inOut" });
             gsap.fromTo(drum2Track, { y: -itemHeight * 2 }, { 
                 y: -itemHeight * 2, 
@@ -1452,6 +1461,7 @@
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.6, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
 
+                        // Casino spin from 26 to 27
                         gsap.to(drum2Track, { y: -itemHeight * 3, duration: 1.6, ease: "power2.inOut" });
 
                         setTimeout(() => {
