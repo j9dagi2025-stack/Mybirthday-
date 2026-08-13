@@ -390,14 +390,14 @@
 
         #sec4WishesContainer.active { opacity: 1; }
 
-        /* 🌟 WIDER BUBBLE FRAME BUT CONTROLLED HEIGHT (Not Taller) */
+        /* Wider Bubble Frame (Not Taller) */
         .sec4-bubble {
             position: absolute;
             background: rgba(22, 15, 18, 0.96);
             backdrop-filter: blur(14px);
             border: 1.5px solid #D4AF37;
             border-radius: 40px;
-            padding: 8px 18px 8px 8px;
+            padding: 8px 20px 8px 10px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -1145,7 +1145,7 @@
             cancelCrop();
         }
 
-        // --- AUDIO ENGINE ---
+        // --- ULTRA-LOUD BUBBLE POP SOUND ENGINE ---
         let globalAudioCtx = null;
         function initGlobalAudioContext() {
             if (!globalAudioCtx) {
@@ -1165,12 +1165,13 @@
                 const osc = globalAudioCtx.createOscillator();
                 const gain = globalAudioCtx.createGain();
                 osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(1100, globalAudioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(250, globalAudioCtx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.5, globalAudioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.15);
+                osc.frequency.setValueAtTime(1200, globalAudioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(300, globalAudioCtx.currentTime + 0.18);
+                // Increased volume to 0.95 so it sounds super loud over background music
+                gain.gain.setValueAtTime(0.95, globalAudioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.18);
                 osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.16);
+                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.19);
             } catch(e) {}
         }
 
@@ -1255,7 +1256,6 @@
             if (wish.mediaType === 'image') {
                 mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[38vh] object-cover rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                // Background music pauses ONLY when video plays
                 mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[38vh] object-cover rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
                 mediaHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-cover">`;
@@ -1263,7 +1263,6 @@
 
             let audioHTML = '';
             if (wish.audioSrc) {
-                // Background music pauses ONLY when voice note plays
                 audioHTML = `<div class="custom-gold-audio p-2 w-full mt-2"><audio src="${wish.audioSrc}" controls autoplay class="w-full" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio></div>`;
             }
 
@@ -1291,7 +1290,6 @@
 
         function resumeBgMusic() {
             const bgMusic = document.getElementById('bgMusic');
-            // Resume only if modal is fully closed and no other video/audio inside modal is playing
             const anyMediaPlaying = Array.from(document.querySelectorAll('#expandedMediaContainer video, #expandedMediaContainer audio')).some(el => !el.paused);
             if (!document.getElementById('wishCardModal').classList.contains('active') || !anyMediaPlaying) {
                 if (bgMusic.paused && document.getElementById('wishCardModal').classList.contains('active') === false) {
