@@ -228,26 +228,27 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        .fire-burn-fx {
+        /* 🌟 NEW GOLDEN ENERGY BLAST FX */
+        .gold-blast-fx {
             position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 120, 0, 0.85) 0%, rgba(255, 40, 0, 0.6) 40%, transparent 80%);
+            inset: -50px;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.9) 0%, rgba(212, 175, 55, 0.4) 40%, transparent 75%);
             mix-blend-mode: screen;
-            filter: blur(12px);
+            filter: blur(15px);
             opacity: 0;
             pointer-events: none;
-            z-index: 20;
+            z-index: 25;
         }
 
+        /* Balloons properly hidden below section view until triggered */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -150px;
+            bottom: -800px;
             width: 140px;
-            height: 1000px;
+            height: 800px;
             pointer-events: none;
-            z-index: 15;
+            z-index: 5;
             opacity: 0;
-            transition: opacity 0.8s ease;
         }
         .balloon-bundle-left { left: 15px; }
         .balloon-bundle-right { right: 15px; }
@@ -390,7 +391,6 @@
 
         #sec4WishesContainer.active { opacity: 1; }
 
-        /* 🌟 LIQUID GLASS BUBBLES WITH GOLDEN SPARK BORDER GLOW */
         .sec4-bubble {
             position: absolute;
             background: linear-gradient(135deg, rgba(40, 25, 30, 0.75) 0%, rgba(15, 10, 12, 0.85) 100%);
@@ -432,18 +432,22 @@
             50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 80px rgba(255,246,209,0.9); }
         }
 
-        /* 🌟 TWINKLING GOLDEN SPARKS ON GLASS BUBBLES */
-        @keyframes bubbleSparkle {
-            0%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0; }
-            50% { transform: scale(1.2) rotate(45deg); opacity: 1; text-shadow: 0 0 10px #FFD700; }
+        @keyframes organicSparkFloat {
+            0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
+            20% { opacity: 0.9; transform: translate(10px, -20px) scale(1) rotate(15deg); }
+            80% { opacity: 0.6; transform: translate(-10px, -50px) scale(0.8) rotate(40deg); }
+            100% { transform: translate(6px, -75px) scale(0.1); opacity: 0; }
         }
 
-        .bubble-spark {
+        .gold-organic-spark {
             position: absolute;
-            color: #FFD700;
-            font-size: 10px;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
+            border-radius: 50%;
             pointer-events: none;
-            animation: bubbleSparkle 2s infinite ease-in-out;
+            box-shadow: 0 0 8px #D4AF37;
+            animation: organicSparkFloat 3s infinite ease-in-out;
         }
 
         #wishCardModal {
@@ -622,8 +626,10 @@
             <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full">
-                <div id="fireBurnOverlay" class="fire-burn-fx"></div>
+                <!-- Golden Energy Blast FX -->
+                <div id="fireBurnOverlay" class="gold-blast-fx"></div>
 
+                <!-- 🌟 TRUE CASINO SLOT MACHINE (Separate Single Digits 0 to 9) -->
                 <div class="age-slot-container">
                     <div class="age-digit-drum">
                         <div id="drum1Track" class="age-drum-track">
@@ -637,7 +643,6 @@
                             <div class="age-drum-number">7</div>
                             <div class="age-drum-number">8</div>
                             <div class="age-drum-number">9</div>
-                            <div class="age-drum-number">2</div>
                         </div>
                     </div>
                     <div class="age-digit-drum">
@@ -650,6 +655,8 @@
                             <div class="age-drum-number">5</div>
                             <div class="age-drum-number">6</div>
                             <div class="age-drum-number">7</div>
+                            <div class="age-drum-number">8</div>
+                            <div class="age-drum-number">9</div>
                         </div>
                     </div>
                 </div>
@@ -766,7 +773,6 @@
     <!-- EXPANDED WISH CARD POPUP MODAL -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
-            <!-- Twinkling Golden Sparks inside Card -->
             <div class="gold-organic-spark" style="top: 12px; left: 15px;"></div>
             <div class="gold-organic-spark" style="top: 20px; right: 20px; animation-delay: 0.7s;"></div>
             <div class="gold-organic-spark" style="bottom: 25px; left: 25px; animation-delay: 1.4s;"></div>
@@ -1185,7 +1191,7 @@
             } catch(e) {}
         }
 
-        // --- NATURAL WIDE SPAN WISH FLOW WITH GLASS BUBBLES ---
+        // --- NATURAL WIDE SPAN WISH FLOW ---
         let lastZoneIndex = -1;
 
         function initSection4WishesFlow() {
@@ -1403,24 +1409,7 @@
         function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightboxModal').classList.remove('hidden'); }
         function closeLightbox() { document.getElementById('lightboxModal').classList.add('hidden'); }
 
-        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN (Section 2) ---
-        let prevValues = { d1:'', d2:'', h1:'', h2:'', m1:'', m2:'', s1:'', s2:'' };
-        function updateDigit(trackId, newVal) {
-            if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
-            const track = document.getElementById(trackId); if (!track) return;
-            const cardHeight = window.innerWidth >= 640 ? 160 : 120;
-            const newElem = document.createElement('div'); newElem.className = 'age-drum-number'; newElem.innerText = newVal;
-            track.insertBefore(newElem, track.firstChild);
-            gsap.set(track, { y: -cardHeight });
-            gsap.to(track, { y: 0, duration: 0.38, ease: "power2.out", onComplete: () => { while (track.children.length > 1) track.removeChild(track.lastChild); } });
-        }
-
-        function updateCountdown() {
-            const now = new Date().getTime(); const difference = targetDate - now;
-            if (difference <= 0) { ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); } 
-        }
-        updateCountdown();
-
+        // --- TRUE CASINO SLOT MACHINE WHEEL SPIN (Section 2 - 0 to 9 Digits Roll) ---
         function triggerCurtainAndUnlock() {
             if (isUnlocked) return; isUnlocked = true;
             
@@ -1442,11 +1431,15 @@
 
             const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-            // Casino physics: Wheel 1 scrolls bottom to top, Wheel 2 scrolls top to bottom to reach 26
-            gsap.fromTo(drum1Track, { y: itemHeight * 2 }, { y: -itemHeight, duration: 2.2, ease: "power2.inOut" });
-            gsap.fromTo(drum2Track, { y: -itemHeight * 2 }, { 
-                y: -itemHeight * 2, 
-                duration: 2.5, 
+            // First Digit (2): Comes from top to bottom (entering from outside top, landing on '2')
+            // Index 2 is '2'
+            gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.5, ease: "power2.inOut" });
+
+            // Second Digit (6): Comes from bottom to top (entering from outside bottom, landing on '6')
+            // Index 6 is '6'
+            gsap.fromTo(drum2Track, { y: 0 }, { 
+                y: -itemHeight * 6, 
+                duration: 2.8, 
                 ease: "power2.inOut", 
                 onComplete: () => {
                     tapPrompt.classList.remove('opacity-0');
@@ -1458,11 +1451,11 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.6, yoyo: true, repeat: 1 });
+                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.5, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
 
-                        // Casino spin from 26 to 27
-                        gsap.to(drum2Track, { y: -itemHeight * 3, duration: 1.6, ease: "power2.inOut" });
+                        // Roll from 6 to 7 (Index 7)
+                        gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.5, ease: "power2.inOut" });
 
                         setTimeout(() => {
                             gsap.to(fireBurnOverlay, { opacity: 0, duration: 1 });
