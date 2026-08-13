@@ -62,7 +62,6 @@
             padding: 40px 15px;
         }
 
-        /* 🌟 SEAMLESS FEATHERED BLEND BETWEEN SECTIONS (NO HARSH LINES) */
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
         
         .section-glossy-velvet {
@@ -857,7 +856,7 @@
         </div>
     </div>
 
-    <!-- 🌟 CROPPER MODAL (4:6 Standard Portrait Box) -->
+    <!-- 🌟 CROPPER MODAL (4:6 Portrait Box) -->
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
@@ -1437,7 +1436,6 @@
 
                             document.getElementById('balloonBundleLeft').style.opacity = '1'; 
                             document.getElementById('balloonBundleRight').style.opacity = '1';
-                            // Slightly increased balloon float speed for a lively feel
                             gsap.to('#balloonBundleLeft', { y: -1100, duration: 10, ease: 'sine.out' });
                             gsap.to('#balloonBundleRight', { y: -1100, duration: 11, ease: 'sine.out' });
 
