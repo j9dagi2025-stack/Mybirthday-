@@ -753,7 +753,7 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[42vh]"></div>
+            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[46vh]"></div>
 
             <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed mb-4 px-2 text-left"></p>
 
@@ -787,13 +787,13 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Bubble Fit)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Circle Fit)</label>
                     <input type="file" id="avatarFileInput" accept="image/*" onchange="openAvatarCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="avatarPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <img id="avatarThumbnail" class="w-10 h-10 rounded-full border border-gold object-cover">
-                    <span class="text-xs text-gold font-bold">Profile Photo Set!</span>
+                    <span class="text-xs text-gold font-bold">Profile Circle Set!</span>
                     <button type="button" onclick="document.getElementById('avatarFileInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
@@ -826,14 +826,14 @@
         </div>
     </div>
 
-    <!-- 🌟 CORRECTED PORTRAIT VERTICAL CROPPER MODAL (Exact 4:5 Vertical Box) -->
+    <!-- 🌟 DUAL CROP MODAL (Circle for Avatar, 5:6 Portrait for Gift Photo) -->
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
-            <h3 class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Portrait Photo Frame</h3>
-            <p class="text-gray-300 text-[11px] mb-3">Drag photo inside the vertical box or use zoom slider!</p>
+            <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
+            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Drag to pan or use zoom slider!</p>
             
-            <!-- Exact Portrait Vertical Frame Viewport -->
-            <div id="cropViewport" class="relative w-[210px] h-[265px] mx-auto bg-black rounded-2xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none">
+            <!-- Dynamic Viewport (Circle for avatar, 5:6 Portrait Box for gifts) -->
+            <div id="cropViewport" class="relative mx-auto bg-black rounded-2xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none">
                 <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
             </div>
 
@@ -873,14 +873,14 @@
         }
 
         let publicWishes = [
-            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1000" },
+            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/960" },
             { name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
             { name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3" },
-            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1000" },
-            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1000" }
+            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/960" },
+            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/960" }
         ];
 
-        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1000" }];
+        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/960" }];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -937,7 +937,7 @@
             document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
         }
 
-        // --- PORTRAIT VERTICAL CROP ENGINE ---
+        // --- CUSTOM DUAL CROP ENGINE (Circle for Avatar, 5:6 Portrait for Gifts) ---
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
@@ -982,6 +982,21 @@
                     const cImg = document.getElementById('customCropImage');
                     cImg.src = cropImgObj.src;
                     
+                    const viewport = document.getElementById('cropViewport');
+                    if (cropTargetType === 'avatar') {
+                        document.getElementById('cropModalTitle').innerText = "Avatar Circle Frame";
+                        document.getElementById('cropModalSub').innerText = "Fit your face inside the circle!";
+                        viewport.style.width = '200px';
+                        viewport.style.height = '200px';
+                        viewport.style.borderRadius = '50%';
+                    } else {
+                        document.getElementById('cropModalTitle').innerText = "Portrait Media Frame (5:6)";
+                        document.getElementById('cropModalSub').innerText = "Position your 5:6 portrait gift photo!";
+                        viewport.style.width = '208px';
+                        viewport.style.height = '250px';
+                        viewport.style.borderRadius = '16px';
+                    }
+
                     imgScale = 1;
                     document.getElementById('zoomRange').value = 1;
                     imgPosX = 0; imgPosY = 0;
@@ -1059,7 +1074,8 @@
 
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
-            const targetW = 800; const targetH = 1000; // Exact Vertical Portrait Ratio
+            const targetW = (cropTargetType === 'avatar') ? 500 : 800;
+            const targetH = (cropTargetType === 'avatar') ? 500 : 960; // 5:6 Ratio (800 x 960)
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
@@ -1067,7 +1083,9 @@
             ctx.fillRect(0, 0, targetW, targetH);
 
             ctx.save();
-            ctx.translate(targetW / 2 + imgPosX * (targetW / 210), targetH / 2 + imgPosY * (targetH / 265));
+            const viewW = (cropTargetType === 'avatar') ? 200 : 208;
+            const viewH = (cropTargetType === 'avatar') ? 200 : 250;
+            ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
             const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
@@ -1076,20 +1094,29 @@
             ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
             ctx.restore();
 
-            const url = canvas.toDataURL('image/jpeg', 0.9);
+            // Make avatar perfectly circular in canvas output
             if (cropTargetType === 'avatar') {
-                finalizedAvatarUrl = url;
+                const circleCanvas = document.createElement('canvas');
+                circleCanvas.width = targetW; circleCanvas.height = targetH;
+                const cCtx = circleCanvas.getContext('2d');
+                cCtx.beginPath();
+                cCtx.arc(targetW / 2, targetH / 2, targetW / 2, 0, Math.PI * 2);
+                cCtx.clip();
+                cCtx.drawImage(canvas, 0, 0);
+                finalizedAvatarUrl = circleCanvas.toDataURL('image/png', 0.9);
+                
                 document.getElementById('avatarPreviewBox').classList.remove('hidden');
-                document.getElementById('avatarThumbnail').src = url;
+                document.getElementById('avatarThumbnail').src = finalizedAvatarUrl;
             } else {
-                finalizedGiftUrl = url;
+                finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "Portrait Framed Set";
-                document.getElementById('giftThumbContainer').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+                document.getElementById('giftThumbName').innerText = "5:6 Portrait Framed Set";
+                document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
         }
 
+        // --- RELIABLE AUDIO CONTEXT POP SOUND ENGINE FOR WISH CLICKS ---
         function playGlassPopSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1184,9 +1211,9 @@
             } else { wasMusicPlayingBeforeModal = false; }
 
             if (wish.mediaType === 'image') {
-                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-cover rounded-lg">`;
+                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[48vh] object-cover rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[42vh] object-cover rounded-lg bg-black"></video>`;
+                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[48vh] object-cover rounded-lg bg-black"></video>`;
             } else if (wish.mediaType === 'audio') {
                 mediaContainer.innerHTML = `<div class="custom-gold-audio p-2 w-full"><audio src="${wish.mediaSrc}" controls autoplay class="w-full"></audio></div>`;
             } else {
@@ -1412,7 +1439,7 @@
         }
 
         function finalizeWishPush(name, msg, isPrivate) {
-            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1000";
+            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/960";
 
             const newWish = { 
                 name: name, 
