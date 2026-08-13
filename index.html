@@ -390,7 +390,7 @@
 
         #sec4WishesContainer.active { opacity: 1; }
 
-        /* Wider Bubble Frame (Not Taller) */
+        /* 🌟 FULL SCREEN WIDE SPAN FOR WISH BUBBLES (Extending beyond left & right with natural half-cut effect) */
         .sec4-bubble {
             position: absolute;
             background: rgba(22, 15, 18, 0.96);
@@ -404,8 +404,8 @@
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 300px;
-            max-width: 50vw;
+            width: 270px;
+            max-width: 75vw;
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
@@ -1167,15 +1167,14 @@
                 osc.type = 'sine'; 
                 osc.frequency.setValueAtTime(1200, globalAudioCtx.currentTime); 
                 osc.frequency.exponentialRampToValueAtTime(300, globalAudioCtx.currentTime + 0.18);
-                // Increased volume to 0.95 so it sounds super loud over background music
-                gain.gain.setValueAtTime(0.95, globalAudioCtx.currentTime); 
+                gain.gain.setValueAtTime(0.98, globalAudioCtx.currentTime); 
                 gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.18);
                 osc.connect(gain); gain.connect(globalAudioCtx.destination);
                 osc.start(); osc.stop(globalAudioCtx.currentTime + 0.19);
             } catch(e) {}
         }
 
-        // --- NATURAL DISTRIBUTED FLOATING WISHES FLOW ---
+        // --- WIDE NATURAL FLOW WISH BUBBLES (Left & Right Edge Cut Span) ---
         let lastZoneIndex = -1;
 
         function initSection4WishesFlow() {
@@ -1190,9 +1189,9 @@
                     b.className = 'sec4-bubble';
                     
                     const zones = [
-                        () => 4 + Math.random() * 22,   
-                        () => 32 + Math.random() * 26,  
-                        () => 62 + Math.random() * 25   
+                        () => -8 + Math.random() * 25,   
+                        () => 25 + Math.random() * 32,  
+                        () => 62 + Math.random() * 30   
                     ];
                     
                     let nextZoneIdx = (lastZoneIndex + 1) % zones.length;
