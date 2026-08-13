@@ -15,10 +15,6 @@
     <!-- GSAP CDN -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     
-    <!-- Cropper.js CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-
     <!-- Canvas Confetti CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -119,15 +115,6 @@
             position: relative;
             overflow: hidden;
             max-width: 100%;
-        }
-
-        .luxury-gold-frame::after {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border: 1px solid rgba(243, 229, 171, 0.4);
-            border-radius: 24px;
-            pointer-events: none;
         }
 
         .reel-frame {
@@ -417,40 +404,56 @@
         }
 
         @keyframes goldShimmer {
-            0%, 100% { border-color: #D4AF37; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 40px rgba(212,175,55,0.4); }
-            50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 70px rgba(255,246,209,0.8); }
+            0%, 100% { border-color: #D4AF37; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 50px rgba(212,175,55,0.5); }
+            50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 80px rgba(255,246,209,0.9); }
         }
 
-        @keyframes sparkFloat {
-            0% { transform: translateY(0) scale(0.6); opacity: 0; }
-            50% { opacity: 1; transform: translateY(-25px) scale(1.2) rotate(15deg); }
-            100% { transform: translateY(-50px) scale(0.4); opacity: 0; }
+        /* 🌟 PREMIUM ORGANIC SPARKS & BUTTERFLY DUST SYSTEM */
+        @keyframes organicSparkFloat1 {
+            0% { transform: translate(0, 0) scale(0.3); opacity: 0; }
+            30% { opacity: 1; transform: translate(15px, -35px) scale(1.1) rotate(20deg); }
+            70% { opacity: 0.8; transform: translate(-10px, -70px) scale(0.9) rotate(45deg); }
+            100% { transform: translate(20px, -110px) scale(0.2); opacity: 0; }
         }
 
-        .gold-sparkle-fx {
+        @keyframes organicSparkFloat2 {
+            0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+            40% { opacity: 0.9; transform: translate(-20px, -40px) scale(1.2) rotate(-15deg); }
+            80% { opacity: 0.6; transform: translate(15px, -80px) scale(0.8) rotate(-35deg); }
+            100% { transform: translate(-10px, -120px) scale(0.1); opacity: 0; }
+        }
+
+        .gold-organic-spark {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
-            animation: sparkFloat 1.8s ease-in-out infinite;
+            box-shadow: 0 0 10px #D4AF37;
         }
 
+        .spark-type-1 { animation: organicSparkFloat1 2.8s infinite ease-in-out; }
+        .spark-type-2 { animation: organicSparkFloat2 3.4s infinite ease-in-out; }
+
+        /* WISH CARD POPUP MODAL WITH GENTLE BACKDROP BLUR */
         #wishCardModal {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(20px); z-index: 100;
+            position: fixed; inset: 0; 
+            background: rgba(12, 10, 9, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.35s ease;
         }
 
         #wishCardModal.active { opacity: 1; pointer-events: auto; }
 
         .expanded-wish-card {
-            background: linear-gradient(135deg, rgba(32, 18, 24, 0.98) 0%, rgba(12, 8, 10, 0.99) 100%);
-            border: 3px solid #D4AF37; border-radius: 36px; padding: 28px 24px;
-            max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto;
+            background: linear-gradient(135deg, rgba(32, 18, 24, 0.95) 0%, rgba(12, 8, 10, 0.98) 100%);
+            border: 3px solid #D4AF37; border-radius: 32px; padding: 26px 22px;
+            max-width: 460px; width: 100%; max-height: 90vh; overflow-y: auto;
             animation: goldShimmer 4s infinite ease-in-out;
             text-align: center; position: relative;
             transform: scale(0.85); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -735,17 +738,21 @@
         </div>
     </div>
 
-    <!-- EXPANDED WISH CARD POPUP MODAL -->
+    <!-- EXPANDED WISH CARD POPUP MODAL WITH ORGANIC GLASS SPARKS -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
-            <div class="gold-sparkle-fx" style="top: 10px; left: 10px;"></div>
-            <div class="gold-sparkle-fx" style="top: 10px; right: 10px; animation-delay: 0.5s;"></div>
-            <div class="gold-sparkle-fx" style="bottom: 10px; left: 15px; animation-delay: 1s;"></div>
-            <div class="gold-sparkle-fx" style="bottom: 10px; right: 15px; animation-delay: 1.2s;"></div>
+            <!-- Dynamic Floating Golden Sparks (Surrounding glass feel, not blocking media) -->
+            <div class="gold-organic-spark spark-type-1" style="top: 15px; left: 20px;"></div>
+            <div class="gold-organic-spark spark-type-2" style="top: 25px; right: 25px; animation-delay: 0.8s;"></div>
+            <div class="gold-organic-spark spark-type-1" style="bottom: 30px; left: 30px; animation-delay: 1.5s;"></div>
+            <div class="gold-organic-spark spark-type-2" style="bottom: 20px; right: 35px; animation-delay: 2.1s;"></div>
+            <div class="gold-organic-spark spark-type-1" style="top: 45%; left: 10px; animation-delay: 1.1s;"></div>
+            <div class="gold-organic-spark spark-type-2" style="top: 55%; right: 10px; animation-delay: 1.8s;"></div>
 
-            <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-10 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[40vh]"></div>
+            <!-- Portrait Frame Container for Media -->
+            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[42vh]"></div>
 
             <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed mb-4 px-2 text-left"></p>
 
@@ -818,19 +825,25 @@
         </div>
     </div>
 
-    <!-- CROPPER MODAL -->
+    <!-- MODERN PORTRAIT CROPPER MODAL (No Blue Lines, Smooth Zoom & Pan) -->
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-md p-6 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
-            <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-2">Adjust & Fit Photo</h3>
-            <p class="text-gray-300 text-xs mb-4">Portrait locked ratio for perfect fit in wishes card!</p>
+            <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-1">Portrait Media Adjuster</h3>
+            <p class="text-gray-300 text-xs mb-3">Drag to pan or use slider to zoom perfectly in portrait view!</p>
             
-            <div class="relative w-full h-[260px] bg-black rounded-2xl overflow-hidden border border-gold/40 flex items-center justify-center mb-5">
-                <img id="cropperTargetImage" style="max-width: 100%;">
+            <div id="cropViewport" class="relative w-full h-[260px] bg-black rounded-2xl overflow-hidden border border-gold/40 flex items-center justify-center mb-4 cursor-grab select-none">
+                <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
+            </div>
+
+            <div class="flex items-center gap-3 mb-5 px-2">
+                <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-minus"></i></span>
+                <input type="range" id="zoomRange" min="1" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
+                <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
             </div>
 
             <div class="flex items-center justify-center gap-4">
                 <button type="button" onclick="cancelCrop()" class="px-6 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-gray-300 text-xs font-bold rounded-xl border border-gray-600 transition">Cancel</button>
-                <button type="button" onclick="confirmCrop()" class="px-8 py-2.5 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs font-extrabold rounded-xl shadow-lg hover:scale-105 transition">OK / Set</button>
+                <button type="button" onclick="confirmCustomCrop()" class="px-8 py-2.5 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs font-extrabold rounded-xl shadow-lg hover:scale-105 transition">OK / Set</button>
             </div>
         </div>
     </div>
@@ -858,14 +871,14 @@
         }
 
         let publicWishes = [
-            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/500" },
+            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1000" },
             { name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
             { name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3" },
-            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/500" },
-            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/500" }
+            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1000" },
+            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1000" }
         ];
 
-        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/500" }];
+        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1000" }];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -922,27 +935,21 @@
             document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
         }
 
-        let activeCropper = null;
+        // MODERN CUSTOM SMOOTH CROP SYSTEM VARIABLES
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
         let finalizedGiftType = "image";
 
+        let cropImgObj = new Image();
+        let imgPosX = 0, imgPosY = 0, imgScale = 1;
+        let isDraggingCrop = false, startDragX = 0, startDragY = 0;
+
         function openAvatarCropModal(e) {
             const file = e.target.files[0];
             if (!file) return;
             cropTargetType = 'avatar';
-            const modal = document.getElementById('cropModal');
-            const image = document.getElementById('cropperTargetImage');
-            modal.classList.remove('hidden');
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                image.src = event.target.result;
-                if (activeCropper) activeCropper.destroy();
-                activeCropper = new Cropper(image, { aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
-            };
-            reader.readAsDataURL(file);
+            setupCropReader(file);
         }
 
         function openGiftCropModal(e) {
@@ -960,41 +967,102 @@
 
             cropTargetType = 'gift';
             finalizedGiftType = 'image';
-            const modal = document.getElementById('cropModal');
-            const image = document.getElementById('cropperTargetImage');
-            modal.classList.remove('hidden');
+            setupCropReader(file);
+        }
 
+        function setupCropReader(file) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                image.src = event.target.result;
-                if (activeCropper) activeCropper.destroy();
-                // PORTRAIT FIXED ASPECT RATIO (4:5) FOR COMPACT WISH CARD FIT
-                activeCropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
+                cropImgObj.src = event.target.result;
+                cropImgObj.onload = function() {
+                    document.getElementById('cropModal').classList.remove('hidden');
+                    const view = document.getElementById('cropViewport');
+                    const cImg = document.getElementById('customCropImage');
+                    cImg.src = cropImgObj.src;
+                    
+                    // Fit portrait nicely
+                    imgScale = 1;
+                    document.getElementById('zoomRange').value = 1;
+                    imgPosX = 0; imgPosY = 0;
+                    updateCropImageTransform();
+                }
             };
             reader.readAsDataURL(file);
         }
 
-        function cancelCrop() {
-            document.getElementById('cropModal').classList.add('hidden');
-            if (activeCropper) { activeCropper.destroy(); activeCropper = null; }
+        const viewport = document.getElementById('cropViewport');
+        viewport.addEventListener('mousedown', (e) => {
+            isDraggingCrop = true; startDragX = e.clientX - imgPosX; startDragY = e.clientY - imgPosY;
+        });
+        window.addEventListener('mouseup', () => { isDraggingCrop = false; });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDraggingCrop) return;
+            imgPosX = e.clientX - startDragX;
+            imgPosY = e.clientY - startDragY;
+            updateCropImageTransform();
+        });
+
+        // Touch support for mobile dragging
+        viewport.addEventListener('touchstart', (e) => {
+            if(e.touches.length === 1) {
+                isDraggingCrop = true;
+                startDragX = e.touches[0].clientX - imgPosX;
+                startDragY = e.touches[0].clientY - imgPosY;
+            }
+        }, {passive: true});
+        window.addEventListener('touchend', () => { isDraggingCrop = false; }, {passive: true});
+        window.addEventListener('touchmove', (e) => {
+            if (!isDraggingCrop || e.touches.length !== 1) return;
+            imgPosX = e.touches[0].clientX - startDragX;
+            imgPosY = e.touches[0].clientY - startDragY;
+            updateCropImageTransform();
+        }, {passive: true});
+
+        function onZoomSliderChange(val) {
+            imgScale = parseFloat(val);
+            updateCropImageTransform();
         }
 
-        function confirmCrop() {
-            if (!activeCropper) return;
-            activeCropper.getCroppedCanvas({ width: 800, height: 1000 }).toBlob((blob) => {
-                const url = URL.createObjectURL(blob);
-                if (cropTargetType === 'avatar') {
-                    finalizedAvatarUrl = url;
-                    document.getElementById('avatarPreviewBox').classList.remove('hidden');
-                    document.getElementById('avatarThumbnail').src = url;
-                } else {
-                    finalizedGiftUrl = url;
-                    document.getElementById('giftPreviewBox').classList.remove('hidden');
-                    document.getElementById('giftThumbName').innerText = "Framed Photo Set";
-                    document.getElementById('giftThumbContainer').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
-                }
-                cancelCrop();
-            });
+        function updateCropImageTransform() {
+            const cImg = document.getElementById('customCropImage');
+            cImg.style.transform = `translate(${imgPosX}px, ${imgPosY}px) scale(${imgScale})`;
+        }
+
+        function cancelCrop() {
+            document.getElementById('cropModal').classList.add('hidden');
+        }
+
+        function confirmCustomCrop() {
+            const canvas = document.createElement('canvas');
+            const targetW = 800; const targetH = 1000; // Exact Portrait ratio 4:5
+            canvas.width = targetW; canvas.height = targetH;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, targetW, targetH);
+
+            ctx.save();
+            ctx.translate(targetW / 2 + imgPosX * (targetW / 260), targetH / 2 + imgPosY * (targetH / 260));
+            ctx.scale(imgScale, imgScale);
+            
+            const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
+            const w = cropImgObj.width * ratio;
+            const h = cropImgObj.height * ratio;
+            ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
+            ctx.restore();
+
+            const url = canvas.toDataURL('image/jpeg', 0.9);
+            if (cropTargetType === 'avatar') {
+                finalizedAvatarUrl = url;
+                document.getElementById('avatarPreviewBox').classList.remove('hidden');
+                document.getElementById('avatarThumbnail').src = url;
+            } else {
+                finalizedGiftUrl = url;
+                document.getElementById('giftPreviewBox').classList.remove('hidden');
+                document.getElementById('giftThumbName').innerText = "Portrait Framed Set";
+                document.getElementById('giftThumbContainer').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+            }
+            cancelCrop();
         }
 
         // GUARANTEED SOUND ENGINE FOR WISH CLICK
@@ -1092,9 +1160,9 @@
             } else { wasMusicPlayingBeforeModal = false; }
 
             if (wish.mediaType === 'image') {
-                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[35vh] object-cover rounded-lg">`;
+                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-cover rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[35vh] object-cover rounded-lg bg-black"></video>`;
+                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[42vh] object-cover rounded-lg bg-black"></video>`;
             } else if (wish.mediaType === 'audio') {
                 mediaContainer.innerHTML = `<div class="custom-gold-audio p-2 w-full"><audio src="${wish.mediaSrc}" controls autoplay class="w-full"></audio></div>`;
             } else {
@@ -1227,7 +1295,6 @@
 
             const itemHeight = window.innerWidth >= 768 ? 180 : 130;
 
-            // Roll smoothly to 26 first (Index 2 for drum1, Index 6 for drum2)
             const targetY1 = -(2 * itemHeight);
             const targetY2 = -(6 * itemHeight);
 
@@ -1237,7 +1304,6 @@
                 duration: 2.5, 
                 ease: "power2.inOut", 
                 onComplete: () => {
-                    // Show prompt to tap
                     tapPrompt.classList.remove('opacity-0');
                     tapPrompt.style.cursor = 'pointer';
 
@@ -1247,11 +1313,9 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // Fire and burn overlay effect
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.5, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
 
-                        // Roll smoothly from 26 to 27 (Drum2 index 7)
                         const finalY2 = -(7 * itemHeight);
                         gsap.to(drum2Track, { y: finalY2, duration: 1.6, ease: "power2.inOut" });
 
