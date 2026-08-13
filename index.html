@@ -110,7 +110,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
-        /* 👑 3D LUXURY GOLDEN FRAME STYLING */
         .luxury-gold-frame {
             border: 4px solid #D4AF37;
             box-shadow: 0 0 35px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
@@ -129,37 +128,6 @@
             border: 1px solid rgba(243, 229, 171, 0.4);
             border-radius: 24px;
             pointer-events: none;
-        }
-
-        /* 👑 LUXURY GOLDEN VIDEO & AUDIO PLAYERS */
-        .luxury-gold-video {
-            width: 100%;
-            max-height: 50vh;
-            object-fit: cover;
-            border-radius: 14px;
-            border: 2px solid #D4AF37;
-            background: #000;
-            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .luxury-gold-audio-wrapper {
-            width: 100%;
-            background: linear-gradient(135deg, #1c140c 0%, #0a0806 100%);
-            border: 2px solid #D4AF37;
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.9), inset 0 0 15px rgba(212,175,55,0.25);
-        }
-
-        .luxury-gold-audio-wrapper audio {
-            width: 100%;
-            height: 40px;
-            accent-color: #D4AF37;
-            outline: none;
         }
 
         .reel-frame {
@@ -199,7 +167,6 @@
 
         @media (min-width: 640px) { .reel-digit { font-size: 36px; height: 66px; line-height: 66px; } }
 
-        /* 🎰 SLOT MACHINE COUNTER */
         .age-slot-container {
             display: flex;
             align-items: center;
@@ -257,7 +224,7 @@
         .fire-burn-fx {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 120, 0, 0.8) 0%, rgba(255, 40, 0, 0.5) 40%, transparent 80%);
+            background: radial-gradient(circle at 50% 50%, rgba(255, 120, 0, 0.85) 0%, rgba(255, 40, 0, 0.6) 40%, transparent 80%);
             mix-blend-mode: screen;
             filter: blur(12px);
             opacity: 0;
@@ -414,9 +381,7 @@
             transition: opacity 0.5s ease;
         }
 
-        #sec4WishesContainer.active {
-            opacity: 1;
-        }
+        #sec4WishesContainer.active { opacity: 1; }
 
         .sec4-bubble {
             position: absolute;
@@ -451,7 +416,6 @@
             100% { transform: translateY(-115vh) translateZ(0); opacity: 0; }
         }
 
-        /* ✨ SPARKLE & BUTTERFLY GOLDEN ANIMATION FOR EXPANDED MODAL */
         @keyframes goldShimmer {
             0%, 100% { border-color: #D4AF37; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 40px rgba(212,175,55,0.4); }
             50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 70px rgba(255,246,209,0.8); }
@@ -486,7 +450,7 @@
         .expanded-wish-card {
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.98) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; border-radius: 36px; padding: 28px 24px;
-            max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto;
+            max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto;
             animation: goldShimmer 4s infinite ease-in-out;
             text-align: center; position: relative;
             transform: scale(0.85); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -662,23 +626,12 @@
                             <div class="age-drum-number">4</div>
                             <div class="age-drum-number">5</div>
                             <div class="age-drum-number">6</div>
-                            <div class="age-drum-number">7</div>
-                            <div class="age-drum-number">8</div>
-                            <div class="age-drum-number">9</div>
-                            <div class="age-drum-number">0</div>
-                            <div class="age-drum-number">1</div>
-                            <div class="age-drum-number">2</div>
-                            <div class="age-drum-number">3</div>
-                            <div class="age-drum-number">4</div>
-                            <div class="age-drum-number">5</div>
-                            <div class="age-drum-number">6</div>
-                            <div class="age-drum-number">7</div>
                         </div>
                     </div>
                 </div>
 
-                <div id="tapPrompt" class="mt-3 opacity-0 transition-opacity duration-700">
-                    <span class="text-[11px] md:text-xs text-gold/80 tracking-widest uppercase font-mono animate-pulse border border-gold/30 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md">
+                <div id="tapPrompt" class="mt-4 opacity-0 transition-opacity duration-700">
+                    <span class="text-[11px] md:text-xs text-gold/90 tracking-widest uppercase font-mono animate-pulse border border-gold/40 px-5 py-2 rounded-full bg-black/80 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                         ✨ Tap here to Ignite Chapter 27 ✨
                     </span>
                 </div>
@@ -785,7 +738,6 @@
     <!-- EXPANDED WISH CARD POPUP MODAL -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
-            <!-- Golden Sparkles / Butterfly particles -->
             <div class="gold-sparkle-fx" style="top: 10px; left: 10px;"></div>
             <div class="gold-sparkle-fx" style="top: 10px; right: 10px; animation-delay: 0.5s;"></div>
             <div class="gold-sparkle-fx" style="bottom: 10px; left: 15px; animation-delay: 1s;"></div>
@@ -793,9 +745,9 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-10 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black"></div>
+            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[40vh]"></div>
 
-            <p id="expandedMessage" class="text-gray-100 text-base sm:text-lg italic leading-relaxed mb-4 px-2 text-left"></p>
+            <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed mb-4 px-2 text-left"></p>
 
             <div class="w-full flex items-center gap-3.5 border-t border-gold/30 pt-3 mt-2">
                 <img id="expandedAvatar" class="w-12 h-12 rounded-full border-2 border-gold object-cover shadow-[0_0_15px_rgba(212,175,55,0.5)]">
@@ -870,9 +822,9 @@
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-md p-6 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-2">Adjust & Fit Photo</h3>
-            <p class="text-gray-300 text-xs mb-4">Drag, pinch or zoom to frame your photo perfectly!</p>
+            <p class="text-gray-300 text-xs mb-4">Portrait locked ratio for perfect fit in wishes card!</p>
             
-            <div class="relative w-full h-[280px] bg-black rounded-2xl overflow-hidden border border-gold/40 flex items-center justify-center mb-5">
+            <div class="relative w-full h-[260px] bg-black rounded-2xl overflow-hidden border border-gold/40 flex items-center justify-center mb-5">
                 <img id="cropperTargetImage" style="max-width: 100%;">
             </div>
 
@@ -1016,7 +968,8 @@
             reader.onload = function(event) {
                 image.src = event.target.result;
                 if (activeCropper) activeCropper.destroy();
-                activeCropper = new Cropper(image, { aspectRatio: NaN, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
+                // PORTRAIT FIXED ASPECT RATIO (4:5) FOR COMPACT WISH CARD FIT
+                activeCropper = new Cropper(image, { aspectRatio: 4 / 5, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
             };
             reader.readAsDataURL(file);
         }
@@ -1028,7 +981,7 @@
 
         function confirmCrop() {
             if (!activeCropper) return;
-            activeCropper.getCroppedCanvas({ width: 1000, height: 1000 }).toBlob((blob) => {
+            activeCropper.getCroppedCanvas({ width: 800, height: 1000 }).toBlob((blob) => {
                 const url = URL.createObjectURL(blob);
                 if (cropTargetType === 'avatar') {
                     finalizedAvatarUrl = url;
@@ -1044,6 +997,7 @@
             });
         }
 
+        // GUARANTEED SOUND ENGINE FOR WISH CLICK
         function playGlassPopSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1052,12 +1006,12 @@
                 const osc = popCtx.createOscillator();
                 const gain = popCtx.createGain();
                 osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(900, popCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(180, popCtx.currentTime + 0.14);
-                gain.gain.setValueAtTime(0.35, popCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, popCtx.currentTime + 0.14);
+                osc.frequency.setValueAtTime(1000, popCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(200, popCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.4, popCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, popCtx.currentTime + 0.15);
                 osc.connect(gain); gain.connect(popCtx.destination);
-                osc.start(); osc.stop(popCtx.currentTime + 0.15);
+                osc.start(); osc.stop(popCtx.currentTime + 0.16);
             } catch(e) {}
         }
 
@@ -1138,13 +1092,13 @@
             } else { wasMusicPlayingBeforeModal = false; }
 
             if (wish.mediaType === 'image') {
-                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[50vh] object-cover rounded-lg">`;
+                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[35vh] object-cover rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[50vh] object-cover rounded-lg bg-black"></video>`;
+                mediaContainer.innerHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[35vh] object-cover rounded-lg bg-black"></video>`;
             } else if (wish.mediaType === 'audio') {
-                mediaContainer.innerHTML = `<div class="custom-gold-audio"><audio src="${wish.mediaSrc}" controls autoplay></audio></div>`;
+                mediaContainer.innerHTML = `<div class="custom-gold-audio p-2 w-full"><audio src="${wish.mediaSrc}" controls autoplay class="w-full"></audio></div>`;
             } else {
-                mediaContainer.innerHTML = `<img src="${wish.avatar}" class="w-32 h-36 rounded-lg object-cover">`;
+                mediaContainer.innerHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-cover">`;
             }
 
             document.getElementById('wishCardModal').classList.add('active');
@@ -1273,42 +1227,51 @@
 
             const itemHeight = window.innerWidth >= 768 ? 180 : 130;
 
-            const targetY1 = -(10 * itemHeight);
-            const targetY2 = -(15 * itemHeight);
+            // Roll smoothly to 26 first (Index 2 for drum1, Index 6 for drum2)
+            const targetY1 = -(2 * itemHeight);
+            const targetY2 = -(6 * itemHeight);
 
-            gsap.to(drum1Track, { y: targetY1, duration: 2.5, ease: "power3.inOut" });
-            gsap.to(drum2Track, { y: targetY2, duration: 2.8, ease: "power3.inOut", onComplete: () => {
-                tapPrompt.classList.remove('opacity-0');
-                tapPrompt.style.cursor = 'pointer';
+            gsap.to(drum1Track, { y: targetY1, duration: 2.2, ease: "power2.inOut" });
+            gsap.to(drum2Track, { 
+                y: targetY2, 
+                duration: 2.5, 
+                ease: "power2.inOut", 
+                onComplete: () => {
+                    // Show prompt to tap
+                    tapPrompt.classList.remove('opacity-0');
+                    tapPrompt.style.cursor = 'pointer';
 
-                const triggerIgnition = () => {
-                    document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
-                    document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
+                    const triggerIgnition = () => {
+                        document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
+                        document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
 
-                    tapPrompt.style.opacity = '0';
+                        tapPrompt.style.opacity = '0';
 
-                    gsap.to(fireBurnOverlay, { opacity: 0.9, duration: 0.6, yoyo: true, repeat: 1 });
-                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+                        // Fire and burn overlay effect
+                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.5, yoyo: true, repeat: 1 });
+                        confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
 
-                    const finalY2 = -(16 * itemHeight);
-                    gsap.to(drum2Track, { y: finalY2, duration: 1.2, ease: "elastic.out(1, 0.5)" });
+                        // Roll smoothly from 26 to 27 (Drum2 index 7)
+                        const finalY2 = -(7 * itemHeight);
+                        gsap.to(drum2Track, { y: finalY2, duration: 1.6, ease: "power2.inOut" });
 
-                    setTimeout(() => {
-                        gsap.to(fireBurnOverlay, { opacity: 0, duration: 1 });
-                        confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 } });
+                        setTimeout(() => {
+                            gsap.to(fireBurnOverlay, { opacity: 0, duration: 1 });
+                            confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 } });
 
-                        document.getElementById('balloonBundleLeft').style.opacity = '1'; 
-                        document.getElementById('balloonBundleRight').style.opacity = '1';
-                        gsap.to('#balloonBundleLeft', { y: -1200, duration: 6.5, ease: 'power1.out' });
-                        gsap.to('#balloonBundleRight', { y: -1200, duration: 6.8, ease: 'power1.out' });
+                            document.getElementById('balloonBundleLeft').style.opacity = '1'; 
+                            document.getElementById('balloonBundleRight').style.opacity = '1';
+                            gsap.to('#balloonBundleLeft', { y: -1200, duration: 6.5, ease: 'power1.out' });
+                            gsap.to('#balloonBundleRight', { y: -1200, duration: 6.8, ease: 'power1.out' });
 
-                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                    }, 1000);
-                };
+                            bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                        }, 800);
+                    };
 
-                document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
-                document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
-            }});
+                    document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
+                    document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
+                }
+            });
         }
 
         function skipToNext() { triggerCurtainAndUnlock(); }
@@ -1325,7 +1288,7 @@
         }
 
         function finalizeWishPush(name, msg, isPrivate) {
-            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/500";
+            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1000";
 
             const newWish = { 
                 name: name, 
