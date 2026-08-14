@@ -64,9 +64,8 @@
 
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
         
-        .section-clean-velvet {
-            background: #0c0a09;
-            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.9);
+        .section-pitch-black {
+            background: #000000;
         }
 
         .section-transition-feather {
@@ -589,8 +588,8 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- SECTION 2 -->
-    <section id="section2" class="cinematic-section section-clean-velvet fog-container z-20">
+    <!-- SECTION 2 (PURE BLACK) -->
+    <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
         <div class="absolute top-0 w-96 h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.15)_0%,transparent_70%)] pointer-events-none"></div>
 
@@ -1158,7 +1157,7 @@
             cancelCrop();
         }
 
-        // --- ULTRA-LOUD BUBBLE POP SOUND ENGINE ---
+        // --- AUDIO ENGINE ---
         let globalAudioCtx = null;
         function initGlobalAudioContext() {
             if (!globalAudioCtx) {
@@ -1170,6 +1169,23 @@
             }
         }
         window.addEventListener('pointerdown', initGlobalAudioContext, { once: true });
+
+        function playClockTickSound() {
+            if (isUnlocked) return;
+            try {
+                initGlobalAudioContext();
+                if (!globalAudioCtx) return;
+                const osc = globalAudioCtx.createOscillator();
+                const gain = globalAudioCtx.createGain();
+                osc.type = 'triangle'; 
+                osc.frequency.setValueAtTime(1400, globalAudioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(150, globalAudioCtx.currentTime + 0.04);
+                gain.gain.setValueAtTime(0.35, globalAudioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.04);
+                osc.connect(gain); gain.connect(globalAudioCtx.destination);
+                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.05);
+            } catch(e) {}
+        }
 
         function playGlassPopSound() {
             try {
@@ -1410,6 +1426,7 @@
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
             const track = document.getElementById(trackId); if (!track) return;
+            if (trackId === 's2') { playClockTickSound(); }
             const cardHeight = window.innerWidth >= 640 ? 66 : 50;
             const newElem = document.createElement('div'); newElem.className = 'reel-digit'; newElem.innerText = newVal;
             track.insertBefore(newElem, track.firstChild);
@@ -1481,11 +1498,15 @@
                             document.getElementById('balloonBundleLeft').style.opacity = '1'; 
                             document.getElementById('balloonBundleRight').style.opacity = '1';
                             
-                            // 🌟 BALLOONS PAUSE HALFWAY, THEN RESUME/DISAPPEAR OFF-SCREEN ON SCROLL DOWN
-                            const tl = gsap.timeline();
-                            tl.to('#balloonBundleLeft, #balloonBundleRight', { y: -700, duration: 4, ease: 'sine.out' })
-                              .to('#balloonBundleLeft, #balloonBundleRight', { y: -700, duration: 3 }) // Pause halfway
-                              .to('#balloonBundleLeft, #balloonBundleRight', { y: -1800, duration: 5, ease: 'power1.in' }); // Fly completely away off-screen
+                            // 🌟 BALLOONS: RISE IN SECTION 2, PAUSE FOR FEW SECONDS, THEN FLY COMPLETELY OFF-SCREEN WHEN SCROLLING TO SECTION 3
+                            const balloonTl = gsap.timeline();
+                            balloonTl.to('#balloonBundleLeft, #balloonBundleRight', { y: -650, duration: 3.5, ease: 'sine.out' })
+                                     .to('#balloonBundleLeft, #balloonBundleRight', { y: -650, duration: 3 }) // Pause in Section 2
+                                     .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
+                                         trigger: '#section3',
+                                         start: 'top bottom',
+                                         toggleActions: 'play none none none'
+                                     }});
 
                             bdayBanner.classList.remove('opacity-0', 'translate-y-10');
                         }, 800);
