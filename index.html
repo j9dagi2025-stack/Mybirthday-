@@ -238,7 +238,6 @@
             z-index: 25;
         }
 
-        /* 🌟 BALLOONS WAITING OFF-SCREEN BELOW UNTIL TAP */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
             bottom: -1500px;
@@ -775,7 +774,8 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-3 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[38vh] flex-shrink-0"></div>
+            <!-- 🌟 FIXED PHOTO DISPLAY (object-contain ensures portrait photos never get cropped or cut) -->
+            <div id="expandedMediaContainer" class="w-full mb-3 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[42vh] flex-shrink-0"></div>
 
             <div class="overflow-y-auto max-h-[22vh] my-2 pr-1 text-left flex-grow">
                 <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed font-medium"></p>
@@ -1300,11 +1300,12 @@
 
             let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[38vh] object-cover rounded-lg">`;
+                // 🌟 FIX: object-contain prevents portrait photos from getting cut/cropped inside the modal
+                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-contain rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[38vh] object-cover rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[42vh] object-contain rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
-                mediaHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-cover">`;
+                mediaHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-contain">`;
             }
 
             let audioHTML = '';
@@ -1420,9 +1421,10 @@
             scrollPos = ribbonStage.scrollLeft; 
         }, { passive: true });
 
+        // 🌟 FIXED SMOOTH GALLERY MARQUEE SPEED (Fixed stutter/jitter on hover)
         function animateRibbonLoop() {
             if (!isDragging) { 
-                scrollPos += (!isHovered) ? 0.6 : 0.2; 
+                scrollPos += 0.8; 
                 const halfWidth = ribbonTrack.scrollWidth / 3; 
                 if (scrollPos >= halfWidth) scrollPos = 0; 
                 else if (scrollPos < 0) scrollPos = halfWidth; 
@@ -1504,23 +1506,23 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 🌟 EXACT INSTANT BLAST: Firework / Confetti & Balloons shoot up immediately at 0s
+                        // 🌟 EXACT BLAST TIMESTAMP: Fireworks & Confetti trigger immediately
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
 
                         // Roll from 6 to 7 immediately
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 🌟 BALLOONS INSTANTLY SHOOT UP FROM BOTTOM, PAUSE IN SECTION 2, THEN FLY OFF-SCREEN UPON SCROLLING TO SECTION 3
+                        // 🌟 SYNCHRONIZED BALLOONS: Instantly rise from bottom upon tap, pause in Section 2, then fly completely off-screen upwards when scrolling to Section 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
                         const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 350 }, { y: -450, duration: 1.8, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -450, duration: 3.5 }) // Pause gracefully in Section 2
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
+                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 600 }, { y: -300, duration: 2.0, ease: 'sine.out' })
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -300, duration: 3.5 }) // Graceful pause in Section 2
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.0, ease: 'power2.in', scrollTrigger: {
                                      trigger: '#section3',
                                      start: 'top bottom',
                                      toggleActions: 'play none none none'
