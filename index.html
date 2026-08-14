@@ -15,6 +15,10 @@
     <!-- GSAP CDN -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     
+    <!-- Cropper.js CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
     <!-- Canvas Confetti CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -63,26 +67,7 @@
         }
 
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
-        
-        .section-pitch-black {
-            background: #000000;
-        }
-
-        .section-transition-feather {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 120px;
-            background: linear-gradient(180deg, transparent 0%, rgba(12, 10, 9, 0.85) 60%, #0c0a09 100%);
-            pointer-events: none;
-            z-index: 12;
-        }
-
-        .section-transition-top-feather {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 120px;
-            background: linear-gradient(0deg, transparent 0%, rgba(12, 10, 9, 0.85) 60%, #0c0a09 100%);
-            pointer-events: none;
-            z-index: 12;
-        }
+        .section-blend-bottom { background: radial-gradient(circle at 50% 30%, rgba(66, 15, 24, 0.5) 0%, rgba(18, 12, 15, 0.9) 70%, #0c0a09 100%); }
         
         .gold-gradient-text {
             background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #AA7C11 100%);
@@ -104,14 +89,7 @@
         }
 
         .curtain-panel {
-            background: linear-gradient(90deg, 
-                #120003 0%, 
-                #3a0008 15%, 
-                #6b0011 30%, 
-                #3a0008 45%, 
-                #1a0004 60%, 
-                #52000d 75%, 
-                #120003 100%);
+            background: linear-gradient(90deg, #120003 0%, #3a0008 15%, #6b0011 30%, #3a0008 45%, #1a0004 60%, #52000d 75%, #120003 100%);
             background-size: 90px 100%;
         }
         .curtain-left-shadow { box-shadow: inset -30px 0 40px rgba(0, 0, 0, 0.95); }
@@ -126,14 +104,61 @@
         }
 
         .luxury-gold-frame {
-            border: 4px solid #D4AF37;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
+            border: 3px solid #b39330;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 12px rgba(212, 175, 55, 0.2);
             background: linear-gradient(135deg, #18120b 0%, #080605 100%);
-            border-radius: 20px;
-            padding: 6px;
+            border-radius: 18px;
+            padding: 5px;
             position: relative;
             overflow: hidden;
             max-width: 100%;
+            max-height: 42vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .luxury-gold-frame img {
+            width: 100%;
+            height: auto;
+            max-height: 40vh;
+            object-fit: contain; 
+            border-radius: 10px;
+        }
+
+        .luxury-gold-frame::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        /* 👑 GLASS-STYLE LUXURY BLACK & GOLD MEDIA CONTROLS */
+        .glass-media-box {
+            width: 100%;
+            background: rgba(12, 10, 9, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 15px rgba(212, 175, 55, 0.25);
+        }
+
+        .glass-media-box video, .glass-media-box audio {
+            width: 100%;
+            border-radius: 10px;
+            outline: none;
+            accent-color: #D4AF37;
+        }
+
+        video::-webkit-media-controls-panel,
+        audio::-webkit-media-controls-panel {
+            background: rgba(15, 11, 8, 0.85) !important;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 10px;
         }
 
         .reel-frame {
@@ -173,6 +198,7 @@
 
         @media (min-width: 640px) { .reel-digit { font-size: 36px; height: 66px; line-height: 66px; } }
 
+        /* 🎰 SLOT MACHINE COUNTER */
         .age-slot-container {
             display: flex;
             align-items: center;
@@ -183,8 +209,8 @@
 
         .age-digit-drum {
             position: relative;
-            width: 75px;
-            height: 120px;
+            width: 90px;
+            height: 130px;
             background: linear-gradient(180deg, #18120e 0%, #080605 50%, #18120e 100%);
             border: 3px solid rgba(212, 175, 55, 0.6);
             border-radius: 16px;
@@ -196,7 +222,7 @@
         }
 
         @media (min-width: 768px) {
-            .age-digit-drum { width: 110px; height: 160px; border-width: 4px; border-radius: 20px; }
+            .age-digit-drum { width: 130px; height: 180px; border-width: 4px; border-radius: 20px; }
         }
 
         .age-drum-track {
@@ -211,9 +237,9 @@
         .age-drum-number {
             font-family: 'Cinzel', serif;
             font-weight: 900;
-            font-size: 65px;
-            height: 120px;
-            line-height: 120px;
+            font-size: 75px;
+            height: 130px;
+            line-height: 130px;
             background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #AA7C11 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -224,29 +250,29 @@
         }
 
         @media (min-width: 768px) {
-            .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
+            .age-drum-number { font-size: 110px; height: 180px; line-height: 180px; }
         }
 
-        .gold-blast-fx {
+        .fire-burn-fx {
             position: absolute;
-            inset: -50px;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.9) 0%, rgba(212, 175, 55, 0.4) 40%, transparent 75%);
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 120, 0, 0.8) 0%, rgba(255, 40, 0, 0.5) 40%, transparent 80%);
             mix-blend-mode: screen;
-            filter: blur(15px);
+            filter: blur(12px);
             opacity: 0;
             pointer-events: none;
-            z-index: 25;
+            z-index: 20;
         }
 
-        /* 🌟 BALLOONS WAITING OFF-SCREEN BELOW UNTIL TAP */
+        /* 🎈 BALLOONS (HIDDEN INITIALLY, ANIMATE UP FROM BOTTOM ON IGNITE) */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -1500px;
+            bottom: -800px;
             width: 140px;
-            height: 1200px;
+            height: 800px;
             pointer-events: none;
-            z-index: 5;
-            opacity: 0;
+            z-index: 15;
+            transition: transform 6s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .balloon-bundle-left { left: 15px; }
         .balloon-bundle-right { right: 15px; }
@@ -337,10 +363,7 @@
             cursor: grab; user-select: none;
         }
 
-        .curved-ribbon-stage:active { cursor: grabbing; }
         .curved-ribbon-stage::-webkit-scrollbar { display: none; }
-
-        @media (min-width: 640px) { .curved-ribbon-stage { height: 380px; } }
 
         .ribbon-flex-track {
             display: flex; gap: 20px; width: max-content;
@@ -351,132 +374,148 @@
             flex-shrink: 0; width: 120px; height: 160px;
             border-radius: 14px; overflow: hidden;
             border: 1.5px solid rgba(212, 175, 55, 0.55);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(212, 175, 55, 0.2);
-            transition: transform 0.35s ease, border-color 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.95);
+            transition: transform 0.35s ease;
             cursor: pointer; background: #111;
         }
-
-        @media (min-width: 640px) { .ribbon-photo-item { width: 155px; height: 210px; } }
-
-        .ribbon-photo-item:nth-child(12n+1)  { transform: translateY(45px) rotate(-5deg); }
-        .ribbon-photo-item:nth-child(12n+2)  { transform: translateY(20px) rotate(-10deg); }
-        .ribbon-photo-item:nth-child(12n+3)  { transform: translateY(-10px) rotate(-15deg); }
-        .ribbon-photo-item:nth-child(12n+4)  { transform: translateY(-50px) rotate(-22deg); }
-        .ribbon-photo-item:nth-child(12n+5)  { transform: translateY(-75px) rotate(-6deg); }
-        .ribbon-photo-item:nth-child(12n+6)  { transform: translateY(-55px) rotate(16deg); }
-        .ribbon-photo-item:nth-child(12n+7)  { transform: translateY(-10px) rotate(26deg); }
-        .ribbon-photo-item:nth-child(12n+8)  { transform: translateY(20px) rotate(15deg); }
-        .ribbon-photo-item:nth-child(12n+9)  { transform: translateY(50px) rotate(8deg); }
-        .ribbon-photo-item:nth-child(12n+10) { transform: translateY(40px) rotate(-2deg); }
-        .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
-        .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
         .ribbon-photo-item:hover {
             transform: scale(1.15) translateY(0) rotate(0deg) !important;
             border-color: rgba(255, 215, 0, 1); z-index: 30;
-            box-shadow: 0 20px 35px rgba(212, 175, 55, 0.45);
         }
 
-        #sec4WishesContainer {
+        #globalWishesFlowContainer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
-            z-index: 50;
+            z-index: 45;
             overflow: hidden;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            display: block;
         }
 
-        #sec4WishesContainer.active { opacity: 1; }
-
-        .sec4-bubble {
+        .galaxy-bubble {
             position: absolute;
-            background: linear-gradient(135deg, rgba(40, 25, 30, 0.75) 0%, rgba(15, 10, 12, 0.85) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(212, 175, 55, 0.7);
-            border-radius: 35px;
-            padding: 8px 16px 8px 8px;
+            background: rgba(22, 15, 18, 0.96);
+            backdrop-filter: blur(14px);
+            border: 1.5px solid #D4AF37;
+            border-radius: 50px;
+            padding: 8px 18px 8px 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35), inset 0 0 12px rgba(255, 246, 209, 0.2);
+            gap: 12px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 240px;
-            max-width: 65vw;
+            width: 230px;
+            max-width: 38vw;
             will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transition: all 0.3s ease;
+            z-index: 46;
         }
 
-        .sec4-bubble:hover {
-            border-color: #FFF6D1;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 246, 209, 0.7), inset 0 0 18px rgba(255, 255, 255, 0.4);
-            transform: scale(1.05);
+        .galaxy-bubble:hover {
+            border-color: #FFF;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
             z-index: 60;
         }
 
-        @keyframes floatFromSec4ToSec1 {
+        @keyframes floatRandomLanes {
             0% { transform: translateY(115vh) translateZ(0); opacity: 0; }
-            12% { opacity: 1; }
-            88% { opacity: 1; }
-            100% { transform: translateY(-115vh) translateZ(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-15vh) translateZ(0); opacity: 0; }
         }
 
-        @keyframes goldShimmer {
-            0%, 100% { border-color: #D4AF37; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 50px rgba(212,175,55,0.5); }
-            50% { border-color: #FFF6D1; box-shadow: 0 30px 90px rgba(0,0,0,0.98), 0 0 80px rgba(255,246,209,0.9); }
-        }
-
-        @keyframes organicSparkFloat {
-            0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
-            20% { opacity: 0.9; transform: translate(10px, -20px) scale(1) rotate(15deg); }
-            80% { opacity: 0.6; transform: translate(-10px, -50px) scale(0.8) rotate(40deg); }
-            100% { transform: translate(6px, -75px) scale(0.1); opacity: 0; }
-        }
-
-        .gold-organic-spark {
+        /* 🦋 TRUE 3D VECTOR REALISTIC GOLDEN BUTTERFLY (SAFE INSIDE CARD CORNER) */
+        .card-butterfly-wrapper {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
-            border-radius: 50%;
+            top: 12px;
+            right: 18px;
+            width: 50px;
+            height: 40px;
             pointer-events: none;
-            box-shadow: 0 0 8px #D4AF37;
-            animation: organicSparkFloat 3s infinite ease-in-out;
+            z-index: 10;
+            animation: cardButterflyHover 4s ease-in-out infinite alternate;
         }
 
+        .cb-wing-left, .cb-wing-right {
+            position: absolute;
+            top: 2px;
+            width: 22px;
+            height: 32px;
+            background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #855E0B 100%);
+            border: 1px solid #FFE875;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+            border-radius: 50% 40% 30% 60%;
+        }
+
+        .cb-wing-left {
+            left: 2px;
+            transform-origin: right center;
+            animation: flapCBLeft 0.15s infinite alternate ease-in-out;
+        }
+
+        .cb-wing-right {
+            right: 2px;
+            border-radius: 40% 50% 60% 30%;
+            transform-origin: left center;
+            animation: flapCBRight 0.15s infinite alternate ease-in-out;
+        }
+
+        .cb-body {
+            position: absolute;
+            width: 3px;
+            height: 28px;
+            background: #110d0a;
+            border-radius: 3px;
+            left: 23.5px;
+            top: 4px;
+            box-shadow: 0 0 5px #D4AF37;
+        }
+
+        @keyframes flapCBLeft {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(-75deg); }
+        }
+
+        @keyframes flapCBRight {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(75deg); }
+        }
+
+        @keyframes cardButterflyHover {
+            0% { transform: translate(0, 0) rotate(5deg) scale(0.95); }
+            50% { transform: translate(-6px, -8px) rotate(-5deg) scale(1.05); }
+            100% { transform: translate(4px, 4px) rotate(8deg) scale(0.98); }
+        }
+
+        /* TRANSLUCENT BLUR BACKGROUND FOR MODAL OVERLAY */
         #wishCardModal {
             position: fixed; inset: 0; 
-            background: rgba(12, 10, 9, 0.55);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(12, 10, 9, 0.45);
+            backdrop-filter: blur(14px); 
+            -webkit-backdrop-filter: blur(14px);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
-            transition: opacity 0.35s ease;
+            transition: opacity 0.3s ease;
         }
 
         #wishCardModal.active { opacity: 1; pointer-events: auto; }
 
         .expanded-wish-card {
-            background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
-            border: 3px solid #D4AF37; 
-            border-radius: 32px; 
+            background: linear-gradient(135deg, rgba(24, 16, 13, 0.96) 0%, rgba(6, 5, 4, 0.99) 100%);
+            border: 2.5px solid #b39330; 
+            border-radius: 30px; 
             padding: 24px 20px;
-            max-width: 440px; 
+            max-width: 520px; 
             width: 100%; 
             max-height: 85vh; 
-            display: flex;
-            flex-direction: column;
-            animation: goldShimmer 4s infinite ease-in-out;
+            overflow-y: auto;
             text-align: center; 
             position: relative;
             transform: scale(0.85); 
             transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.95), 0 0 35px rgba(212,175,55,0.25);
         }
 
         #wishCardModal.active .expanded-wish-card { transform: scale(1); }
@@ -491,15 +530,11 @@
 
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.15) 0%, transparent 65%); }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0c0a09; }
-        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
     </style>
 </head>
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
 
-    <div id="sec4WishesContainer"></div>
+    <div id="globalWishesFlowContainer"></div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
         <button onclick="skipToNext()" class="pointer-events-auto px-3.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold rounded-full shadow-2xl border border-red-400 transition transform hover:scale-105 flex items-center gap-1.5">
@@ -586,45 +621,44 @@
                 ✍️ Leave a Birthday Wish for Arvind_zx
             </button>
         </div>
-        <div class="section-transition-feather"></div>
     </section>
 
-    <!-- SECTION 2 (PURE BLACK) -->
-    <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
-        <div class="section-transition-top-feather"></div>
-        <div class="absolute top-0 w-96 h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.15)_0%,transparent_70%)] pointer-events-none"></div>
+    <!-- SECTION 2 -->
+    <section id="section2" class="cinematic-section section-blend-bottom fog-container z-20">
+        <div class="absolute top-0 w-96 h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.2)_0%,transparent_70%)] pointer-events-none"></div>
 
+        <!-- BALLOONS (HIDDEN AT BOTTOM INITIALLY) -->
         <div id="balloonBundleLeft" class="balloon-bundle-left">
             <div class="realistic-balloon balloon-gold" style="bottom: 0px; left: 0px; animation-delay: 0.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 35px; left: 30px; animation-delay: 0.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 70px; left: 60px; animation-delay: 0.4s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 105px; left: 15px; animation-delay: 1.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 140px; left: 45px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 175px; left: 75px; animation-delay: 1.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 210px; left: 25px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 245px; left: 55px; animation-delay: 1.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 280px; left: 10px; animation-delay: 0.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 315px; left: 40px; animation-delay: 1.4s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 25px; left: 30px; animation-delay: 0.8s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 50px; left: 60px; animation-delay: 0.4s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 75px; left: 15px; animation-delay: 1.2s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 100px; left: 45px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 125px; left: 75px; animation-delay: 1.5s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 150px; left: 25px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 175px; left: 55px; animation-delay: 1.8s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 200px; left: 10px; animation-delay: 0.9s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 225px; left: 40px; animation-delay: 1.4s;"><div class="balloon-string"></div></div>
         </div>
 
         <div id="balloonBundleRight" class="balloon-bundle-right">
             <div class="realistic-balloon balloon-black" style="bottom: 0px; right: 0px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 35px; right: 30px; animation-delay: 1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 70px; right: 60px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 105px; right: 15px; animation-delay: 1.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 140px; right: 45px; animation-delay: 0.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 175px; right: 75px; animation-delay: 1.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 210px; right: 25px; animation-delay: 0.7s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 245px; right: 55px; animation-delay: 1.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 280px; right: 10px; animation-delay: 0.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 315px; right: 40px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 25px; right: 30px; animation-delay: 1s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 50px; right: 60px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 75px; right: 15px; animation-delay: 1.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 100px; right: 45px; animation-delay: 0.2s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 125px; right: 75px; animation-delay: 1.1s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 150px; right: 25px; animation-delay: 0.7s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 175px; right: 55px; animation-delay: 1.9s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 200px; right: 10px; animation-delay: 0.5s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 225px; right: 40px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
         </div>
 
         <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6">
             <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full">
-                <div id="fireBurnOverlay" class="gold-blast-fx"></div>
+                <div id="fireBurnOverlay" class="fire-burn-fx"></div>
 
                 <div class="age-slot-container">
                     <div class="age-digit-drum">
@@ -639,6 +673,7 @@
                             <div class="age-drum-number">7</div>
                             <div class="age-drum-number">8</div>
                             <div class="age-drum-number">9</div>
+                            <div class="age-drum-number">2</div>
                         </div>
                     </div>
                     <div class="age-digit-drum">
@@ -653,12 +688,20 @@
                             <div class="age-drum-number">7</div>
                             <div class="age-drum-number">8</div>
                             <div class="age-drum-number">9</div>
+                            <div class="age-drum-number">0</div>
+                            <div class="age-drum-number">1</div>
+                            <div class="age-drum-number">2</div>
+                            <div class="age-drum-number">3</div>
+                            <div class="age-drum-number">4</div>
+                            <div class="age-drum-number">5</div>
+                            <div class="age-drum-number">6</div>
+                            <div class="age-drum-number">7</div>
                         </div>
                     </div>
                 </div>
 
-                <div id="tapPrompt" class="mt-4 opacity-0 transition-opacity duration-700">
-                    <span class="text-[11px] md:text-xs text-gold/90 tracking-widest uppercase font-mono animate-pulse border border-gold/40 px-5 py-2 rounded-full bg-black/80 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                <div id="tapPrompt" class="mt-3 opacity-0 transition-opacity duration-700">
+                    <span class="text-[11px] md:text-xs text-gold/80 tracking-widest uppercase font-mono animate-pulse border border-gold/30 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md">
                         ✨ Tap here to Ignite Chapter 27 ✨
                     </span>
                 </div>
@@ -671,12 +714,10 @@
                 <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center">Welcome to the elite era of growth, wisdom, and boundless success.</p>
             </div>
         </div>
-        <div class="section-transition-feather"></div>
     </section>
 
     <!-- SECTION 3 -->
     <section id="section3" class="cinematic-section section-velvet-blend z-25">
-        <div class="section-transition-top-feather"></div>
         <div class="feather-top-fade"></div>
         <div class="feather-bottom-fade"></div>
 
@@ -706,12 +747,10 @@
                 <div id="singleRibbonTrack" class="ribbon-flex-track"></div>
             </div>
         </div>
-        <div class="section-transition-feather"></div>
     </section>
 
     <!-- SECTION 4 -->
     <section id="section4" class="cinematic-section section-blend-top z-25">
-        <div class="section-transition-top-feather"></div>
         <div class="text-center z-30 glass-badge px-8 py-6 rounded-3xl border border-gold/40 shadow-2xl max-w-xl mx-auto relative mt-20">
             <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold gold-gradient-text mb-2">GALAXY OF BLESSINGS</h2>
             <p class="text-gray-300 text-xs sm:text-sm mb-4">Wishes flow smoothly across Left, Center, and Right! Click any bubble to read details.</p>
@@ -769,23 +808,26 @@
     <!-- EXPANDED WISH CARD POPUP MODAL -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
-            <div class="gold-organic-spark" style="top: 12px; left: 15px;"></div>
-            <div class="gold-organic-spark" style="top: 20px; right: 20px; animation-delay: 0.7s;"></div>
-            <div class="gold-organic-spark" style="bottom: 25px; left: 25px; animation-delay: 1.4s;"></div>
-
-            <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            
-            <div id="expandedMediaContainer" class="w-full mb-3 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[38vh] flex-shrink-0"></div>
-
-            <div class="overflow-y-auto max-h-[22vh] my-2 pr-1 text-left flex-grow">
-                <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed font-medium"></p>
+            <!-- 🦋 TRUE 3D VECTOR REALISTIC GOLDEN BUTTERFLY (SAFE INSIDE CARD CORNER) -->
+            <div class="card-butterfly-wrapper">
+                <div class="cb-wing-left"></div>
+                <div class="cb-body"></div>
+                <div class="cb-wing-right"></div>
             </div>
 
-            <div class="w-full flex items-center gap-3.5 border-t border-gold/30 pt-3 mt-auto flex-shrink-0">
-                <img id="expandedAvatar" class="w-11 h-11 rounded-full border-2 border-gold object-cover shadow-[0_0_15px_rgba(212,175,55,0.5)] flex-shrink-0">
-                <div class="text-left flex flex-col overflow-hidden">
-                    <h3 id="expandedName" class="font-cinzel text-base font-bold gold-gradient-text truncate"></h3>
-                    <span class="text-[9px] text-gold/70 uppercase tracking-widest font-mono">Chapter 27 Blessing</span>
+            <button onclick="closeExpandedWish()" class="absolute top-3 right-4 text-gold/80 hover:text-white transition z-20 text-lg w-8 h-8 rounded-full bg-black/60 border border-gold/30 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="expandedMediaContainer" class="w-full mb-4 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black"></div>
+
+            <div class="max-h-36 overflow-y-auto mb-4 px-2 scrollbar-thin">
+                <p id="expandedMessage" class="text-gray-100 text-base sm:text-lg italic leading-relaxed text-left"></p>
+            </div>
+
+            <div class="w-full flex items-center gap-3.5 border-t border-gold/30 pt-3 mt-auto">
+                <img id="expandedAvatar" class="w-12 h-12 rounded-full border-2 border-gold object-cover shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+                <div class="text-left flex flex-col">
+                    <h3 id="expandedName" class="font-cinzel text-lg font-bold gold-gradient-text"></h3>
+                    <span class="text-[10px] text-gold/70 uppercase tracking-widest font-mono">Chapter 27 Blessing</span>
                 </div>
             </div>
         </div>
@@ -797,7 +839,7 @@
             <button onclick="closeWishModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             
             <h3 class="font-cinzel text-2xl font-bold gold-gradient-text mb-1">Send Birthday Wish</h3>
-            <p class="text-gray-400 text-xs mb-4">Set your profile photo, attach gift photo & optional voice note!</p>
+            <p class="text-gray-400 text-xs mb-4">Set your profile photo and attach special gift media!</p>
             
             <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
                 <div>
@@ -811,13 +853,13 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Circle Fit)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Bubble Fit)</label>
                     <input type="file" id="avatarFileInput" accept="image/*" onchange="openAvatarCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="avatarPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <img id="avatarThumbnail" class="w-10 h-10 rounded-full border border-gold object-cover">
-                    <span class="text-xs text-gold font-bold">Profile Circle Set!</span>
+                    <span class="text-xs text-gold font-bold">Profile Photo Set!</span>
                     <button type="button" onclick="document.getElementById('avatarFileInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
@@ -833,25 +875,14 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Primary Gift Media (Photo / Video)</label>
-                    <input type="file" id="mediaInput" accept="image/*,video/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Gift Media (Photo / Video / Audio)</label>
+                    <input type="file" id="mediaInput" accept="image/*,video/*,audio/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <div id="giftThumbContainer" class="w-12 h-10 rounded border border-gold overflow-hidden flex items-center justify-center bg-black"></div>
                     <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Media Attached!</span>
                     <button type="button" onclick="document.getElementById('mediaInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
-                </div>
-
-                <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Voice Note (Any Audio File)</label>
-                    <input type="file" id="audioInput" accept="audio/*,.mp3,.wav,.m4a,.aac" onchange="handleAudioAttachment(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
-                </div>
-
-                <div id="audioPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
-                    <i class="fa-solid fa-music text-gold text-lg ml-2"></i>
-                    <span id="audioThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Audio Note Attached!</span>
-                    <button type="button" onclick="document.getElementById('audioInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
                 <button type="submit" class="w-full py-3 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-wider text-xs rounded-xl shadow-lg hover:scale-[1.02] transition">
@@ -861,25 +892,19 @@
         </div>
     </div>
 
-    <!-- CROPPER MODAL -->
+    <!-- CROPPER MODAL (PORTRAIT LOCKED 3:4) -->
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
-        <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
-            <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
-            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Drag to pan or use zoom slider!</p>
+        <div class="glass-badge w-full max-w-md p-6 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
+            <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-2">Adjust & Fit Photo</h3>
+            <p class="text-gray-300 text-xs mb-4">Strict Portrait (3:4) frame: Framed precisely to look stunning on the wish card!</p>
             
-            <div id="cropViewport" class="relative mx-auto bg-black rounded-2xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none">
-                <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
+            <div class="relative w-full h-[280px] bg-black rounded-2xl overflow-hidden border border-gold/40 flex items-center justify-center mb-5">
+                <img id="cropperTargetImage" style="max-width: 100%;">
             </div>
 
-            <div class="flex items-center gap-3 mb-4 px-2">
-                <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-minus"></i></span>
-                <input type="range" id="zoomRange" min="1" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
-                <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
-            </div>
-
-            <div class="flex items-center justify-center gap-3">
-                <button type="button" onclick="cancelCrop()" class="px-5 py-2 bg-neutral-800 hover:bg-neutral-700 text-gray-300 text-xs font-bold rounded-xl border border-gray-600 transition">Cancel</button>
-                <button type="button" onclick="confirmCustomCrop()" class="px-7 py-2 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs font-extrabold rounded-xl shadow-lg hover:scale-105 transition">OK / Set</button>
+            <div class="flex items-center justify-center gap-4">
+                <button type="button" onclick="cancelCrop()" class="px-6 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-gray-300 text-xs font-bold rounded-xl border border-gray-600 transition">Cancel</button>
+                <button type="button" onclick="confirmCrop()" class="px-8 py-2.5 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black text-xs font-extrabold rounded-xl shadow-lg hover:scale-105 transition">OK / Set</button>
             </div>
         </div>
     </div>
@@ -907,14 +932,14 @@
         }
 
         let publicWishes = [
-            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1200", audioSrc: "" },
-            { name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", audioSrc: "" },
-            { name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3", audioSrc: "" },
-            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1200", audioSrc: "" },
-            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1200", audioSrc: "" }
+            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/500" },
+            { name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
+            { name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3" },
+            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/500" },
+            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/500" }
         ];
 
-        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1200", audioSrc: "" }];
+        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/500" }];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -949,9 +974,9 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full max-h-48 object-cover rounded-lg"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full max-h-48 object-cover rounded-lg"></video></div>`;
-                    else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="glass-media-box mb-3"><video src="${wish.mediaSrc}" controls></video></div>`;
+                    else if (wish.mediaType === 'audio') mediaHTML = `<div class="glass-media-box mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left">
                             <div class="flex items-center gap-3 mb-2">
@@ -971,380 +996,210 @@
             document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
         }
 
-        // --- CROP ENGINE (4:6 Standard Portrait Box) ---
+        let activeCropper = null;
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
         let finalizedGiftType = "image";
-        let finalizedAudioUrl = "";
-
-        let cropImgObj = new Image();
-        let imgPosX = 0, imgPosY = 0, imgScale = 1;
-        let isDraggingCrop = false, startDragX = 0, startDragY = 0;
-        let initialPinchDistance = null;
 
         function openAvatarCropModal(e) {
             const file = e.target.files[0];
             if (!file) return;
             cropTargetType = 'avatar';
-            setupCropReader(file);
+            const modal = document.getElementById('cropModal');
+            const image = document.getElementById('cropperTargetImage');
+            modal.classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                image.src = event.target.result;
+                if (activeCropper) activeCropper.destroy();
+                activeCropper = new Cropper(image, { aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
+            };
+            reader.readAsDataURL(file);
         }
 
         function openGiftCropModal(e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            if (file.type.startsWith('video/')) {
-                finalizedGiftType = 'video';
+            if (file.type.startsWith('video/') || file.type.startsWith('audio/')) {
+                finalizedGiftType = file.type.startsWith('video/') ? 'video' : 'audio';
                 finalizedGiftUrl = URL.createObjectURL(file);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
                 document.getElementById('giftThumbName').innerText = file.name;
-                document.getElementById('giftThumbContainer').innerHTML = `<i class="fa-solid fa-video text-gold text-lg"></i>`;
+                document.getElementById('giftThumbContainer').innerHTML = `<i class="fa-solid ${finalizedGiftType === 'video' ? 'fa-video' : 'fa-music'} text-gold text-lg"></i>`;
                 return;
             }
 
             cropTargetType = 'gift';
             finalizedGiftType = 'image';
-            setupCropReader(file);
-        }
+            const modal = document.getElementById('cropModal');
+            const image = document.getElementById('cropperTargetImage');
+            modal.classList.remove('hidden');
 
-        function handleAudioAttachment(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            finalizedAudioUrl = URL.createObjectURL(file);
-            document.getElementById('audioPreviewBox').classList.remove('hidden');
-            document.getElementById('audioThumbName').innerText = file.name;
-        }
-
-        function setupCropReader(file) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                cropImgObj.src = event.target.result;
-                cropImgObj.onload = function() {
-                    document.getElementById('cropModal').classList.remove('hidden');
-                    const cImg = document.getElementById('customCropImage');
-                    cImg.src = cropImgObj.src;
-                    
-                    const viewport = document.getElementById('cropViewport');
-                    if (cropTargetType === 'avatar') {
-                        document.getElementById('cropModalTitle').innerText = "Avatar Circle Frame";
-                        document.getElementById('cropModalSub').innerText = "Fit your face inside the circle!";
-                        viewport.style.width = '200px';
-                        viewport.style.height = '200px';
-                        viewport.style.borderRadius = '50%';
-                    } else {
-                        document.getElementById('cropModalTitle').innerText = "Portrait Media Frame (4:6)";
-                        document.getElementById('cropModalSub').innerText = "Position your photo in 4:6 portrait box!";
-                        viewport.style.width = '180px';
-                        viewport.style.height = '270px';
-                        viewport.style.borderRadius = '16px';
-                    }
-
-                    imgScale = 1;
-                    document.getElementById('zoomRange').value = 1;
-                    imgPosX = 0; imgPosY = 0;
-                    updateCropImageTransform();
-                }
+                image.src = event.target.result;
+                if (activeCropper) activeCropper.destroy();
+                activeCropper = new Cropper(image, { aspectRatio: 3 / 4, viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true });
             };
             reader.readAsDataURL(file);
         }
 
-        const viewport = document.getElementById('cropViewport');
-
-        viewport.addEventListener('mousedown', (e) => {
-            isDraggingCrop = true;
-            startDragX = e.clientX - imgPosX;
-            startDragY = e.clientY - imgPosY;
-        });
-        window.addEventListener('mouseup', () => { isDraggingCrop = false; });
-        window.addEventListener('mousemove', (e) => {
-            if (!isDraggingCrop) return;
-            imgPosX = e.clientX - startDragX;
-            imgPosY = e.clientY - startDragY;
-            updateCropImageTransform();
-        });
-
-        viewport.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                isDraggingCrop = true;
-                startDragX = e.touches[0].clientX - imgPosX;
-                startDragY = e.touches[0].clientY - imgPosY;
-            } else if (e.touches.length === 2) {
-                isDraggingCrop = false;
-                initialPinchDistance = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-            }
-        }, {passive: true});
-
-        window.addEventListener('touchend', () => { 
-            isDraggingCrop = false; 
-            initialPinchDistance = null; 
-        }, {passive: true});
-
-        window.addEventListener('touchmove', (e) => {
-            if (isDraggingCrop && e.touches.length === 1) {
-                imgPosX = e.touches[0].clientX - startDragX;
-                imgPosY = e.touches[0].clientY - startDragY;
-                updateCropImageTransform();
-            } else if (e.touches.length === 2 && initialPinchDistance !== null) {
-                const currentDistance = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                let scaleFactor = currentDistance / initialPinchDistance;
-                imgScale = Math.min(Math.max(1, imgScale * scaleFactor), 3);
-                document.getElementById('zoomRange').value = imgScale;
-                initialPinchDistance = currentDistance;
-                updateCropImageTransform();
-            }
-        }, {passive: true});
-
-        function onZoomSliderChange(val) {
-            imgScale = parseFloat(val);
-            updateCropImageTransform();
-        }
-
-        function updateCropImageTransform() {
-            const cImg = document.getElementById('customCropImage');
-            cImg.style.transform = `translate(${imgPosX}px, ${imgPosY}px) scale(${imgScale})`;
-        }
-
         function cancelCrop() {
             document.getElementById('cropModal').classList.add('hidden');
+            if (activeCropper) { activeCropper.destroy(); activeCropper = null; }
         }
 
-        function confirmCustomCrop() {
-            const canvas = document.createElement('canvas');
-            const targetW = (cropTargetType === 'avatar') ? 500 : 800;
-            const targetH = (cropTargetType === 'avatar') ? 500 : 1200;
-            canvas.width = targetW; canvas.height = targetH;
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, targetW, targetH);
-
-            ctx.save();
-            const viewW = (cropTargetType === 'avatar') ? 200 : 180;
-            const viewH = (cropTargetType === 'avatar') ? 200 : 270;
-            ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
-            ctx.scale(imgScale, imgScale);
-            
-            const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
-            const w = cropImgObj.width * ratio;
-            const h = cropImgObj.height * ratio;
-            ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
-            ctx.restore();
-
-            if (cropTargetType === 'avatar') {
-                const circleCanvas = document.createElement('canvas');
-                circleCanvas.width = targetW; circleCanvas.height = targetH;
-                const cCtx = circleCanvas.getContext('2d');
-                cCtx.beginPath();
-                cCtx.arc(targetW / 2, targetH / 2, targetW / 2, 0, Math.PI * 2);
-                cCtx.clip();
-                cCtx.drawImage(canvas, 0, 0);
-                finalizedAvatarUrl = circleCanvas.toDataURL('image/png', 0.9);
-                
-                document.getElementById('avatarPreviewBox').classList.remove('hidden');
-                document.getElementById('avatarThumbnail').src = finalizedAvatarUrl;
-            } else {
-                finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
-                document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "4:6 Portrait Framed Set";
-                document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
-            }
-            cancelCrop();
-        }
-
-        // --- AUDIO ENGINE ---
-        let globalAudioCtx = null;
-        let tickingInterval = null;
-
-        function initGlobalAudioContext() {
-            if (!globalAudioCtx) {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                globalAudioCtx = new AudioContext();
-            }
-            if (globalAudioCtx.state === 'suspended') {
-                globalAudioCtx.resume();
-            }
-        }
-        window.addEventListener('pointerdown', initGlobalAudioContext, { once: true });
-
-        function playClockTickSound() {
-            if (isUnlocked) return;
-            try {
-                initGlobalAudioContext();
-                if (!globalAudioCtx) return;
-                const osc = globalAudioCtx.createOscillator();
-                const gain = globalAudioCtx.createGain();
-                osc.type = 'triangle'; 
-                osc.frequency.setValueAtTime(1400, globalAudioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(150, globalAudioCtx.currentTime + 0.04);
-                gain.gain.setValueAtTime(0.35, globalAudioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.04);
-                osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.05);
-            } catch(e) {}
-        }
-
-        function startAutomaticTicking() {
-            if (tickingInterval) return;
-            tickingInterval = setInterval(() => {
-                if (!isUnlocked) {
-                    playClockTickSound();
+        function confirmCrop() {
+            if (!activeCropper) return;
+            activeCropper.getCroppedCanvas({ width: 600, height: 800 }).toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                if (cropTargetType === 'avatar') {
+                    finalizedAvatarUrl = url;
+                    document.getElementById('avatarPreviewBox').classList.remove('hidden');
+                    document.getElementById('avatarThumbnail').src = url;
                 } else {
-                    clearInterval(tickingInterval);
-                    tickingInterval = null;
+                    finalizedGiftUrl = url;
+                    document.getElementById('giftPreviewBox').classList.remove('hidden');
+                    document.getElementById('giftThumbName').innerText = "Portrait Framed Set";
+                    document.getElementById('giftThumbContainer').innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
                 }
-            }, 1000);
+                cancelCrop();
+            });
         }
-        window.addEventListener('load', startAutomaticTicking);
 
         function playGlassPopSound() {
             try {
-                initGlobalAudioContext();
-                if (!globalAudioCtx) return;
-                const osc = globalAudioCtx.createOscillator();
-                const gain = globalAudioCtx.createGain();
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const popCtx = new AudioContext();
+                if (popCtx.state === 'suspended') popCtx.resume();
+                const osc = popCtx.createOscillator();
+                const gain = popCtx.createGain();
                 osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(1300, globalAudioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(300, globalAudioCtx.currentTime + 0.2);
-                gain.gain.setValueAtTime(1.0, globalAudioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.2);
-                osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(); osc.stop(globalAudioCtx.currentTime + 0.21);
+                osc.frequency.setValueAtTime(900, popCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(180, popCtx.currentTime + 0.14);
+                gain.gain.setValueAtTime(0.35, popCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, popCtx.currentTime + 0.14);
+                osc.connect(gain); gain.connect(popCtx.destination);
+                osc.start(); osc.stop(popCtx.currentTime + 0.15);
             } catch(e) {}
         }
 
-        // --- NATURAL WIDE SPAN WISH FLOW ---
-        let lastZoneIndex = -1;
+        let lastLaneIndex = -1;
+        let flowStarted = false;
 
         function initSection4WishesFlow() {
-            const container = document.getElementById('sec4WishesContainer');
+            const container = document.getElementById('globalWishesFlowContainer');
             const section4 = document.getElementById('section4');
 
             function spawnBubble() {
-                if (!section4) return;
-                const rect = section4.getBoundingClientRect();
-                if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-                    const b = document.createElement('div');
-                    b.className = 'sec4-bubble';
-                    
-                    const zones = [
-                        () => -8 + Math.random() * 25,   
-                        () => 28 + Math.random() * 28,  
-                        () => 62 + Math.random() * 30   
-                    ];
-                    
-                    let nextZoneIdx = (lastZoneIndex + 1) % zones.length;
-                    lastZoneIndex = nextZoneIdx;
-                    
-                    b.style.left = `${zones[nextZoneIdx]()}%`;
-                    
-                    const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
+                if (!flowStarted || !section4) return;
+                const b = document.createElement('div');
+                b.className = 'galaxy-bubble';
+                
+                const lanes = [
+                    () => 6 + Math.random() * 18,   
+                    () => 34 + Math.random() * 24,  
+                    () => 64 + Math.random() * 22   
+                ];
+                
+                let nextLaneIdx = (lastLaneIndex + 1) % lanes.length;
+                lastLaneIndex = nextLaneIdx;
+                
+                b.style.left = `${lanes[nextLaneIdx]()}%`;
+                
+                const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
 
-                    b.innerHTML = `
-                        <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
-                        <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
-                        <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
-                        <div class="flex flex-col text-left overflow-hidden">
-                            <span class="font-cinzel font-bold text-gold text-xs">${randomWish.name}</span>
-                            <span class="text-[11px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
-                        </div>
-                    `;
+                b.innerHTML = `
+                    <img src="${randomWish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover flex-shrink-0">
+                    <div class="flex flex-col text-left overflow-hidden">
+                        <span class="font-cinzel font-bold text-gold text-[11px]">${randomWish.name}</span>
+                        <span class="text-[10px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
+                    </div>
+                `;
 
-                    b.style.animation = `floatFromSec4ToSec1 18s linear forwards`;
-                    
-                    const openWishAction = (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        playGlassPopSound();
-                        toggleExpandedWish(randomWish, b);
-                    };
+                const randomDuration = 14 + Math.random() * 6;
+                b.style.animation = `floatRandomLanes ${randomDuration}s linear forwards`;
+                
+                const openWishAction = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    playGlassPopSound();
+                    showExpandedWish(randomWish);
+                };
 
-                    b.addEventListener('click', openWishAction);
-                    b.addEventListener('touchstart', openWishAction, { passive: false });
-                    
-                    container.appendChild(b);
-                    setTimeout(() => b.remove(), 18000);
-                }
+                b.addEventListener('click', openWishAction);
+                b.addEventListener('touchstart', openWishAction, { passive: false });
+                
+                container.appendChild(b);
+                setTimeout(() => b.remove(), randomDuration * 1000);
             }
 
             const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) { container.classList.add('active'); } 
-                else { container.classList.remove('active'); }
-            }, { threshold: 0.1 });
+                if (entries[0].isIntersecting) {
+                    flowStarted = true;
+                    container.style.display = 'block';
+                }
+            }, { threshold: 0.15 });
 
             observer.observe(section4);
-            setInterval(spawnBubble, 2200);
+            setInterval(spawnBubble, 2000);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
-        let activeWishModalItem = null;
+        let wasMusicPlayingBeforeModal = false;
 
-        function toggleExpandedWish(wish, bubbleElement) {
-            const modal = document.getElementById('wishCardModal');
-            if (modal.classList.contains('active') && activeWishModalItem === wish) {
-                closeExpandedWish();
-                return;
-            }
-            activeWishModalItem = wish;
+        function showExpandedWish(wish) {
             document.getElementById('expandedAvatar').src = wish.avatar;
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
             const mediaContainer = document.getElementById('expandedMediaContainer');
             mediaContainer.innerHTML = '';
+            
+            const bgMusic = document.getElementById('bgMusic');
+            if (!bgMusic.paused) {
+                wasMusicPlayingBeforeModal = true; bgMusic.pause();
+                document.getElementById('musicIcon').classList.remove('animate-spin'); document.getElementById('eqContainer').classList.add('opacity-50');
+            } else { wasMusicPlayingBeforeModal = false; }
 
-            let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[38vh] object-cover rounded-lg">`;
+                mediaContainer.innerHTML = `<img src="${wish.mediaSrc}">`;
             } else if (wish.mediaType === 'video') {
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[38vh] object-cover rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaContainer.innerHTML = `<div class="glass-media-box"><video src="${wish.mediaSrc}" controls autoplay playsinline></video></div>`;
+            } else if (wish.mediaType === 'audio') {
+                mediaContainer.innerHTML = `<div class="glass-media-box"><audio src="${wish.mediaSrc}" controls autoplay></audio></div>`;
             } else {
-                mediaHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-cover">`;
+                mediaContainer.innerHTML = `<img src="${wish.avatar}">`;
             }
 
-            let audioHTML = '';
-            if (wish.audioSrc) {
-                audioHTML = `<div class="custom-gold-audio p-2 w-full mt-2"><audio src="${wish.audioSrc}" controls autoplay class="w-full" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio></div>`;
-            }
-
-            mediaContainer.innerHTML = mediaHTML + audioHTML;
-            modal.classList.add('active');
+            document.getElementById('wishCardModal').classList.add('active');
         }
 
         function closeExpandedWish(e) {
             if (!e || e.target.id === 'wishCardModal' || e.target.closest('button')) {
                 document.querySelectorAll('#expandedMediaContainer video, #expandedMediaContainer audio').forEach(el => el.pause());
                 document.getElementById('wishCardModal').classList.remove('active');
-                activeWishModalItem = null;
-                resumeBgMusic();
-            }
-        }
-
-        function pauseBgMusic() {
-            const bgMusic = document.getElementById('bgMusic');
-            if (!bgMusic.paused) {
-                bgMusic.pause();
-                document.getElementById('musicIcon').classList.remove('animate-spin'); 
-                document.getElementById('eqContainer').classList.add('opacity-50');
-            }
-        }
-
-        function resumeBgMusic() {
-            const bgMusic = document.getElementById('bgMusic');
-            const anyMediaPlaying = Array.from(document.querySelectorAll('#expandedMediaContainer video, #expandedMediaContainer audio')).some(el => !el.paused);
-            if (!document.getElementById('wishCardModal').classList.contains('active') || !anyMediaPlaying) {
-                if (bgMusic.paused && document.getElementById('wishCardModal').classList.contains('active') === false) {
-                    bgMusic.play().then(() => { 
-                        document.getElementById('musicIcon').classList.add('animate-spin'); 
-                        document.getElementById('eqContainer').classList.remove('opacity-50'); 
-                    }).catch(() => {});
+                if (wasMusicPlayingBeforeModal) {
+                    const bgMusic = document.getElementById('bgMusic');
+                    bgMusic.play().then(() => { document.getElementById('musicIcon').classList.add('animate-spin'); document.getElementById('eqContainer').classList.remove('opacity-50'); }).catch(() => {});
                 }
             }
+        }
+
+        let audioCtx = null;
+        function playClockTickSound() {
+            if (isUnlocked) return;
+            try {
+                if (!audioCtx) { const AudioContext = window.AudioContext || window.webkitAudioContext; audioCtx = new AudioContext(); }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(1200, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.03);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.035);
+            } catch(e) {}
         }
 
         function toggleAudio(e) {
@@ -1382,62 +1237,25 @@
         }
         renderSingleRibbonGallery();
 
-        const ribbonStage = document.getElementById('ribbonStage'); 
-        const ribbonTrack = document.getElementById('singleRibbonTrack');
-        let scrollPos = 0; 
-        let isHovered = false; 
-        let isDragging = false; 
-        let startX; 
-        let scrollLeftStart;
+        const ribbonStage = document.getElementById('ribbonStage'); const ribbonTrack = document.getElementById('singleRibbonTrack');
+        let scrollPos = 0; let isHovered = false; let isDragging = false; let startX; let scrollLeftStart;
 
-        ribbonStage.addEventListener('mouseenter', () => { isHovered = true; }); 
-        ribbonStage.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
-        
-        ribbonStage.addEventListener('mousedown', (e) => { 
-            isDragging = true; 
-            startX = e.pageX; 
-            scrollLeftStart = ribbonStage.scrollLeft; 
-        });
-        window.addEventListener('mouseup', () => { isDragging = false; }); 
-        window.addEventListener('mousemove', (e) => { 
-            if (!isDragging) return; 
-            e.preventDefault(); 
-            const walk = (e.pageX - startX) * 2; 
-            ribbonStage.scrollLeft = scrollLeftStart - walk; 
-            scrollPos = ribbonStage.scrollLeft; 
-        });
-
-        ribbonStage.addEventListener('touchstart', (e) => { 
-            isDragging = true; 
-            startX = e.touches[0].pageX; 
-            scrollLeftStart = ribbonStage.scrollLeft; 
-        }, { passive: true });
+        ribbonStage.addEventListener('mouseenter', () => { isHovered = true; }); ribbonStage.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
+        ribbonStage.addEventListener('mousedown', (e) => { isDragging = true; startX = e.pageX; scrollLeftStart = ribbonStage.scrollLeft; });
+        window.addEventListener('mouseup', () => { isDragging = false; }); window.addEventListener('mousemove', (e) => { if (!isDragging) return; e.preventDefault(); const walk = (e.pageX - startX) * 2; ribbonStage.scrollLeft = scrollLeftStart - walk; scrollPos = ribbonStage.scrollLeft; });
+        ribbonStage.addEventListener('touchstart', (e) => { isDragging = true; startX = e.touches[0].pageX; scrollLeftStart = ribbonStage.scrollLeft; }, { passive: true });
         window.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
-        ribbonStage.addEventListener('touchmove', (e) => { 
-            if (!isDragging) return; 
-            const walk = (e.touches[0].pageX - startX) * 2; 
-            ribbonStage.scrollLeft = scrollLeftStart - walk; 
-            scrollPos = ribbonStage.scrollLeft; 
-        }, { passive: true });
+        ribbonStage.addEventListener('touchmove', (e) => { if (!isDragging) return; const walk = (e.touches[0].pageX - startX) * 2; ribbonStage.scrollLeft = scrollLeftStart - walk; scrollPos = ribbonStage.scrollLeft; }, { passive: true });
 
         function animateRibbonLoop() {
-            if (!isDragging) { 
-                scrollPos += (!isHovered) ? 0.6 : 0.2; 
-                const halfWidth = ribbonTrack.scrollWidth / 3; 
-                if (scrollPos >= halfWidth) scrollPos = 0; 
-                else if (scrollPos < 0) scrollPos = halfWidth; 
-                ribbonStage.scrollLeft = scrollPos; 
-            } else { 
-                scrollPos = ribbonStage.scrollLeft; 
-            } 
-            requestAnimationFrame(animateRibbonLoop);
+            if (!isDragging) { scrollPos += (!isHovered) ? 0.8 : 0.2; const halfWidth = ribbonTrack.scrollWidth / 3; if (scrollPos >= halfWidth) scrollPos = 0; else if (scrollPos < 0) scrollPos = halfWidth; ribbonStage.scrollLeft = scrollPos; } 
+            else { scrollPos = ribbonStage.scrollLeft; } requestAnimationFrame(animateRibbonLoop);
         }
         requestAnimationFrame(animateRibbonLoop);
 
         function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightboxModal').classList.remove('hidden'); }
         function closeLightbox() { document.getElementById('lightboxModal').classList.add('hidden'); }
 
-        // --- COUNTDOWN REELS ENGINE (Section 1) ---
         let prevValues = { d1:'', d2:'', h1:'', h2:'', m1:'', m2:'', s1:'', s2:'' };
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
@@ -1451,11 +1269,8 @@
 
         function updateCountdown() {
             const now = new Date().getTime(); const difference = targetDate - now;
-            if (difference <= 0) { 
-                ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); 
-                if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
-                isUnlocked = true;
-            } else {
+            if (difference <= 0) { ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); } 
+            else {
                 const d = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'); const h = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 const m = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0'); const s = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
                 updateDigit('d1', d[0]); updateDigit('d2', d[1]); updateDigit('h1', h[0]); updateDigit('h2', h[1]); updateDigit('m1', m[0]); updateDigit('m2', m[1]); updateDigit('s1', s[0]); updateDigit('s2', s[1]);
@@ -1463,11 +1278,8 @@
         }
         updateCountdown(); setInterval(updateCountdown, 1000);
 
-        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN & BALLOON SYNC (Section 2) ---
         function triggerCurtainAndUnlock() {
             if (isUnlocked) return; isUnlocked = true;
-            if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
-            
             gsap.to(['#frontHeader', '#wishButtonWrapper'], { opacity: 0, y: -30, duration: 0.8, onComplete: () => {
                 gsap.to('#curtainLeft', { xPercent: -125, duration: 2.2, ease: 'power4.inOut' });
                 gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startAgeCounterSlotMachine });
@@ -1484,55 +1296,43 @@
             const fireBurnOverlay = document.getElementById('fireBurnOverlay');
             const bdayBanner = document.getElementById('bdayBanner');
 
-            const itemHeight = window.innerWidth >= 768 ? 160 : 120;
+            const itemHeight = window.innerWidth >= 768 ? 180 : 130;
 
-            // First Digit (2)
-            gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+            // FIXED SLOT TARGET: Exact index alignment to stop precisely on "27"
+            const targetY1 = -(2 * itemHeight); // Index for '2'
+            const targetY2 = -(7 * itemHeight); // Index for '7'
 
-            // Second Digit (6)
-            gsap.fromTo(drum2Track, { y: 0 }, { 
-                y: -itemHeight * 6, 
-                duration: 2.5, 
-                ease: "power2.inOut", 
-                onComplete: () => {
-                    tapPrompt.classList.remove('opacity-0');
-                    tapPrompt.style.cursor = 'pointer';
+            gsap.to(drum1Track, { y: targetY1, duration: 2.5, ease: "power3.inOut" });
+            gsap.to(drum2Track, { y: targetY2, duration: 2.8, ease: "power3.inOut", onComplete: () => {
+                tapPrompt.classList.remove('opacity-0');
+                tapPrompt.style.cursor = 'pointer';
 
-                    const triggerIgnition = () => {
-                        document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
-                        document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
+                const triggerIgnition = () => {
+                    document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
+                    document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
 
-                        tapPrompt.style.opacity = '0';
+                    tapPrompt.style.opacity = '0';
 
-                        // 🌟 EXACT INSTANT BLAST: Firework / Confetti & Balloons shoot up immediately at 0s
-                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
-                        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+                    gsap.to(fireBurnOverlay, { opacity: 0.9, duration: 0.6, yoyo: true, repeat: 1 });
+                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
 
-                        // Roll from 6 to 7 immediately
-                        gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
+                    // FIXED BALLOONS ANIMATION: Trigger bottom-to-top fly animation on click/tap
+                    const bLeft = document.getElementById('balloonBundleLeft');
+                    const bRight = document.getElementById('balloonBundleRight');
+                    bLeft.style.opacity = '1';
+                    bRight.style.opacity = '1';
+                    gsap.to([bLeft, bRight], { y: -1100, duration: 6, ease: 'power2.out' });
 
-                        // 🌟 BALLOONS INSTANTLY SHOOT UP FROM BOTTOM, PAUSE IN SECTION 2, THEN FLY OFF-SCREEN UPON SCROLLING TO SECTION 3
-                        const bundleLeft = document.getElementById('balloonBundleLeft');
-                        const bundleRight = document.getElementById('balloonBundleRight');
-                        bundleLeft.style.opacity = '1';
-                        bundleRight.style.opacity = '1';
-
-                        const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 350 }, { y: -450, duration: 1.8, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -450, duration: 3.5 }) // Pause gracefully in Section 2
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
-                                     trigger: '#section3',
-                                     start: 'top bottom',
-                                     toggleActions: 'play none none none'
-                                 }});
-
+                    setTimeout(() => {
+                        gsap.to(fireBurnOverlay, { opacity: 0, duration: 1 });
+                        confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 } });
                         bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                    };
+                    }, 1000);
+                };
 
-                    document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
-                    document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
-                }
-            });
+                document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
+                document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
+            }});
         }
 
         function skipToNext() { triggerCurtainAndUnlock(); }
@@ -1549,20 +1349,18 @@
         }
 
         function finalizeWishPush(name, msg, isPrivate) {
-            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1200";
+            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/500";
 
             const newWish = { 
                 name: name, 
                 text: msg, 
                 avatar: finalizedAvatarUrl, 
                 mediaType: finalizedGiftType, 
-                mediaSrc: finalizedGiftUrl,
-                audioSrc: finalizedAudioUrl 
+                mediaSrc: finalizedGiftUrl 
             };
 
             if (isPrivate) { 
-                privateWishes.push(newWish); 
-                alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!"); 
+                alert("🔒 Wish Sent Securely & Privately!"); 
             } else { 
                 publicWishes.unshift(newWish); 
                 alert("✨ Wish Locked & Floated into Public Galaxy Successfully!"); 
