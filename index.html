@@ -240,9 +240,9 @@
 
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -1500px;
+            bottom: -900px;
             width: 140px;
-            height: 1200px;
+            height: 900px;
             pointer-events: none;
             z-index: 5;
             opacity: 0;
@@ -1196,6 +1196,7 @@
                     playClockTickSound();
                 } else {
                     clearInterval(tickingInterval);
+                    tickingInterval = null;
                 }
             }, 1000);
         }
@@ -1440,7 +1441,6 @@
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
             const track = document.getElementById(trackId); if (!track) return;
-            if (trackId === 's2') { playClockTickSound(); }
             const cardHeight = window.innerWidth >= 640 ? 66 : 50;
             const newElem = document.createElement('div'); newElem.className = 'reel-digit'; newElem.innerText = newVal;
             track.insertBefore(newElem, track.firstChild);
@@ -1510,7 +1510,7 @@
                         // Roll from 6 to 7
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.6, ease: "power2.inOut" });
 
-                        // 🌟 BALLOONS RISE FROM BOTTOM AT BLAST TIME, PAUSE, THEN FLY OFF UPON SCROLLING TO SECTION 3
+                        // 🌟 BALLOONS RISE FROM BOTTOM EXACTLY AT BLAST TIME, PAUSE, THEN FLY OFF-SCREEN UPON SCROLLING TO SECTION 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
