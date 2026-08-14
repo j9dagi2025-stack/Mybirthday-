@@ -118,7 +118,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
-        /* 🌟 EXACT PORTRAIT RATIO FRAME (Ensures 4:6 vertical display with zero black spaces) */
         .luxury-gold-frame {
             border: 3px solid #D4AF37;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.25);
@@ -237,7 +236,6 @@
             z-index: 25;
         }
 
-        /* 🌟 INSTANT BALLOON TRIGGER FROM BOTTOM */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
             bottom: -1500px;
@@ -894,14 +892,14 @@
         }
 
         let publicWishes = [
-            { name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1200", audioSrc: "" },
-            { name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", audioSrc: "" },
-            { name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3", audioSrc: "" },
-            { name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1200", audioSrc: "" },
-            { name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1200", audioSrc: "" }
+            { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1200", audioSrc: "" },
+            { id: 'w2', name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", audioSrc: "" },
+            { id: 'w3', name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3", audioSrc: "" },
+            { id: 'w4', name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1200", audioSrc: "" },
+            { id: 'w5', name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1200", audioSrc: "" }
         ];
 
-        let privateWishes = [{ name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1200", audioSrc: "" }];
+        let privateWishes = [{ id: 'pw1', name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1200", audioSrc: "" }];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -940,7 +938,7 @@
                     else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-cover"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
-                        <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left">
+                        <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
                             <div class="flex items-center gap-3 mb-2">
                                 <img src="${wish.avatar}" class="w-8 h-8 rounded-full border border-gold object-cover">
                                 <span class="font-cinzel font-bold text-gold text-sm">${wish.name}</span>
@@ -1498,7 +1496,7 @@
                         // Roll from 6 to 7 immediately
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 🌟 BALLOONS SYNCED EXACTLY AT TAP WITH FIREWORKS
+                        // 🌟 BALLOONS SYNCED PERFECTLY WITH FIREWORKS
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
@@ -1538,7 +1536,9 @@
         function finalizeWishPush(name, msg, isPrivate) {
             if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1200";
 
+            // 🌟 UNIQUE ID FIX: Ensures submitting multiple wishes from same name/ID creates distinct records instead of overwriting/merging
             const newWish = { 
+                id: 'wish_' + Date.now() + '_' + Math.random().toString(36.substring(2, 7)),
                 name: name, 
                 text: msg, 
                 avatar: finalizedAvatarUrl, 
