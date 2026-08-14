@@ -1159,6 +1159,8 @@
 
         // --- AUDIO ENGINE ---
         let globalAudioCtx = null;
+        let tickingInterval = null;
+
         function initGlobalAudioContext() {
             if (!globalAudioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1186,6 +1188,18 @@
                 osc.start(); osc.stop(globalAudioCtx.currentTime + 0.05);
             } catch(e) {}
         }
+
+        function startAutomaticTicking() {
+            if (tickingInterval) return;
+            tickingInterval = setInterval(() => {
+                if (!isUnlocked) {
+                    playClockTickSound();
+                } else {
+                    clearInterval(tickingInterval);
+                }
+            }, 1000);
+        }
+        window.addEventListener('load', startAutomaticTicking);
 
         function playGlassPopSound() {
             try {
@@ -1436,8 +1450,11 @@
 
         function updateCountdown() {
             const now = new Date().getTime(); const difference = targetDate - now;
-            if (difference <= 0) { ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); } 
-            else {
+            if (difference <= 0) { 
+                ['d1','d2','h1','h2','m1','m2','s1','s2'].forEach(id => updateDigit(id, '0')); 
+                if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
+                isUnlocked = true;
+            } else {
                 const d = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'); const h = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 const m = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0'); const s = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
                 updateDigit('d1', d[0]); updateDigit('d2', d[1]); updateDigit('h1', h[0]); updateDigit('h2', h[1]); updateDigit('m1', m[0]); updateDigit('m2', m[1]); updateDigit('s1', s[0]); updateDigit('s2', s[1]);
@@ -1445,9 +1462,10 @@
         }
         updateCountdown(); setInterval(updateCountdown, 1000);
 
-        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN (Section 2) ---
+        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN & BALLOON SYNC (Section 2) ---
         function triggerCurtainAndUnlock() {
             if (isUnlocked) return; isUnlocked = true;
+            if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
             
             gsap.to(['#frontHeader', '#wishButtonWrapper'], { opacity: 0, y: -30, duration: 0.8, onComplete: () => {
                 gsap.to('#curtainLeft', { xPercent: -125, duration: 2.2, ease: 'power4.inOut' });
@@ -1485,31 +1503,29 @@
 
                         tapPrompt.style.opacity = '0';
 
+                        // 🌟 EXACT BLAST TIMESTAMP: Confetti, Blast FX and Balloons trigger together
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.6, yoyo: true, repeat: 1 });
-                        confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+                        confetti({ particleCount: 180, spread: 90, origin: { y: 0.5 } });
 
                         // Roll from 6 to 7
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.6, ease: "power2.inOut" });
 
-                        setTimeout(() => {
-                            gsap.to(fireBurnOverlay, { opacity: 0, duration: 1 });
-                            confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 } });
+                        // 🌟 BALLOONS RISE FROM BOTTOM AT BLAST TIME, PAUSE, THEN FLY OFF UPON SCROLLING TO SECTION 3
+                        const bundleLeft = document.getElementById('balloonBundleLeft');
+                        const bundleRight = document.getElementById('balloonBundleRight');
+                        bundleLeft.style.opacity = '1';
+                        bundleRight.style.opacity = '1';
 
-                            document.getElementById('balloonBundleLeft').style.opacity = '1'; 
-                            document.getElementById('balloonBundleRight').style.opacity = '1';
-                            
-                            // 🌟 BALLOONS: RISE IN SECTION 2, PAUSE FOR FEW SECONDS, THEN FLY COMPLETELY OFF-SCREEN WHEN SCROLLING TO SECTION 3
-                            const balloonTl = gsap.timeline();
-                            balloonTl.to('#balloonBundleLeft, #balloonBundleRight', { y: -650, duration: 3.5, ease: 'sine.out' })
-                                     .to('#balloonBundleLeft, #balloonBundleRight', { y: -650, duration: 3 }) // Pause in Section 2
-                                     .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
-                                         trigger: '#section3',
-                                         start: 'top bottom',
-                                         toggleActions: 'play none none none'
-                                     }});
+                        const balloonTl = gsap.timeline();
+                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 400 }, { y: -400, duration: 2.0, ease: 'sine.out' })
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -400, duration: 3.0 }) // Pause in Section 2
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
+                                     trigger: '#section3',
+                                     start: 'top bottom',
+                                     toggleActions: 'play none none none'
+                                 }});
 
-                            bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                        }, 800);
+                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
                     };
 
                     document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
