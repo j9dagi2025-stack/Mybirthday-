@@ -63,10 +63,7 @@
         }
 
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
-        
-        .section-pitch-black {
-            background: #000000;
-        }
+        .section-pitch-black { background: #000000; }
 
         .section-transition-feather {
             position: absolute;
@@ -126,14 +123,16 @@
         }
 
         .luxury-gold-frame {
-            border: 4px solid #D4AF37;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
-            background: linear-gradient(135deg, #18120b 0%, #080605 100%);
-            border-radius: 20px;
-            padding: 6px;
+            border: 3px solid #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.25);
+            background: #000;
+            border-radius: 16px;
+            padding: 4px;
             position: relative;
             overflow: hidden;
-            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .reel-frame {
@@ -238,6 +237,7 @@
             z-index: 25;
         }
 
+        /* 🌟 SYNCHRONIZED BALLOONS (Hidden off-screen bottom until tap) */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
             bottom: -1500px;
@@ -460,14 +460,15 @@
 
         #wishCardModal.active { opacity: 1; pointer-events: auto; }
 
+        /* 🌟 DESKTOP FIT WISH MODAL (Compact padding to prevent scrolling) */
         .expanded-wish-card {
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; 
-            border-radius: 32px; 
-            padding: 24px 20px;
-            max-width: 440px; 
+            border-radius: 28px; 
+            padding: 18px 20px;
+            max-width: 420px; 
             width: 100%; 
-            max-height: 85vh; 
+            max-height: 90vh; 
             display: flex;
             flex-direction: column;
             animation: goldShimmer 4s infinite ease-in-out;
@@ -774,15 +775,14 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-xl"><i class="fa-solid fa-xmark"></i></button>
             
-            <!-- 🌟 FIXED PHOTO DISPLAY (object-contain ensures portrait photos never get cropped or cut) -->
-            <div id="expandedMediaContainer" class="w-full mb-3 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[42vh] flex-shrink-0"></div>
+            <div id="expandedMediaContainer" class="w-full mb-2.5 flex items-center justify-center rounded-2xl overflow-hidden luxury-gold-frame bg-black max-h-[38vh] flex-shrink-0"></div>
 
-            <div class="overflow-y-auto max-h-[22vh] my-2 pr-1 text-left flex-grow">
+            <div class="overflow-y-auto max-h-[18vh] my-1.5 pr-1 text-left flex-grow">
                 <p id="expandedMessage" class="text-gray-100 text-sm sm:text-base italic leading-relaxed font-medium"></p>
             </div>
 
-            <div class="w-full flex items-center gap-3.5 border-t border-gold/30 pt-3 mt-auto flex-shrink-0">
-                <img id="expandedAvatar" class="w-11 h-11 rounded-full border-2 border-gold object-cover shadow-[0_0_15px_rgba(212,175,55,0.5)] flex-shrink-0">
+            <div class="w-full flex items-center gap-3.5 border-t border-gold/30 pt-2.5 mt-auto flex-shrink-0">
+                <img id="expandedAvatar" class="w-10 h-10 rounded-full border-2 border-gold object-cover shadow-[0_0_15px_rgba(212,175,55,0.5)] flex-shrink-0">
                 <div class="text-left flex flex-col overflow-hidden">
                     <h3 id="expandedName" class="font-cinzel text-base font-bold gold-gradient-text truncate"></h3>
                     <span class="text-[9px] text-gold/70 uppercase tracking-widest font-mono">Chapter 27 Blessing</span>
@@ -949,8 +949,8 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full max-h-48 object-cover rounded-lg"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full max-h-48 object-cover rounded-lg"></video></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full max-h-48 object-contain rounded-lg"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full max-h-48 object-contain rounded-lg"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left">
@@ -1153,7 +1153,7 @@
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
                 document.getElementById('giftThumbName').innerText = "4:6 Portrait Framed Set";
-                document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
+                document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-contain">`;
             }
             cancelCrop();
         }
@@ -1300,10 +1300,9 @@
 
             let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                // 🌟 FIX: object-contain prevents portrait photos from getting cut/cropped inside the modal
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-contain rounded-lg">`;
+                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[38vh] object-contain rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[42vh] object-contain rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[38vh] object-contain rounded-lg bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
                 mediaHTML = `<img src="${wish.avatar}" class="w-28 h-32 rounded-lg object-contain">`;
             }
@@ -1421,7 +1420,6 @@
             scrollPos = ribbonStage.scrollLeft; 
         }, { passive: true });
 
-        // 🌟 FIXED SMOOTH GALLERY MARQUEE SPEED (Fixed stutter/jitter on hover)
         function animateRibbonLoop() {
             if (!isDragging) { 
                 scrollPos += 0.8; 
@@ -1506,23 +1504,23 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 🌟 EXACT BLAST TIMESTAMP: Fireworks & Confetti trigger immediately
+                        // 🌟 EXACT BLAST TIMESTAMP: Fireworks & Confetti trigger immediately at tap
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
 
                         // Roll from 6 to 7 immediately
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 🌟 SYNCHRONIZED BALLOONS: Instantly rise from bottom upon tap, pause in Section 2, then fly completely off-screen upwards when scrolling to Section 3
+                        // 🌟 BALLOONS SYNCHRONIZED TO FIREWORKS: Rise smoothly with perfect moderate speed, pause in section 2, then fly off-screen on scroll
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
                         const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 600 }, { y: -300, duration: 2.0, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -300, duration: 3.5 }) // Graceful pause in Section 2
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.0, ease: 'power2.in', scrollTrigger: {
+                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 600 }, { y: -250, duration: 2.2, ease: 'sine.out' })
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -250, duration: 3.0 }) // Graceful pause in Section 2
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 3.5, ease: 'power2.in', scrollTrigger: {
                                      trigger: '#section3',
                                      start: 'top bottom',
                                      toggleActions: 'play none none none'
