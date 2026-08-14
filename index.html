@@ -130,6 +130,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            aspect-ratio: 4 / 5;
+            max-height: 40vh;
         }
 
         .reel-frame {
@@ -460,7 +462,7 @@
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; 
             border-radius: 26px; 
-            padding: 20px 18px 16px 18px;
+            padding: 14px 16px;
             max-width: 380px; 
             width: 100%; 
             max-height: 85vh; 
@@ -760,7 +762,7 @@
             <div class="gold-organic-spark" style="top: 10px; left: 12px;"></div>
             <div class="gold-organic-spark" style="top: 15px; right: 15px; animation-delay: 0.7s;"></div>
 
-            <button onclick="closeExpandedWish()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/70 border border-gold/50 flex items-center justify-center text-gold hover:text-white hover:bg-gold/20 transition z-30 text-base shadow-md"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="closeExpandedWish()" class="absolute top-3 right-3 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
             <div id="expandedMediaContainer" class="w-full mb-2 flex items-center justify-center overflow-hidden luxury-gold-frame flex-shrink-0"></div>
 
@@ -820,7 +822,7 @@
 
                 <div>
                     <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Primary Gift Media (Photo / Video)</label>
-                    <input type="file" id="mediaInput" accept="image/*,video/*" onchange="handleMediaAttachment(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
+                    <input type="file" id="mediaInput" accept="image/*,video/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
@@ -932,8 +934,8 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3 max-h-[35vh]"><img src="${wish.mediaSrc}" class="w-full h-full object-contain max-h-[35vh]"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black max-h-[35vh]"><video src="${wish.mediaSrc}" controls class="w-full h-full object-contain max-h-[35vh]"></video></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full h-full object-cover"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-cover"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
@@ -954,7 +956,7 @@
             document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
         }
 
-        // --- CROP ENGINE (Dynamic Natural Aspect Ratio Support) ---
+        // --- CROP ENGINE (4:6 Standard Portrait Box) ---
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
@@ -973,7 +975,7 @@
             setupCropReader(file);
         }
 
-        function handleMediaAttachment(e) {
+        function openGiftCropModal(e) {
             const file = e.target.files[0];
             if (!file) return;
 
@@ -1016,21 +1018,10 @@
                         viewport.style.height = '200px';
                         viewport.style.borderRadius = '50%';
                     } else {
-                        document.getElementById('cropModalTitle').innerText = "Media Frame Fit";
-                        document.getElementById('cropModalSub').innerText = "Position your photo naturally!";
-                        
-                        // Dynamic container sizing based on natural image orientation
-                        const naturalAspect = cropImgObj.width / cropImgObj.height;
-                        if (naturalAspect < 0.9) { // Portrait
-                            viewport.style.width = '180px';
-                            viewport.style.height = '270px';
-                        } else if (naturalAspect > 1.1) { // Landscape
-                            viewport.style.width = '260px';
-                            viewport.style.height = '160px';
-                        } else { // Square
-                            viewport.style.width = '200px';
-                            viewport.style.height = '200px';
-                        }
+                        document.getElementById('cropModalTitle').innerText = "Portrait Media Frame (4:6)";
+                        document.getElementById('cropModalSub').innerText = "Position your photo in 4:6 portrait box!";
+                        viewport.style.width = '180px';
+                        viewport.style.height = '270px';
                         viewport.style.borderRadius = '16px';
                     }
 
@@ -1111,20 +1102,8 @@
 
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
-            let targetW = cropImgObj.width;
-            let targetH = cropImgObj.height;
-            
-            if (cropTargetType === 'avatar') {
-                targetW = 500; targetH = 500;
-            } else {
-                const maxDim = 1200;
-                if (targetW > maxDim || targetH > maxDim) {
-                    const ratio = Math.min(maxDim / targetW, maxDim / targetH);
-                    targetW *= ratio;
-                    targetH *= ratio;
-                }
-            }
-
+            const targetW = (cropTargetType === 'avatar') ? 500 : 800;
+            const targetH = (cropTargetType === 'avatar') ? 500 : 1200;
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
@@ -1132,8 +1111,8 @@
             ctx.fillRect(0, 0, targetW, targetH);
 
             ctx.save();
-            const viewW = viewport.clientWidth;
-            const viewH = viewport.clientHeight;
+            const viewW = (cropTargetType === 'avatar') ? 200 : 180;
+            const viewH = (cropTargetType === 'avatar') ? 200 : 270;
             ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
@@ -1158,7 +1137,7 @@
             } else {
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "Media Frame Set";
+                document.getElementById('giftThumbName').innerText = "4:6 Portrait Framed Set";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
@@ -1306,9 +1285,9 @@
 
             let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-contain max-h-[35vh]">`;
+                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-cover">`;
             } else if (wish.mediaType === 'video') {
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full h-full object-contain max-h-[35vh] bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full h-full object-cover bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
                 mediaHTML = `<img src="${wish.avatar}" class="w-24 h-28 rounded-lg object-cover">`;
             }
