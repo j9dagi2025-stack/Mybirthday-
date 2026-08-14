@@ -118,6 +118,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
+        /* 🌟 STRICT PORTRAIT 4:6 CONTAINER FIX FOR WISHES CARD */
         .luxury-gold-frame {
             border: 3px solid #D4AF37;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.25);
@@ -130,6 +131,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            aspect-ratio: 4 / 5.2;
+            max-height: 42vh;
         }
 
         .reel-frame {
@@ -932,8 +935,8 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-contain"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full max-h-[42vh] object-contain bg-black"></video></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full h-full object-cover"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-contain bg-black"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
@@ -1283,11 +1286,11 @@
 
             let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                // Photos strictly shown in 4:6 portrait format as cropped by user
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full max-h-[42vh] object-cover">`;
+                // 🌟 FORCED PORTRAIT 4:6 FILL FOR WISHES CARD POPUP
+                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-cover">`;
             } else if (wish.mediaType === 'video') {
-                // Videos dynamically fit based on their natural orientation (horizontal, vertical, or square)
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full max-h-[42vh] object-contain bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                // Dynamic sizing for videos so any resolution/orientation fits naturally
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full h-full object-contain bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
                 mediaHTML = `<img src="${wish.avatar}" class="w-24 h-28 rounded-lg object-cover">`;
             }
