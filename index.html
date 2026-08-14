@@ -118,25 +118,8 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
-        /*  PORTRAIT 4:6 CONTAINER FIX FOR WISHES CARD */
-        .luxury-gold-frame {
-            border: 4px solid #D4AF37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
-            background: linear-gradient(135deg, #18120b 0%, #080605 100%);
-            border-radius: 16px;
-            padding: 6px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 100%;
-            max-height: 310px;
-            margin: 0 auto;
-        }
-
-        /* Video ke liye flexible golden frame */
-        .video-gold-frame {
+        /* 🌟 SMART FLEXIBLE GOLDEN FRAME (Jo photo/video ke shape ke mutabiq adjust hoga) */
+        .smart-gold-frame {
             border: 4px solid #D4AF37;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
             background: #000;
@@ -144,11 +127,13 @@
             padding: 6px;
             position: relative;
             overflow: hidden;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: fit-content;
+            height: fit-content;
             max-width: 100%;
-            max-height: 310px;
+            max-height: 420px;
             margin: 0 auto;
         }
 
@@ -782,7 +767,7 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-3 right-3 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-2 flex items-center justify-center overflow-hidden luxury-gold-frame flex-shrink-0"></div>
+            <div id="expandedMediaContainer" class="w-full mb-2 flex items-center justify-center overflow-hidden smart-gold-frame flex-shrink-0"></div>
 
             <div class="overflow-y-auto max-h-[16vh] my-1 pr-1 text-left flex-grow">
                 <p id="expandedMessage" class="text-gray-100 text-xs sm:text-sm italic leading-relaxed font-medium"></p>
@@ -952,8 +937,8 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full h-full object-cover"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="video-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-contain bg-black"></video></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" class="max-w-full max-h-[350px] w-auto h-auto object-contain rounded-lg"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="smart-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="max-w-full max-h-[350px] w-auto h-auto object-contain bg-black rounded-lg"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
@@ -1036,10 +1021,10 @@
                         viewport.style.height = '200px';
                         viewport.style.borderRadius = '50%';
                     } else {
-                        document.getElementById('cropModalTitle').innerText = "Portrait Media Frame (4:5)";
-                        document.getElementById('cropModalSub').innerText = "Position your photo in 4:5 portrait box!";
+                        document.getElementById('cropModalTitle').innerText = "Smart Flexible Frame";
+                        document.getElementById('cropModalSub').innerText = "Position your media inside the frame!";
                         viewport.style.width = '180px';
-                        viewport.style.height = '270px';
+                        viewport.style.height = '240px';
                         viewport.style.borderRadius = '16px';
                     }
 
@@ -1121,7 +1106,7 @@
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
             const targetW = (cropTargetType === 'avatar') ? 500 : 800;
-            const targetH = (cropTargetType === 'avatar') ? 500 : 1200;
+            const targetH = (cropTargetType === 'avatar') ? 500 : 1000;
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
@@ -1130,7 +1115,7 @@
 
             ctx.save();
             const viewW = (cropTargetType === 'avatar') ? 200 : 180;
-            const viewH = (cropTargetType === 'avatar') ? 200 : 270;
+            const viewH = (cropTargetType === 'avatar') ? 200 : 240;
             ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
@@ -1155,7 +1140,7 @@
             } else {
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "4:6 Portrait Framed Set";
+                document.getElementById('giftThumbName').innerText = "Smart Framed Set";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
@@ -1302,14 +1287,14 @@
             mediaContainer.innerHTML = '';
 
             let mediaHTML = '';
+            // 🌟 Smart Frame assigned for both image and video
+            mediaContainer.className = "w-full mb-2 flex items-center justify-center smart-gold-frame flex-shrink-0";
+
             if (wish.mediaType === 'image') {
-                mediaContainer.className = "w-full mb-2 flex items-center justify-center luxury-gold-frame flex-shrink-0";
-                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-cover">`;
+                mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[385px] w-auto h-auto object-contain rounded-lg">`;
             } else if (wish.mediaType === 'video') {
-                mediaContainer.className = "w-full mb-2 flex items-center justify-center video-gold-frame flex-shrink-0 bg-black";
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full h-full object-contain bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="max-w-full max-h-[385px] w-auto h-auto object-contain bg-black rounded-lg" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
-                mediaContainer.className = "w-full mb-2 flex items-center justify-center luxury-gold-frame flex-shrink-0";
                 mediaHTML = `<img src="${wish.avatar}" class="w-24 h-28 rounded-lg object-cover">`;
             }
 
