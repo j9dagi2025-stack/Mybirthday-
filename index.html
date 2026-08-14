@@ -238,11 +238,12 @@
             z-index: 25;
         }
 
+        /* 🌟 BALLOONS WAITING OFF-SCREEN BELOW UNTIL TAP */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -900px;
+            bottom: -1500px;
             width: 140px;
-            height: 900px;
+            height: 1200px;
             pointer-events: none;
             z-index: 5;
             opacity: 0;
@@ -1503,22 +1504,22 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 🌟 EXACT BLAST TIMESTAMP: Confetti, Blast FX and Balloons trigger together
-                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.6, yoyo: true, repeat: 1 });
-                        confetti({ particleCount: 180, spread: 90, origin: { y: 0.5 } });
+                        // 🌟 EXACT INSTANT BLAST: Firework / Confetti & Balloons shoot up immediately at 0s
+                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
+                        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
 
-                        // Roll from 6 to 7
-                        gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.6, ease: "power2.inOut" });
+                        // Roll from 6 to 7 immediately
+                        gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 🌟 BALLOONS RISE FROM BOTTOM EXACTLY AT BLAST TIME, PAUSE, THEN FLY OFF-SCREEN UPON SCROLLING TO SECTION 3
+                        // 🌟 BALLOONS INSTANTLY SHOOT UP FROM BOTTOM, PAUSE IN SECTION 2, THEN FLY OFF-SCREEN UPON SCROLLING TO SECTION 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
                         const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 400 }, { y: -400, duration: 2.0, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -400, duration: 3.0 }) // Pause in Section 2
+                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 350 }, { y: -450, duration: 1.8, ease: 'sine.out' })
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -450, duration: 3.5 }) // Pause gracefully in Section 2
                                  .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.5, ease: 'power2.in', scrollTrigger: {
                                      trigger: '#section3',
                                      start: 'top bottom',
