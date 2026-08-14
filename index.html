@@ -118,31 +118,40 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
-        
-        @media (min-width: 768px) {
-        /* 🌟 Naya Flexible Frame jo Photo/Video ke size ke hisab se khud adjust hoga */
-        .smart-gold-frame {
+        /*  PORTRAIT 4:6 CONTAINER FIX FOR WISHES CARD */
+        .luxury-gold-frame {
+            border: 4px solid #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
+            background: linear-gradient(135deg, #18120b 0%, #080605 100%);
+            border-radius: 16px;
+            padding: 6px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 310px;
+            margin: 0 auto;
+        }
+
+        /* Video ke liye flexible golden frame */
+        .video-gold-frame {
             border: 4px solid #D4AF37;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
             background: #000;
             border-radius: 16px;
             padding: 6px;
-            display: inline-flex; /* 👈 Isse frame andar ke content jitna hi bada hoga */
+            position: relative;
+            overflow: hidden;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: fit-content;   /* 👈 Flexible Width */
-            height: fit-content;  /* 👈 Flexible Height */
             max-width: 100%;
-            max-height: 50vh;     /* Screen se bada na ho */
+            max-height: 310px;
             margin: 0 auto;
         }
 
-        
-        @media (min-width: 768px) {
-            .smart-gold-frame {
-                max-height: 480px !important;
-            }
-        }
         .reel-frame {
             position: relative;
             width: 34px;
@@ -943,8 +952,8 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = '';
-                  if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full max-h-[320px] object-contain rounded-xl"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="luxury-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-contain bg-black"></video></div>`;
+                    if (wish.mediaType === 'image') mediaHTML = `<div class="luxury-gold-frame mb-3"><img src="${wish.mediaSrc}" class="w-full h-full object-cover"></div>`;
+                    else if (wish.mediaType === 'video') mediaHTML = `<div class="video-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="w-full h-full object-contain bg-black"></video></div>`;
                     else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
@@ -1111,51 +1120,42 @@
 
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
+            const targetW = (cropTargetType === 'avatar') ? 500 : 800;
+            const targetH = (cropTargetType === 'avatar') ? 500 : 1200;
+            canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
-            if (cropTargetType === 'avatar') {
-                // Avatar (Profile) photo circle ke liye fix (500x500)
-                const targetW = 500, targetH = 500;
-                canvas.width = targetW; canvas.height = targetH;
-                ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, targetW, targetH);
-                
-                ctx.save();
-                ctx.translate(targetW / 2 + imgPosX * (targetW / 200), targetH / 2 + imgPosY * (targetH / 200));
-                ctx.scale(imgScale, imgScale);
-                const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
-                const w = cropImgObj.width * ratio; const h = cropImgObj.height * ratio;
-                ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
-                ctx.restore();
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, targetW, targetH);
 
+            ctx.save();
+            const viewW = (cropTargetType === 'avatar') ? 200 : 180;
+            const viewH = (cropTargetType === 'avatar') ? 200 : 270;
+            ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
+            ctx.scale(imgScale, imgScale);
+            
+            const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
+            const w = cropImgObj.width * ratio;
+            const h = cropImgObj.height * ratio;
+            ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
+            ctx.restore();
+
+            if (cropTargetType === 'avatar') {
                 const circleCanvas = document.createElement('canvas');
                 circleCanvas.width = targetW; circleCanvas.height = targetH;
                 const cCtx = circleCanvas.getContext('2d');
-                cCtx.beginPath(); cCtx.arc(targetW / 2, targetH / 2, targetW / 2, 0, Math.PI * 2); cCtx.clip();
+                cCtx.beginPath();
+                cCtx.arc(targetW / 2, targetH / 2, targetW / 2, 0, Math.PI * 2);
+                cCtx.clip();
                 cCtx.drawImage(canvas, 0, 0);
-                
                 finalizedAvatarUrl = circleCanvas.toDataURL('image/png', 0.9);
+                
                 document.getElementById('avatarPreviewBox').classList.remove('hidden');
                 document.getElementById('avatarThumbnail').src = finalizedAvatarUrl;
-
             } else {
-                // 🌟 GIFT PHOTO (No Cut, Original Size with crop bounds)
-                const baseWidth = cropImgObj.width;
-                const baseHeight = cropImgObj.height;
-
-                // User ne jitna zoom/pan kiya hai, uske hisab se bounding box nikalenge
-                const viewW = 180; const viewH = 270;
-                
-                // Hum chahte hain ki puri ki puri cropped photo bina extra black space ke save ho.
-                // Canvas ka final size image ke bounding box jitna set hoga.
-                canvas.width = baseWidth;
-                canvas.height = baseHeight;
-                
-                // Seedhe drawing karenge taaki photo ka original shape preserve rahe
-                ctx.drawImage(cropImgObj, 0, 0, baseWidth, baseHeight);
-
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "Original Shape Photo Set!";
+                document.getElementById('giftThumbName').innerText = "4:6 Portrait Framed Set";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
@@ -1291,27 +1291,25 @@
         function toggleExpandedWish(wish, bubbleElement) {
             const modal = document.getElementById('wishCardModal');
             if (modal.classList.contains('active') && activeWishModalItem === wish) {
-                closeExpandedWish(); return;
+                closeExpandedWish();
+                return;
             }
             activeWishModalItem = wish;
             document.getElementById('expandedAvatar').src = wish.avatar;
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
-            
             const mediaContainer = document.getElementById('expandedMediaContainer');
             mediaContainer.innerHTML = '';
-            
-            // 🌟 Nayi Class: smart-gold-frame
-            mediaContainer.className = "mb-2 flex items-center justify-center overflow-hidden smart-gold-frame flex-shrink-0";
 
             let mediaHTML = '';
             if (wish.mediaType === 'image') {
-                // 🌟 Image ab stretch nahi hogi, max size mein natural shape legi
-                mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[45vh] md:max-h-[400px] object-contain rounded-lg">`;
+                mediaContainer.className = "w-full mb-2 flex items-center justify-center luxury-gold-frame flex-shrink-0";
+                mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-cover">`;
             } else if (wish.mediaType === 'video') {
-                // 🌟 Video bhi frame ko stretch kiye bina natural shape legi
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="max-w-full max-h-[45vh] md:max-h-[400px] object-contain rounded-lg" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
+                mediaContainer.className = "w-full mb-2 flex items-center justify-center video-gold-frame flex-shrink-0 bg-black";
+                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="w-full h-full object-contain bg-black" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
             } else {
+                mediaContainer.className = "w-full mb-2 flex items-center justify-center luxury-gold-frame flex-shrink-0";
                 mediaHTML = `<img src="${wish.avatar}" class="w-24 h-28 rounded-lg object-cover">`;
             }
 
