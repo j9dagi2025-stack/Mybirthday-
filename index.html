@@ -883,7 +883,7 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
-        // 🔒 DIRECT SECURE HASHES SET
+        // 🔒 SECURE HASHES SET
         const targetUserHash = "28c7c9b207567e4e1a0b3d8753230c1be7d013e8d28cb174a7f0525656111059"; 
         const targetPassHash = "9049a4f61fcf15b6d761bc995f32a74c2e6484e5659db0445d3e09c85012502f";
 
@@ -922,11 +922,16 @@
             e.preventDefault();
             const uInput = document.getElementById('loginUser').value.trim();
             const pInput = document.getElementById('loginPass').value.trim();
+            
             const uHash = await sha256(uInput);
             const pHash = await sha256(pInput);
+            
             if (uHash === targetUserHash && pHash === targetPassHash) {
-                closeSecretLoginModal(); openPrivateVault();
-            } else { alert("❌ Incorrect Credentials! Access Denied."); }
+                closeSecretLoginModal(); 
+                openPrivateVault();
+            } else { 
+                alert("❌ Incorrect Credentials! Access Denied."); 
+            }
         }
 
         function openPrivateVault() {
