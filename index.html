@@ -875,6 +875,17 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
+        // 🔒 PLACEHOLDERS FOR GITHUB SECRETS INJECTION
+        const targetUserHash = "28c7c9b207567e4e1a0b3d8753230c1be7d013e8d28cb174a7f0525656111059"; 
+        const targetPassHash = "9049a4f61fcf15b6d761bc995f32a74c2e6484e5659db0445d3e09c85012502f";
+
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         let publicWishes = [
             { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1200", audioSrc: "" },
             { id: 'w2', name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", audioSrc: "" },
@@ -899,12 +910,15 @@
         function openSecretLoginModal() { document.getElementById('secretLoginModal').classList.remove('hidden'); }
         function closeSecretLoginModal() { document.getElementById('secretLoginModal').classList.add('hidden'); document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; }
 
-        function handleSecretLogin(e) {
+        async function handleSecretLogin(e) {
             e.preventDefault();
             const uInput = document.getElementById('loginUser').value.trim();
             const pInput = document.getElementById('loginPass').value.trim();
             
-            if (uInput === "Who?Aarav" && pInput === "Who?Devdas@525252") {
+            const uHash = await sha256(uInput);
+            const pHash = await sha256(pInput);
+            
+            if (uHash === targetUserHash && pHash === targetPassHash) {
                 closeSecretLoginModal(); 
                 openPrivateVault();
             } else { 
