@@ -883,7 +883,7 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
-        // 🔒 PLACEHOLDERS FOR GITHUB SECRETS INJECTION
+        // 🔒 DIRECT SECURE HASHES SET
         const targetUserHash = "28c7c9b207567e4e1a0b3d8753230c1be7d013e8d28cb174a7f0525656111059"; 
         const targetPassHash = "9049a4f61fcf15b6d761bc995f32a74c2e6484e5659db0445d3e09c85012502f";
 
@@ -1444,7 +1444,7 @@
             } else {
                 const d = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'); const h = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 const m = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0'); const s = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
-                updateDigit('d1', d[0]); updateDigit('d2', d[1]); updateDigit('h1', h[0]); updateDigit('h2', h[2] || h[1]); updateDigit('m1', m[0]); updateDigit('m2', m[1]); updateDigit('s1', s[0]); updateDigit('s2', s[1]);
+                updateDigit('d1', d[0]); updateDigit('d2', d[1]); updateDigit('h1', h[0]); updateDigit('h2', h[1]); updateDigit('m1', m[0]); updateDigit('m2', m[1]); updateDigit('s1', s[0]); updateDigit('s2', s[1]);
             }
         }
         updateCountdown(); setInterval(updateCountdown, 1000);
