@@ -5,23 +5,30 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Inject Secret Hashes into Code
+      - name: Inject Secret Hashes
         run: |
           sed -i "s|TARGET_USER_HASH_PLACEHOLDER|${{ secrets.VAULT_USER_HASH }}|g" index.html
           sed -i "s|TARGET_PASS_HASH_PLACEHOLDER|${{ secrets.VAULT_PASS_HASH }}|g" index.html
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@4f9db6609fcc8753ab397f334a17d7b0933f7c95 # v4.0.0
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          publish_branch: gh-pages
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
