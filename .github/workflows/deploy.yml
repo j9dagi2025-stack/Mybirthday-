@@ -1,0 +1,27 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Inject Secret Hash into Code
+        run: |
+          sed -i "s|TARGET_USER_HASH_PLACEHOLDER|${{ secrets.VAULT_USER_HASH }}|g" index.html
+          sed -i "s|TARGET_PASS_HASH_PLACEHOLDER|${{ secrets.VAULT_PASS_HASH }}|g" index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
