@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4
 
       - name: Inject Secret Hashes
         run: |
@@ -22,11 +22,13 @@ jobs:
           sed -i "s|TARGET_PASS_HASH_PLACEHOLDER|${{ secrets.VAULT_PASS_HASH }}|g" index.html
 
       - name: Setup Pages
-        uses: actions/configure-pages@983d7736b9b0ae728bade1ab49925350fe3abd35
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@56166037f1af3be06124491040f7a316b277d353
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@d6db90c60ac5ea60f205c462bb63212f7a935403
+        uses: actions/deploy-pages@v4
