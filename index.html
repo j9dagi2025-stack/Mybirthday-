@@ -118,7 +118,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
-        /* 🌟 SMART FLEXIBLE GOLDEN FRAME (Jo photo/video ke shape ke mutabiq adjust hoga) */
         .smart-gold-frame {
             border: 4px solid #D4AF37;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
@@ -884,8 +883,9 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
-        const targetUserHash = "8e95088f12a3861214300305a41549646b5a7a7b8ea79d5904d0ef92540b9cd1"; 
-        const targetPassHash = "9d9016e7804918e69d7a229a4a75344d5c9533ebf37bf9ed409139ec4c2780bb";
+        // 🔒 SECURE HASHES FOR: Username: Who?Aarav | Password: Who?Devdas@525252
+        const targetUserHash = "28c7c9b207567e4e1a0b3d8753230c1be7d013e8d28cb174a7f0525656111059"; 
+        const targetPassHash = "9049a4f61fcf15b6d761bc995f32a74c2e6484e5659db0445d3e09c85012502f";
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -959,7 +959,6 @@
             document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
         }
 
-        // --- CROP ENGINE ---
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
@@ -1146,7 +1145,6 @@
             cancelCrop();
         }
 
-        // --- AUDIO ENGINE ---
         let globalAudioCtx = null;
         let tickingInterval = null;
 
@@ -1207,7 +1205,6 @@
             } catch(e) {}
         }
 
-        // --- NATURAL WIDE SPAN WISH FLOW ---
         let lastZoneIndex = -1;
 
         function initSection4WishesFlow() {
@@ -1287,7 +1284,6 @@
             mediaContainer.innerHTML = '';
 
             let mediaHTML = '';
-            // 🌟 Smart Frame assigned for both image and video
             mediaContainer.className = "w-full mb-2 flex items-center justify-center smart-gold-frame flex-shrink-0";
 
             if (wish.mediaType === 'image') {
@@ -1428,7 +1424,6 @@
         function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightboxModal').classList.remove('hidden'); }
         function closeLightbox() { document.getElementById('lightboxModal').classList.add('hidden'); }
 
-        // --- COUNTDOWN REELS ENGINE (Section 1) ---
         let prevValues = { d1:'', d2:'', h1:'', h2:'', m1:'', m2:'', s1:'', s2:'' };
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
@@ -1454,7 +1449,6 @@
         }
         updateCountdown(); setInterval(updateCountdown, 1000);
 
-        // --- AUTHENTIC CASINO SLOT MACHINE WHEEL SPIN & BALLOON SYNC (Section 2) ---
         function triggerCurtainAndUnlock() {
             if (isUnlocked) return; isUnlocked = true;
             if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
@@ -1477,10 +1471,8 @@
 
             const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-            // First Digit (2)
             gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-            // Second Digit (6)
             gsap.fromTo(drum2Track, { y: 0 }, { 
                 y: -itemHeight * 6, 
                 duration: 2.5, 
@@ -1495,14 +1487,11 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 🌟 EXACT FIREWORKS & CONFETTI TIMING AT TAP
                         gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
                         confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
 
-                        // Roll from 6 to 7 immediately
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 🌟 BALLOONS SYNCED PERFECTLY WITH FIREWORKS
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
@@ -1510,7 +1499,7 @@
 
                         const balloonTl = gsap.timeline();
                         balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 600 }, { y: -260, duration: 2.2, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -260, duration: 3.5 }) // Graceful pause in Section 2
+                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -260, duration: 3.5 }) 
                                  .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.0, ease: 'power2.in', scrollTrigger: {
                                      trigger: '#section3',
                                      start: 'top bottom',
@@ -1542,7 +1531,6 @@
         function finalizeWishPush(name, msg, isPrivate) {
             if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1200";
 
-            // 🌟 UNIQUE ID FIX: Ensures submitting multiple wishes from same name/ID creates distinct records instead of overwriting/merging
             const newWish = { 
                 id: 'wish_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
                 name: name, 
