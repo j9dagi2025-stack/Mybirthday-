@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -230,7 +230,6 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Ghost Jumpscare Overlay */
         #jumpscareOverlay {
             position: absolute; inset: 0; background: #000; z-index: 60;
             display: flex; align-items: center; justify-content: center;
@@ -549,7 +548,6 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- SECTION 2: GHOST JUMPSCARE TO PHOENIX & GOLDEN SAND REVEAL -->
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
         
@@ -1440,9 +1438,36 @@
         let dotCount = 1;
         setInterval(() => { dotCount = (dotCount % 3) + 1; document.getElementById('loadingDots').innerText = '.'.repeat(dotCount); }, 500);
 
+        // Aapki apni real 17 photos ke links yahan set kar diye gaye hain!
+        const myPhotos = [
+            "https://i.postimg.cc/9QdwZWtp/5AD3DCE2-2333-4355-A8EA-96E582B26840.jpg",
+            "https://i.postimg.cc/pLf5z2YK/C000AEE6-2332-4481-A723-E12E84F1CB1C.jpg",
+            "https://i.postimg.cc/tg9ZzLBg/DSC-2303.jpg",
+            "https://i.postimg.cc/1zMg7Jdf/DSC-2304.jpg",
+            "https://i.postimg.cc/XYSyrZFp/DSC-2309.jpg",
+            "https://i.postimg.cc/7YCgG8Rr/DSC-9569-Original.jpg",
+            "https://i.postimg.cc/k5wVYfHg/IMG-1505.jpg",
+            "https://i.postimg.cc/vmGgvp0Q/IMG-1585.jpg",
+            "https://i.postimg.cc/YS7gs4qb/IMG-6040.jpg",
+            "https://i.postimg.cc/s2JSdVvt/IMG-6044.jpg",
+            "https://i.postimg.cc/Gt4syGqB/IMG-6047.jpg",
+            "https://i.postimg.cc/5NFC95Xh/IMG-6157.jpg",
+            "https://i.postimg.cc/SRnzMCDz/IMG-6589-(4)-Original.jpg",
+            "https://i.postimg.cc/QNz7rYd9/IMG-9338.jpg",
+            "https://i.postimg.cc/BZzFG7nh/IMG-9344.jpg",
+            "https://i.postimg.cc/DybXfQSQ/IMG-9487.jpg",
+            "https://i.postimg.cc/yYw00QMt/Snapchat-161411093-Original.jpg"
+        ];
+
         function renderSingleRibbonGallery() {
-            const track = document.getElementById('singleRibbonTrack'); track.innerHTML = ''; let itemsHTML = '';
-            for(let i = 1; i <= 12; i++) { itemsHTML += `<div class="ribbon-photo-item" onclick="openLightbox('https://picsum.photos/seed/arvind${i}/800/1000')"><img src="https://picsum.photos/seed/arvind${i}/800/1000" class="w-full h-full object-cover"></div>`; }
+            const track = document.getElementById('singleRibbonTrack'); 
+            track.innerHTML = ''; 
+            let itemsHTML = '';
+            
+            myPhotos.forEach(photoSrc => {
+                itemsHTML += `<div class="ribbon-photo-item" onclick="openLightbox('${photoSrc}')"><img src="${photoSrc}" class="w-full h-full object-cover"></div>`;
+            });
+            
             track.innerHTML = itemsHTML + itemsHTML + itemsHTML;
         }
         renderSingleRibbonGallery();
@@ -1525,7 +1550,6 @@
             }});
         }
 
-        // Ghost Jumpscare to Phoenix & Sand Climax Sequence
         function startGhostJumpscareSequence() {
             const sec2 = document.getElementById('section2');
             sec2.scrollIntoView({ behavior: 'smooth' });
@@ -1534,11 +1558,9 @@
             overlay.style.opacity = '1';
             playScaryJumpscareSound();
 
-            // After 0.6 seconds, horror vanishes, lights turn on, music auto-starts, and Phoenix & Sand reveal begins
             setTimeout(() => {
                 overlay.style.opacity = '0';
 
-                // Auto Play Background Music
                 const bgMusic = document.getElementById('bgMusic');
                 if (bgMusic.paused) {
                     bgMusic.play().then(() => {
