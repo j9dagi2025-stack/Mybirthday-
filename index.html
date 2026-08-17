@@ -44,7 +44,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Problem 5: Scroll Locking Class */
         body.locked-scroll {
             overflow: hidden !important;
             height: 100vh !important;
@@ -67,7 +66,6 @@
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
         .section-pitch-black { background: #000000; }
 
-        /* Problem 4: Ultra Smooth Feather Transitions */
         .section-transition-feather {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 160px;
@@ -245,64 +243,6 @@
             opacity: 0;
         }
 
-        .balloon-bundle-left, .balloon-bundle-right {
-            position: absolute;
-            bottom: 20px;
-            width: 140px;
-            height: 1200px;
-            pointer-events: none;
-            z-index: 5;
-            opacity: 0;
-        }
-        .balloon-bundle-left { left: 15px; }
-        .balloon-bundle-right { right: 15px; }
-
-        .realistic-balloon {
-            position: absolute;
-            width: 48px;
-            height: 64px;
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            box-shadow: inset -8px -8px 18px rgba(0,0,0,0.7), inset 5px 5px 12px rgba(255,255,255,0.4), 0 8px 18px rgba(0,0,0,0.5);
-            animation: floatBalloon 4.5s ease-in-out infinite alternate;
-        }
-
-        .realistic-balloon::before {
-            content: '';
-            position: absolute;
-            top: 10px; left: 8px; width: 8px; height: 15px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%; transform: rotate(-35deg); filter: blur(1px);
-        }
-
-        .realistic-balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; left: 21px; width: 5px; height: 7px;
-            background: inherit;
-            clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
-        }
-
-        .balloon-string {
-            position: absolute;
-            top: 64px; left: 22px; width: 1px; height: 250px;
-            background: linear-gradient(180deg, rgba(212,175,55,0.8), rgba(212,175,55,0.1));
-            transform-origin: top center;
-            animation: swayString 3.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatBalloon {
-            0% { transform: translateY(0px) rotate(-3deg); }
-            100% { transform: translateY(-18px) rotate(4deg); }
-        }
-            
-        @keyframes swayString {
-            0% { transform: rotate(-4deg); }
-            100% { transform: rotate(5deg); }
-        }
-
-        .balloon-gold { background: radial-gradient(circle at 35% 35%, #FFF6D1 0%, #D4AF37 45%, #6E5311 100%); }
-        .balloon-black { background: radial-gradient(circle at 35% 35%, #52525b 0%, #18181b 50%, #09090b 100%); border: 1px solid rgba(212,175,55,0.4); }
-
         .section-velvet-blend {
             position: relative;
             width: 100vw;
@@ -454,7 +394,6 @@
             animation: organicSparkFloat 2.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Problem 8: Smooth Modal Open/Close Animations */
         #wishCardModal {
             position: fixed; inset: 0; 
             background: rgba(12, 10, 9, 0.75);
@@ -604,42 +543,16 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- SECTION 2: 3D CYBERNETIC VORTEX & GOLDEN BUTTERFLY SURPRISE -->
+    <!-- SECTION 2: 3D CYBERNETIC VORTEX & CINEMATIC STORY REVEAL -->
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
         
         <canvas id="hologramCanvas" class="absolute inset-0 z-0 pointer-events-auto"></canvas>
 
-        <div id="balloonBundleLeft" class="balloon-bundle-left">
-            <div class="realistic-balloon balloon-gold" style="bottom: 0px; left: 0px; animation-delay: 0.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 45px; left: 35px; animation-delay: 0.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 90px; left: 15px; animation-delay: 0.4s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 135px; left: 55px; animation-delay: 1.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 180px; left: 25px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 225px; left: 70px; animation-delay: 1.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 270px; left: 10px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 315px; left: 45px; animation-delay: 1.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 360px; left: 30px; animation-delay: 0.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 405px; left: 60px; animation-delay: 1.4s;"><div class="balloon-string"></div></div>
-        </div>
-
-        <div id="balloonBundleRight" class="balloon-bundle-right">
-            <div class="realistic-balloon balloon-black" style="bottom: 0px; right: 0px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 45px; right: 35px; animation-delay: 1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 90px; right: 15px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 135px; right: 55px; animation-delay: 1.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 180px; right: 25px; animation-delay: 0.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 225px; right: 70px; animation-delay: 1.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 270px; right: 10px; animation-delay: 0.7s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 315px; right: 45px; animation-delay: 1.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 360px; right: 30px; animation-delay: 0.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 405px; right: 60px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
-        </div>
-
         <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none">
-            <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
+            <span id="storySubtitle" class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 opacity-0 transition-opacity duration-1000 block">Milestone Transcended</span>
             
-            <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto">
+            <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto opacity-0 transition-opacity duration-1000">
                 <div id="fireBurnOverlay" class="gold-blast-fx"></div>
 
                 <div class="age-slot-container">
@@ -682,11 +595,9 @@
 
             <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center pointer-events-auto">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
-                    <span>🎉 HAPPY BIRTHDAY</span> 
-                    <span class="gold-gradient-text">ARVIND_ZX</span> 
-                    <span>🎉</span>
+                    <span class="gold-gradient-text gold-shine-anim">HAPPY BIRTHDAY TO ME // ARVIND_ZX</span>
                 </h2>
-                <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center">Welcome to the elite era of growth, wisdom, and boundless success.</p>
+                <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center mt-2">Welcome to the elite era of growth, wisdom, and boundless success.</p>
             </div>
         </div>
         <div class="section-transition-feather"></div>
@@ -769,7 +680,6 @@
         </div>
     </div>
 
-    <!-- Problem 9: Spectacular Animated Cyber-Vault Layout -->
     <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
         <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
             <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
@@ -784,7 +694,6 @@
         </div>
     </div>
 
-    <!-- Problem 7 & 8: Enhanced Wish Card Modal with Glowing Name & Sparks -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
             <div class="gold-organic-spark" style="top: 10px; left: 12px;"></div>
@@ -886,7 +795,6 @@
         </div>
     </div>
 
-    <!-- Problem 1: Crop System Fix Modal -->
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
@@ -974,7 +882,6 @@
             }
         }
 
-        // Problem 9: Animated Cyber-Vault Card Layout with Gold Sparks
         function openPrivateVault() {
             const container = document.getElementById('privateVaultContainer');
             container.innerHTML = '';
@@ -1153,7 +1060,6 @@
             document.getElementById('cropModal').classList.add('hidden');
         }
 
-        // Problem 1 Fix: Accurate Crop mapping without black side borders
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
             const targetW = (cropTargetType === 'avatar') ? 500 : 800;
@@ -1424,7 +1330,6 @@
             }
         }
 
-        // Problem 2 Fix: Music NEVER auto-starts on wish click unless manually turned on
         function handleExpandedAudioPlay() {
             const bgMusic = document.getElementById('bgMusic');
             if (!bgMusic.paused) {
@@ -1467,7 +1372,6 @@
         function animateDust() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateDust); }
         animateDust();
 
-        // Problem 3: Golden Butterflies & Holographic Vortex for Section 2
         const hCanvas = document.getElementById('hologramCanvas');
         const hCtx = hCanvas.getContext('2d');
         let hParticles = [];
@@ -1518,7 +1422,6 @@
             }
         }
 
-        // Golden Butterfly with Spark Trails
         class GoldenButterfly {
             constructor() {
                 this.x = Math.random() * hCanvas.width;
@@ -1528,7 +1431,6 @@
                 this.speedX = Math.random() * 2 - 1;
                 this.wingAngle = Math.random() * Math.PI;
                 this.wingSpeed = 0.15;
-                this.sparkTimer = 0;
             }
             update() {
                 this.y += this.speedY;
@@ -1544,17 +1446,14 @@
                 hCtx.translate(this.x, this.y);
                 const wingScaleX = Math.cos(this.wingAngle);
                 
-                // Draw Golden Wings with Spark Trail
                 hCtx.fillStyle = '#D4AF37';
                 hCtx.shadowColor = '#FFD700';
                 hCtx.shadowBlur = 12;
                 
-                // Left Wing
                 hCtx.beginPath();
                 hCtx.ellipse(-this.size * wingScaleX * 0.5, 0, this.size * Math.abs(wingScaleX), this.size * 0.7, -0.3, 0, Math.PI * 2);
                 hCtx.fill();
                 
-                // Right Wing
                 hCtx.beginPath();
                 hCtx.ellipse(this.size * wingScaleX * 0.5, 0, this.size * Math.abs(wingScaleX), this.size * 0.7, 0.3, 0, Math.PI * 2);
                 hCtx.fill();
@@ -1568,7 +1467,6 @@
 
         function animateHologramVortex() {
             hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
-            
             const cx = hCanvas.width / 2;
             const cy = hCanvas.height / 2;
             
@@ -1598,19 +1496,11 @@
         const ribbonStage = document.getElementById('ribbonStage'); 
         const ribbonTrack = document.getElementById('singleRibbonTrack');
         let scrollPos = 0; 
-        let isHovered = false; 
         let isDragging = false; 
         let startX; 
         let scrollLeftStart;
 
-        ribbonStage.addEventListener('mouseenter', () => { isHovered = true; }); 
-        ribbonStage.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
-        
-        ribbonStage.addEventListener('mousedown', (e) => { 
-            isDragging = true; 
-            startX = e.pageX; 
-            scrollLeftStart = ribbonStage.scrollLeft; 
-        });
+        ribbonStage.addEventListener('mousedown', (e) => { isDragging = true; startX = e.pageX; scrollLeftStart = ribbonStage.scrollLeft; });
         window.addEventListener('mouseup', () => { isDragging = false; }); 
         window.addEventListener('mousemove', (e) => { 
             if (!isDragging) return; 
@@ -1620,11 +1510,7 @@
             scrollPos = ribbonStage.scrollLeft; 
         });
 
-        ribbonStage.addEventListener('touchstart', (e) => { 
-            isDragging = true; 
-            startX = e.touches[0].pageX; 
-            scrollLeftStart = ribbonStage.scrollLeft; 
-        }, { passive: true });
+        ribbonStage.addEventListener('touchstart', (e) => { isDragging = true; startX = e.touches[0].pageX; scrollLeftStart = ribbonStage.scrollLeft; }, { passive: true });
         window.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
         ribbonStage.addEventListener('touchmove', (e) => { 
             if (!isDragging) return; 
@@ -1681,15 +1567,26 @@
             
             gsap.to(['#frontHeader', '#wishButtonWrapper'], { opacity: 0, y: -30, duration: 0.8, onComplete: () => {
                 gsap.to('#curtainLeft', { xPercent: -125, duration: 2.2, ease: 'power4.inOut' });
-                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startAgeCounterSlotMachine });
+                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startCinematicStoryReveal });
             }});
         }
 
-        // Problem 5 & 6: Auto-spin fallback if user doesn't tap, and scroll unlock after process
-        function startAgeCounterSlotMachine() {
+        // Problem 1 & 2 & 3: Cinematic Story Reveal with Auto Music Trigger & Clean UI
+        function startCinematicStoryReveal() {
             const sec2 = document.getElementById('section2');
             sec2.scrollIntoView({ behavior: 'smooth' });
 
+            // Auto Play Background Music on Curtain Open
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    document.getElementById('musicIcon').classList.add('animate-spin');
+                    document.getElementById('eqContainer').classList.remove('opacity-50');
+                }).catch(() => {});
+            }
+
+            const storySubtitle = document.getElementById('storySubtitle');
+            const ageContainer = document.getElementById('ageContainer');
             const drum1Track = document.getElementById('drum1Track');
             const drum2Track = document.getElementById('drum2Track');
             const tapPrompt = document.getElementById('tapPrompt');
@@ -1698,81 +1595,61 @@
 
             const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-            gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+            // Step 1: Fade in subtitle
+            gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
+                // Step 2: Fade in Age Container
+                gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
+                    gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-            gsap.fromTo(drum2Track, { y: 0 }, { 
-                y: -itemHeight * 6, 
-                duration: 2.5, 
-                ease: "power2.inOut", 
-                onComplete: () => {
-                    tapPrompt.classList.remove('opacity-0');
-                    tapPrompt.style.cursor = 'pointer';
+                    gsap.fromTo(drum2Track, { y: 0 }, { 
+                        y: -itemHeight * 6, 
+                        duration: 2.5, 
+                        ease: "power2.inOut", 
+                        onComplete: () => {
+                            tapPrompt.classList.remove('opacity-0');
+                            tapPrompt.style.cursor = 'pointer';
 
-                    let autoSpinTimer = setTimeout(() => {
-                        triggerIgnition();
-                    }, 4000);
+                            let autoSpinTimer = setTimeout(() => { triggerIgnition(); }, 4000);
 
-                    const triggerIgnition = () => {
-                        clearTimeout(autoSpinTimer);
-                        document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
-                        document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
+                            const triggerIgnition = () => {
+                                clearTimeout(autoSpinTimer);
+                                document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
+                                document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
 
-                        tapPrompt.style.opacity = '0';
+                                tapPrompt.style.opacity = '0';
+                                playSuiSuiRocketAndBlastSound();
 
-                        playSuiSuiRocketAndBlastSound();
+                                const rocketTl = gsap.timeline();
+                                rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
+                                        .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
 
-                        const rocketTl = gsap.timeline();
-                        rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
-                                .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
+                                setTimeout(() => {
+                                    gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
+                                    confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
+                                    
+                                    setTimeout(() => {
+                                        confetti({ particleCount: 200, angle: 60, spread: 110, origin: { x: 0.1, y: 0.5 } });
+                                        confetti({ particleCount: 200, angle: 120, spread: 110, origin: { x: 0.9, y: 0.5 } });
+                                    }, 300);
+                                }, 720);
 
-                        setTimeout(() => {
-                            gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
-                            confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
-                            
-                            setTimeout(() => {
-                                confetti({ particleCount: 200, angle: 60, spread: 110, origin: { x: 0.1, y: 0.5 } });
-                                confetti({ particleCount: 200, angle: 120, spread: 110, origin: { x: 0.9, y: 0.5 } });
-                            }, 300);
-                        }, 720);
+                                gsap.to(drum2Track, { 
+                                    y: -itemHeight * 7, 
+                                    duration: 1.2, 
+                                    ease: "power2.inOut",
+                                    onComplete: () => {
+                                        document.body.classList.remove('locked-scroll');
+                                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                                    }
+                                });
+                            };
 
-                        gsap.to(drum2Track, { 
-                            y: -itemHeight * 7, 
-                            duration: 1.2, 
-                            ease: "power2.inOut",
-                            onComplete: () => {
-                                // Unlock Scroll after ignition process completes
-                                document.body.classList.remove('locked-scroll');
-                            }
-                        });
-
-                        const bundleLeft = document.getElementById('balloonBundleLeft');
-                        const bundleRight = document.getElementById('balloonBundleRight');
-                        bundleLeft.style.opacity = '1';
-                        bundleRight.style.opacity = '1';
-
-                        gsap.fromTo('#balloonBundleLeft, #balloonBundleRight', 
-                            { y: 800 }, 
-                            { y: 150, duration: 3.0, ease: 'sine.out' }
-                        );
-
-                        gsap.to('#balloonBundleLeft, #balloonBundleRight', {
-                            y: -2500,
-                            ease: 'power1.in',
-                            scrollTrigger: {
-                                trigger: '#section3',
-                                start: 'top bottom',
-                                end: 'top top',
-                                scrub: true
-                            }
-                        });
-
-                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                    };
-
-                    document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
-                    document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
-                }
-            });
+                            document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
+                            document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
+                        }
+                    });
+                }});
+            }});
         }
 
         function skipToNext() { 
