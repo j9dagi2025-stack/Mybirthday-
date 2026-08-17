@@ -112,21 +112,26 @@
         }
 
         .smart-gold-frame {
-            border: 3px solid #D4AF37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.3);
+            border: 2.5px solid #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.25);
             background: #000;
             border-radius: 14px;
-            padding: 5px;
-            position: relative;
             overflow: hidden;
-            display: inline-flex;
+            position: relative;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: fit-content;
-            height: fit-content;
-            max-width: 280px;
-            max-height: 350px;
+            width: 100%;
+            max-width: 260px;
+            aspect-ratio: 4 / 5;
             margin: 0 auto;
+        }
+
+        .smart-gold-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .reel-frame {
@@ -461,9 +466,9 @@
             border: 3px solid #D4AF37; 
             border-radius: 26px; 
             padding: 16px 18px;
-            max-width: 380px; 
+            max-width: 360px; 
             width: 100%; 
-            max-height: 88vh; 
+            max-height: 92vh; 
             display: flex;
             flex-direction: column;
             animation: goldShimmer 4s infinite ease-in-out;
@@ -776,9 +781,18 @@
 
             <button onclick="closeExpandedWish()" class="absolute top-3 right-3 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <div id="expandedMediaContainer" class="w-full mb-2 flex items-center justify-center overflow-hidden smart-gold-frame flex-shrink-0"></div>
+            <div class="smart-gold-frame mb-2 flex-shrink-0 mx-auto">
+                <img id="expandedMediaImg" src="" alt="Gift Photo">
+            </div>
 
-            <div class="overflow-y-auto max-h-[16vh] my-1 pr-1 text-left flex-grow">
+            <div id="expandedAudioContainer" class="w-full mb-2 hidden flex-shrink-0">
+                <div class="p-2 bg-neutral-900/90 border border-gold/40 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-music text-gold text-sm animate-pulse ml-1"></i>
+                    <audio id="expandedAudioElem" controls class="w-full h-8" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio>
+                </div>
+            </div>
+
+            <div class="overflow-y-auto max-h-[14vh] my-1 pr-1 text-left flex-grow">
                 <p id="expandedMessage" class="text-gray-100 text-xs sm:text-sm italic leading-relaxed font-medium"></p>
             </div>
 
@@ -833,13 +847,13 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Portrait Gift Photo (4:5 Fit)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Portrait Gift Photo (Exact 4:5 Frame)</label>
                     <input type="file" id="mediaInput" accept="image/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
-                    <div id="giftThumbContainer" class="w-12 h-10 rounded border border-gold overflow-hidden flex items-center justify-center bg-black"></div>
-                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Photo Attached!</span>
+                    <div id="giftThumbContainer" class="w-10 h-[50px] rounded border border-gold overflow-hidden flex items-center justify-center bg-black flex-shrink-0"></div>
+                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Portrait 4:5 Set!</span>
                     <button type="button" onclick="document.getElementById('mediaInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
@@ -955,11 +969,11 @@
                 container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6 col-span-2">No private wishes in the vault yet.</p>`;
             } else {
                 privateWishes.forEach(wish => {
-                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="max-w-full max-h-[220px] w-auto h-auto object-contain rounded-lg"></div>`;
+                    let mediaHTML = `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" alt="Gift"></div>`;
 
                     let audioHTML = '';
                     if (wish.audioSrc) {
-                        audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full"></audio></div>`;
+                        audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full h-8"></audio></div>`;
                     }
 
                     container.innerHTML += `
@@ -973,7 +987,7 @@
                                         <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Private Gift</span>
                                     </div>
                                 </div>
-                                <div class="flex justify-center">${mediaHTML}</div>
+                                ${mediaHTML}
                                 <p class="text-gray-100 text-xs italic leading-relaxed font-medium text-center mb-2">"${wish.text}"</p>
                             </div>
                             ${audioHTML}
@@ -1038,7 +1052,7 @@
                         viewport.style.borderRadius = '50%';
                     } else {
                         document.getElementById('cropModalTitle').innerText = "Portrait 4:5 Frame";
-                        document.getElementById('cropModalSub').innerText = "Position your photo inside the frame (No Crop Cut)!";
+                        document.getElementById('cropModalSub').innerText = "Position your photo inside the 4:5 frame!";
                         viewport.style.width = '150px';
                         viewport.style.height = '187.5px';
                         viewport.style.borderRadius = '12px';
@@ -1166,7 +1180,7 @@
             } else {
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "Portrait 4:5 Set";
+                document.getElementById('giftThumbName').innerText = "Portrait 4:5 Set!";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
@@ -1367,23 +1381,28 @@
             document.getElementById('expandedAvatar').src = wish.avatar;
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
-            const mediaContainer = document.getElementById('expandedMediaContainer');
-            mediaContainer.innerHTML = '';
+            
+            document.getElementById('expandedMediaImg').src = wish.mediaSrc;
 
-            let mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[300px] w-auto h-auto object-contain rounded-lg">`;
+            const audioContainer = document.getElementById('expandedAudioContainer');
+            const audioElem = document.getElementById('expandedAudioElem');
 
-            let audioHTML = '';
-            if (wish.audioSrc) {
-                audioHTML = `<div class="custom-gold-audio p-1.5 w-full mt-1.5"><audio src="${wish.audioSrc}" controls autoplay class="w-full" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio></div>`;
+            if (wish.audioSrc && wish.audioSrc.trim() !== '') {
+                audioElem.src = wish.audioSrc;
+                audioContainer.classList.remove('hidden');
+            } else {
+                audioElem.pause();
+                audioElem.src = '';
+                audioContainer.classList.add('hidden');
             }
 
-            mediaContainer.innerHTML = mediaHTML + audioHTML;
             modal.classList.add('active');
         }
 
         function closeExpandedWish(e) {
             if (!e || e.target.id === 'wishCardModal' || e.target.closest('button')) {
-                document.querySelectorAll('#expandedMediaContainer audio').forEach(el => el.pause());
+                const audioElem = document.getElementById('expandedAudioElem');
+                audioElem.pause();
                 document.getElementById('wishCardModal').classList.remove('active');
                 activeWishModalItem = null;
                 resumeBgMusic();
@@ -1401,8 +1420,9 @@
 
         function resumeBgMusic() {
             const bgMusic = document.getElementById('bgMusic');
-            const anyMediaPlaying = Array.from(document.querySelectorAll('#expandedMediaContainer audio')).some(el => !el.paused);
-            if (!document.getElementById('wishCardModal').classList.contains('active') || !anyMediaPlaying) {
+            const audioElem = document.getElementById('expandedAudioElem');
+            const isAudioPlaying = audioElem && !audioElem.paused && audioElem.src;
+            if (!document.getElementById('wishCardModal').classList.contains('active') || !isAudioPlaying) {
                 if (bgMusic.paused && document.getElementById('wishCardModal').classList.contains('active') === false) {
                     bgMusic.play().then(() => { 
                         document.getElementById('musicIcon').classList.add('animate-spin'); 
