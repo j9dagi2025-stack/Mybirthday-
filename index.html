@@ -230,24 +230,6 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        #jumpscareOverlay {
-            position: absolute; inset: 0; background: #000; z-index: 60;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-        }
-        .ghost-face {
-            font-size: 100px; color: #ff0033; filter: drop-shadow(0 0 30px #ff0000);
-            animation: glitchGhost 0.15s infinite;
-        }
-        @keyframes glitchGhost {
-            0% { transform: translate(0, 0) scale(1); }
-            20% { transform: translate(-10px, 10px) scale(1.1); }
-            40% { transform: translate(10px, -10px) scale(0.95); }
-            60% { transform: translate(-5px, -5px) scale(1.05); }
-            80% { transform: translate(8px, 5px) scale(1.2); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
         .section-velvet-blend {
             position: relative;
             width: 100vw;
@@ -454,12 +436,6 @@
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
     <div id="sec4WishesContainer"></div>
-
-    <div id="jumpscareOverlay">
-        <div class="ghost-face">
-            <i class="fa-solid fa-ghost"></i>
-        </div>
-    </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
         <button onclick="skipToNext()" class="pointer-events-auto px-3.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold rounded-full shadow-2xl border border-red-400 transition transform hover:scale-105 flex items-center gap-1.5">
@@ -1145,23 +1121,6 @@
             } catch(e) {}
         }
 
-        function playScaryJumpscareSound() {
-            try {
-                initGlobalAudioContext();
-                if (!globalAudioCtx) return;
-                const now = globalAudioCtx.currentTime;
-                const osc = globalAudioCtx.createOscillator();
-                const gain = globalAudioCtx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(120, now);
-                osc.frequency.exponentialRampToValueAtTime(900, now + 0.4);
-                gain.gain.setValueAtTime(0.8, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-                osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(now); osc.stop(now + 0.5);
-            } catch(e) {}
-        }
-
         function startAutomaticTicking() {
             if (tickingInterval) return;
             tickingInterval = setInterval(() => {
@@ -1438,7 +1397,6 @@
         let dotCount = 1;
         setInterval(() => { dotCount = (dotCount % 3) + 1; document.getElementById('loadingDots').innerText = '.'.repeat(dotCount); }, 500);
 
-        // Aapki apni real 17 photos ke links yahan set kar diye gaye hain!
         const myPhotos = [
             "https://i.postimg.cc/9QdwZWtp/5AD3DCE2-2333-4355-A8EA-96E582B26840.jpg",
             "https://i.postimg.cc/pLf5z2YK/C000AEE6-2332-4481-A723-E12E84F1CB1C.jpg",
@@ -1546,77 +1504,69 @@
             
             gsap.to(['#frontHeader', '#wishButtonWrapper'], { opacity: 0, y: -30, duration: 0.8, onComplete: () => {
                 gsap.to('#curtainLeft', { xPercent: -125, duration: 2.2, ease: 'power4.inOut' });
-                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startGhostJumpscareSequence });
+                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startUnlockSequence });
             }});
         }
 
-        function startGhostJumpscareSequence() {
+        function startUnlockSequence() {
             const sec2 = document.getElementById('section2');
             sec2.scrollIntoView({ behavior: 'smooth' });
 
-            const overlay = document.getElementById('jumpscareOverlay');
-            overlay.style.opacity = '1';
-            playScaryJumpscareSound();
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    document.getElementById('musicIcon').classList.add('animate-spin');
+                    document.getElementById('eqContainer').classList.remove('opacity-50');
+                }).catch(() => {});
+            }
 
-            setTimeout(() => {
-                overlay.style.opacity = '0';
+            const storySubtitle = document.getElementById('storySubtitle');
+            const ageContainer = document.getElementById('ageContainer');
+            const drum1Track = document.getElementById('drum1Track');
+            const drum2Track = document.getElementById('drum2Track');
+            const tapPrompt = document.getElementById('tapPrompt');
+            const bdayBanner = document.getElementById('bdayBanner');
 
-                const bgMusic = document.getElementById('bgMusic');
-                if (bgMusic.paused) {
-                    bgMusic.play().then(() => {
-                        document.getElementById('musicIcon').classList.add('animate-spin');
-                        document.getElementById('eqContainer').classList.remove('opacity-50');
-                    }).catch(() => {});
-                }
+            const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-                const storySubtitle = document.getElementById('storySubtitle');
-                const ageContainer = document.getElementById('ageContainer');
-                const drum1Track = document.getElementById('drum1Track');
-                const drum2Track = document.getElementById('drum2Track');
-                const tapPrompt = document.getElementById('tapPrompt');
-                const bdayBanner = document.getElementById('bdayBanner');
+            gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
+                gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
+                    gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-                const itemHeight = window.innerWidth >= 768 ? 160 : 120;
+                    gsap.fromTo(drum2Track, { y: 0 }, { 
+                        y: -itemHeight * 6, 
+                        duration: 2.5, 
+                        ease: "power2.inOut", 
+                        onComplete: () => {
+                            tapPrompt.classList.remove('opacity-0');
+                            tapPrompt.style.cursor = 'pointer';
 
-                gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
-                    gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
-                        gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+                            let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
 
-                        gsap.fromTo(drum2Track, { y: 0 }, { 
-                            y: -itemHeight * 6, 
-                            duration: 2.5, 
-                            ease: "power2.inOut", 
-                            onComplete: () => {
-                                tapPrompt.classList.remove('opacity-0');
-                                tapPrompt.style.cursor = 'pointer';
+                            const triggerAwaken = () => {
+                                clearTimeout(autoAwakenTimer);
+                                document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
+                                document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
 
-                                let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
+                                tapPrompt.style.opacity = '0';
 
-                                const triggerAwaken = () => {
-                                    clearTimeout(autoAwakenTimer);
-                                    document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
-                                    document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
+                                gsap.to(drum2Track, { 
+                                    y: -itemHeight * 7, 
+                                    duration: 1.2, 
+                                    ease: "power2.inOut",
+                                    onComplete: () => {
+                                        document.body.classList.remove('locked-scroll');
+                                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                                    }
+                                });
+                            };
 
-                                    tapPrompt.style.opacity = '0';
-
-                                    gsap.to(drum2Track, { 
-                                        y: -itemHeight * 7, 
-                                        duration: 1.2, 
-                                        ease: "power2.inOut",
-                                        onComplete: () => {
-                                            document.body.classList.remove('locked-scroll');
-                                            bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                                        }
-                                    });
-                                };
-
-                                document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
-                                document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
-                            }
-                        });
-                    }});
+                            document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
+                            document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
+                        }
+                    });
                 }});
-            }, 600);
+            }});
         }
 
         function skipToNext() { 
