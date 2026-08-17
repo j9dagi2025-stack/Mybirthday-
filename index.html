@@ -111,22 +111,29 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
+        /* Portrait Photo Frame Styling */
         .smart-gold-frame {
-            border: 3px solid #D4AF37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.3);
+            border: 2.5px solid #D4AF37;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.5), inset 0 0 8px rgba(212, 175, 55, 0.2);
             background: #000;
-            border-radius: 14px;
-            padding: 5px;
+            border-radius: 12px;
+            padding: 4px;
             position: relative;
             overflow: hidden;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: fit-content;
-            height: fit-content;
-            max-width: 280px;
-            max-height: 350px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 200px;
+            height: 250px; /* Strict 4:5 Portrait Ratio */
+            margin: 0 auto 10px auto;
+        }
+
+        .smart-gold-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .reel-frame {
@@ -220,7 +227,6 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Rocket Firework Trail & Flare Elements */
         .firework-rocket-trail {
             position: absolute;
             bottom: 0px;
@@ -234,17 +240,29 @@
             opacity: 0;
         }
 
+        /* Balloons positioning & dynamic exit */
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: 20px;
+            bottom: -150px;
             width: 140px;
-            height: 1200px;
+            height: 1000px;
             pointer-events: none;
             z-index: 5;
             opacity: 0;
         }
         .balloon-bundle-left { left: 15px; }
         .balloon-bundle-right { right: 15px; }
+
+        /* 3D Dynamic Flash Light Effect */
+        #fireBurnOverlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 246, 209, 0.95) 0%, rgba(212, 175, 55, 0.5) 40%, transparent 80%);
+            pointer-events: none;
+            z-index: 60;
+            opacity: 0;
+            mix-blend-mode: screen;
+        }
 
         .realistic-balloon {
             position: absolute;
@@ -445,9 +463,9 @@
 
         #wishCardModal {
             position: fixed; inset: 0; 
-            background: rgba(12, 10, 9, 0.65);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(12, 10, 9, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
@@ -458,12 +476,12 @@
 
         .expanded-wish-card {
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
-            border: 3px solid #D4AF37; 
-            border-radius: 26px; 
-            padding: 16px 18px;
-            max-width: 380px; 
+            border: 2.5px solid #D4AF37; 
+            border-radius: 22px; 
+            padding: 18px 20px;
+            max-width: 360px; 
             width: 100%; 
-            max-height: 88vh; 
+            max-height: 85vh; 
             display: flex;
             flex-direction: column;
             animation: goldShimmer 4s infinite ease-in-out;
@@ -472,6 +490,7 @@
             transform: scale(0.85); 
             transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
         }
 
         #wishCardModal.active .expanded-wish-card { transform: scale(1); }
@@ -495,8 +514,8 @@
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
 
     <div id="sec4WishesContainer"></div>
+    <div id="fireBurnOverlay"></div>
 
-    <!-- Hidden 3D Rocket Trails for Sui-Sui Sound Blast -->
     <div id="rocketContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30">
         <div id="rocket1" class="firework-rocket-trail" style="left: 30%;"></div>
         <div id="rocket2" class="firework-rocket-trail" style="left: 50%;"></div>
@@ -527,7 +546,6 @@
         <div id="curtainRight" class="curtain-panel curtain-right-shadow absolute top-0 right-0 w-[50.5%] h-full z-30 flex items-center justify-start"></div>
 
         <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto transition-all duration-700 my-auto flex flex-col items-center w-full px-2">
-            
             <div class="inline-block border border-gold/40 px-4 py-1.5 rounded-full backdrop-blur-md bg-black/40 text-[10px] sm:text-xs text-gold uppercase tracking-[0.3em] font-semibold mb-3 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                 ✨ GRAND PREMIERE ✨
             </div>
@@ -624,8 +642,6 @@
             <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full">
-                <div id="fireBurnOverlay" class="gold-blast-fx"></div>
-
                 <div class="age-slot-container">
                     <div class="age-digit-drum">
                         <div id="drum1Track" class="age-drum-track">
@@ -664,7 +680,6 @@
                 </div>
             </div>
 
-            <!-- Centered Banner -->
             <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
                     <span>🎉 HAPPY BIRTHDAY</span> 
@@ -754,7 +769,6 @@
         </div>
     </div>
 
-    <!-- Private Vault Modal -->
     <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
         <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
             <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
@@ -838,13 +852,13 @@
                 </div>
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
-                    <div id="giftThumbContainer" class="w-12 h-10 rounded border border-gold overflow-hidden flex items-center justify-center bg-black"></div>
-                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Photo Attached!</span>
+                    <div id="giftThumbContainer" class="w-10 h-12 rounded border border-gold overflow-hidden flex items-center justify-center bg-black"></div>
+                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Portrait Photo Set!</span>
                     <button type="button" onclick="document.getElementById('mediaInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Voice Note (Any Audio File)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Voice Note (Optional Audio)</label>
                     <input type="file" id="audioInput" accept="audio/*,.mp3,.wav,.m4a,.aac" onchange="handleAudioAttachment(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
@@ -865,7 +879,7 @@
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
-            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the 4:5 frame!</p>
+            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the frame!</p>
             
             <div id="cropViewport" class="relative mx-auto bg-black rounded-xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none" style="width: 150px; height: 187.5px;">
                 <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
@@ -873,7 +887,7 @@
 
             <div class="flex items-center gap-3 mb-4 px-2">
                 <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-minus"></i></span>
-                <input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
+                <input type="range" id="zoomRange" min="0.3" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
                 <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
             </div>
 
@@ -955,7 +969,7 @@
                 container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6 col-span-2">No private wishes in the vault yet.</p>`;
             } else {
                 privateWishes.forEach(wish => {
-                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="max-w-full max-h-[220px] w-auto h-auto object-contain rounded-lg"></div>`;
+                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="w-full h-full object-cover rounded-lg"></div>`;
 
                     let audioHTML = '';
                     if (wish.audioSrc) {
@@ -1030,26 +1044,31 @@
                     cImg.src = cropImgObj.src;
                     
                     const viewport = document.getElementById('cropViewport');
+                    let viewW, viewH;
+
                     if (cropTargetType === 'avatar') {
                         document.getElementById('cropModalTitle').innerText = "Avatar Circle Frame";
                         document.getElementById('cropModalSub').innerText = "Fit your face inside the circle!";
-                        viewport.style.width = '180px';
-                        viewport.style.height = '180px';
+                        viewW = 180; viewH = 180;
+                        viewport.style.width = viewW + 'px';
+                        viewport.style.height = viewH + 'px';
                         viewport.style.borderRadius = '50%';
                     } else {
                         document.getElementById('cropModalTitle').innerText = "Portrait 4:5 Frame";
-                        document.getElementById('cropModalSub').innerText = "Position your photo inside the frame (No Crop Cut)!";
-                        viewport.style.width = '150px';
-                        viewport.style.height = '187.5px';
+                        document.getElementById('cropModalSub').innerText = "Position your photo cleanly inside the 4:5 frame!";
+                        viewW = 150; viewH = 187.5;
+                        viewport.style.width = viewW + 'px';
+                        viewport.style.height = viewH + 'px';
                         viewport.style.borderRadius = '12px';
                     }
 
+                    const imgRatio = cropImgObj.width / cropImgObj.height;
+                    const viewRatio = viewW / viewH;
+
                     if (cropTargetType === 'gift') {
-                        const frameRatio = 4 / 5;
-                        const imgRatio = cropImgObj.width / cropImgObj.height;
-                        imgScale = imgRatio > frameRatio ? (frameRatio / imgRatio) : 1;
+                        imgScale = imgRatio > viewRatio ? (viewH / cropImgObj.height) : (viewW / cropImgObj.width);
                     } else {
-                        imgScale = 1;
+                        imgScale = Math.max(viewW / cropImgObj.width, viewH / cropImgObj.height);
                     }
 
                     document.getElementById('zoomRange').value = imgScale;
@@ -1105,7 +1124,7 @@
                     e.touches[0].clientY - e.touches[1].clientY
                 );
                 let scaleFactor = currentDistance / initialPinchDistance;
-                imgScale = Math.min(Math.max(0.4, imgScale * scaleFactor), 3);
+                imgScale = Math.min(Math.max(0.3, imgScale * scaleFactor), 3);
                 document.getElementById('zoomRange').value = imgScale;
                 initialPinchDistance = currentDistance;
                 updateCropImageTransform();
@@ -1133,21 +1152,18 @@
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#000000';
+            ctx.fillStyle = '#0c0a09';
             ctx.fillRect(0, 0, targetW, targetH);
 
             ctx.save();
             const viewW = (cropTargetType === 'avatar') ? 180 : 150;
             const viewH = (cropTargetType === 'avatar') ? 180 : 187.5;
+            
             ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
-            const hRatio = targetW / cropImgObj.width;
-            const vRatio = targetH / cropImgObj.height;
-            const ratio = (cropTargetType === 'gift') ? Math.min(hRatio, vRatio) : Math.max(hRatio, vRatio);
-
-            const w = cropImgObj.width * ratio;
-            const h = cropImgObj.height * ratio;
+            const w = cropImgObj.width;
+            const h = cropImgObj.height;
             ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
             ctx.restore();
 
@@ -1203,14 +1219,12 @@
             } catch(e) {}
         }
 
-        // Realistic 3D Rocket "Sui-Sui" Whistle + Blast Sound Generator
         function playSuiSuiRocketAndBlastSound() {
             try {
                 initGlobalAudioContext();
                 if (!globalAudioCtx) return;
                 const now = globalAudioCtx.currentTime;
 
-                // 1. "Sui-Sui" Rocket upward whistling sound (Frequency sweep up)
                 const whistle = globalAudioCtx.createOscillator();
                 const whistleGain = globalAudioCtx.createGain();
                 whistle.type = 'sine';
@@ -1226,7 +1240,6 @@
                 whistle.start(now);
                 whistle.stop(now + 0.75);
 
-                // 2. Blast Explosion sound right after whistle peaks (at 0.75s)
                 setTimeout(() => {
                     const blastTime = globalAudioCtx.currentTime;
                     const osc = globalAudioCtx.createOscillator();
@@ -1357,7 +1370,7 @@
 
         let activeWishModalItem = null;
 
-        function toggleExpandedWish(wish, bubbleElement) {
+        function toggleExpandedWish(wish) {
             const modal = document.getElementById('wishCardModal');
             if (modal.classList.contains('active') && activeWishModalItem === wish) {
                 closeExpandedWish();
@@ -1370,7 +1383,7 @@
             const mediaContainer = document.getElementById('expandedMediaContainer');
             mediaContainer.innerHTML = '';
 
-            let mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[300px] w-auto h-auto object-contain rounded-lg">`;
+            let mediaHTML = `<img src="${wish.mediaSrc}" class="w-full h-full object-cover">`;
 
             let audioHTML = '';
             if (wish.audioSrc) {
@@ -1450,14 +1463,10 @@
         const ribbonStage = document.getElementById('ribbonStage'); 
         const ribbonTrack = document.getElementById('singleRibbonTrack');
         let scrollPos = 0; 
-        let isHovered = false; 
         let isDragging = false; 
         let startX; 
         let scrollLeftStart;
 
-        ribbonStage.addEventListener('mouseenter', () => { isHovered = true; }); 
-        ribbonStage.addEventListener('mouseleave', () => { isHovered = false; isDragging = false; });
-        
         ribbonStage.addEventListener('mousedown', (e) => { 
             isDragging = true; 
             startX = e.pageX; 
@@ -1565,16 +1574,18 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 1. Trigger Sui-Sui Rocket trails flying from bottom to top with sound
                         playSuiSuiRocketAndBlastSound();
 
                         const rocketTl = gsap.timeline();
                         rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
                                 .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
 
-                        // 2. Blast Flash and Multi-directional Confetti Bursts
                         setTimeout(() => {
-                            gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
+                            gsap.fromTo(fireBurnOverlay, 
+                                { opacity: 0, scale: 0.5 }, 
+                                { opacity: 1, scale: 1.5, duration: 0.3, yoyo: true, repeat: 1, ease: "power2.out" }
+                            );
+
                             confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
                             
                             setTimeout(() => {
@@ -1585,25 +1596,23 @@
 
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 3. Balloons float up smoothly and pause inside Section 2 until user scrolls to Section 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
                         gsap.fromTo('#balloonBundleLeft, #balloonBundleRight', 
-                            { y: 800 }, 
-                            { y: 150, duration: 3.0, ease: 'sine.out' }
+                            { y: 700 }, 
+                            { y: 80, duration: 2.8, ease: 'sine.out' }
                         );
 
-                        // ScrollTrigger: When entering Section 3, balloons smoothly exit off screen top
                         gsap.to('#balloonBundleLeft, #balloonBundleRight', {
-                            y: -2500,
+                            y: -1500,
                             ease: 'power1.in',
                             scrollTrigger: {
                                 trigger: '#section3',
                                 start: 'top bottom',
-                                end: 'top top',
+                                end: 'top 30%',
                                 scrub: true
                             }
                         });
