@@ -232,35 +232,20 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* 3D Cinematic Real Ghost Jumpscare Styling */
+        /* Smooth Cinematic Scary Jumpscare Styling */
         #jumpscareOverlay {
             position: fixed; inset: 0; background: #000000; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out;
         }
-        .real-ghost-box {
+        .scary-ghost-container {
             position: relative;
-            width: 320px; height: 320px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: scaryVibration 0.08s infinite alternate;
+            animation: smoothGhostZoom 1.8s ease-in-out infinite alternate;
         }
-        .ghost-skull-icon {
-            font-size: 130px; color: #ff0033;
-            filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 80px #660000);
-            animation: skullPulse 0.12s infinite alternate;
-        }
-        @keyframes scaryVibration {
-            0% { transform: translate(-12px, 12px) scale(1.1) rotate(-4deg); }
-            100% { transform: translate(12px, -12px) scale(1.3) rotate(4deg); }
-        }
-        @keyframes skullPulse {
-            0% { transform: scale(0.95); opacity: 0.85; color: #ff0022; }
-            100% { transform: scale(1.2); opacity: 1; color: #ffffff; text-shadow: 0 0 50px #ff0000; }
-        }
-        .blood-vignette {
-            position: absolute; inset: 0;
-            background: radial-gradient(circle, transparent 30%, rgba(200, 0, 0, 0.4) 70%, rgba(80, 0, 0, 0.85) 100%);
-            pointer-events: none;
+        @keyframes smoothGhostZoom {
+            0% { transform: scale(0.9) translateY(0); filter: drop-shadow(0 0 20px #ff0000); }
+            100% { transform: scale(1.15) translateY(-10px); filter: drop-shadow(0 0 50px #ff0033); }
         }
 
         .section-velvet-blend {
@@ -416,22 +401,22 @@
 
         #wishCardModal {
             position: fixed; inset: 0; 
-            background: rgba(12, 10, 9, 0.75);
+            background: rgba(12, 10, 9, 0.85);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            z-index: 100;
+            z-index: 1000;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease;
         }
 
         #wishCardModal.active { opacity: 1; pointer-events: auto; }
 
         .expanded-wish-card {
-            background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
+            background: linear-gradient(135deg, rgba(32, 18, 24, 0.98) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; 
             border-radius: 26px; 
-            padding: 18px 20px;
+            padding: 20px;
             max-width: 380px; 
             width: 100%; 
             max-height: 92vh; 
@@ -440,13 +425,13 @@
             animation: goldShimmer 4s infinite ease-in-out;
             text-align: center; 
             position: relative;
-            transform: scale(0.7) translateY(30px); 
+            transform: scale(0.8); 
             opacity: 0;
-            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
         #wishCardModal.active .expanded-wish-card { 
-            transform: scale(1) translateY(0); 
+            transform: scale(1); 
             opacity: 1;
         }
 
@@ -470,12 +455,11 @@
 
     <div id="sec4WishesContainer"></div>
 
-    <!-- Realistic 3D Ghost Jumpscare Overlay (Stays longer & terrifying) -->
+    <!-- Cinematic Scary Smooth Jumpscare Overlay -->
     <div id="jumpscareOverlay">
-        <div class="blood-vignette"></div>
-        <div class="real-ghost-box">
-            <i class="fa-solid fa-ghost ghost-skull-icon"></i>
-            <h2 style="font-family:'Cinzel',serif; color:#ff0033; font-size:28px; font-weight:900; margin-top:15px; text-shadow:0 0 25px #ff0000; letter-spacing:0.35em;">CHAPTER 27 UNLOCKED</h2>
+        <div class="scary-ghost-container">
+            <i class="fa-solid fa-ghost text-6xl sm:text-8xl text-red-600 mb-4 animate-bounce"></i>
+            <h2 class="font-cinzel text-2xl sm:text-4xl font-black text-red-500 tracking-[0.3em] uppercase text-center drop-shadow-[0_0_25px_#ff0000]">CHAPTER 27 AWAKENS</h2>
         </div>
     </div>
 
@@ -567,7 +551,7 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- Section 2 (Yeh bilkul parde ke piche pehle se set rahega) -->
+    <!-- Section 2 -->
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
         
@@ -659,27 +643,28 @@
         <div class="section-transition-feather"></div>
     </section>
 
+    <!-- Section 4 with Centered Wish Button -->
     <section id="section4" class="cinematic-section section-blend-top z-25">
         <div class="section-transition-top-feather"></div>
-        <div class="text-center z-30 glass-badge px-8 py-6 rounded-3xl border border-gold/40 shadow-2xl max-w-xl mx-auto relative mt-20">
+        <div class="text-center z-30 glass-badge px-6 py-6 sm:px-8 sm:py-8 rounded-3xl border border-gold/40 shadow-2xl max-w-xl mx-auto relative my-auto">
             <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold gold-gradient-text mb-2">GALAXY OF BLESSINGS</h2>
-            <p class="text-gray-300 text-xs sm:text-sm mb-4">Wishes flow smoothly across Left, Center, and Right! Click any bubble to read details.</p>
+            <p class="text-gray-300 text-xs sm:text-sm mb-5">Wishes flow smoothly across Left, Center, and Right! Click any bubble to read details.</p>
             
-            <div class="flex items-center justify-center gap-3">
-                <button onclick="openWishModal()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-widest text-xs shadow-lg hover:scale-105 transition">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
+                <button onclick="openWishModal()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-widest text-xs shadow-lg hover:scale-105 transition">
                     ✍️ Add Your Wish
                 </button>
 
-                <button onclick="openSecretLoginModal()" class="px-3 py-2.5 rounded-full bg-neutral-900 border border-gold/50 text-gold font-bold uppercase text-[10px] shadow-lg hover:bg-gold hover:text-black transition flex items-center gap-1.5" title="Arvind's Private Vault Login">
-                    <i class="fa-solid fa-lock text-xs"></i> <span>Vault</span>
+                <button onclick="openSecretLoginModal()" class="w-full sm:w-auto px-5 py-3 rounded-full bg-neutral-900 border border-gold/50 text-gold font-bold uppercase text-xs shadow-lg hover:bg-gold hover:text-black transition flex items-center justify-center gap-1.5" title="Arvind's Private Vault Login">
+                    <i class="fa-solid fa-lock text-xs"></i> <span>Vault Login</span>
                 </button>
             </div>
         </div>
     </section>
 
-    <div id="secretLoginModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden px-4 py-6">
+    <div id="secretLoginModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] flex items-center justify-center hidden px-4 py-6">
         <div class="glass-badge w-full max-w-sm p-6 rounded-3xl relative border-2 border-gold shadow-[0_0_40px_rgba(212,175,55,0.4)]">
-            <button onclick="closeSecretLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button onclick="closeSecretLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
             
             <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-1 text-center"><i class="fa-solid fa-shield-halved mr-1"></i> ARVIND'S VAULT</h3>
             <p class="text-gray-400 text-[11px] mb-5 text-center">Enter credentials to view secret private wishes</p>
@@ -702,7 +687,7 @@
         </div>
     </div>
 
-    <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
+    <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[1000] flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
         <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
             <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
             <div class="gold-organic-spark" style="top: 15px; right: 20px; animation-delay: 1.2s;"></div>
@@ -716,12 +701,13 @@
         </div>
     </div>
 
+    <!-- Expanded Wish Card Modal (Fixed Close Handlers) -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
             <div class="gold-organic-spark" style="top: 10px; left: 12px;"></div>
             <div class="gold-organic-spark" style="top: 15px; right: 15px; animation-delay: 0.7s;"></div>
 
-            <button onclick="closeExpandedWish()" class="absolute top-3 right-3 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" onclick="closeExpandedWishForce()" class="absolute top-3 right-3 text-gold hover:text-white transition z-30 text-xl p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             
             <div class="smart-gold-frame mb-3 flex-shrink-0 mx-auto">
                 <img id="expandedMediaImg" src="" alt="Gift Photo">
@@ -748,9 +734,10 @@
         </div>
     </div>
 
-    <div id="wishModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center hidden px-4 py-6 overflow-y-auto">
+    <!-- Wish Creation Modal -->
+    <div id="wishModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[1000] flex items-center justify-center hidden px-4 py-6 overflow-y-auto">
         <div class="glass-badge w-full max-w-md p-6 rounded-3xl relative border border-gold/40 my-auto shadow-[0_0_30px_rgba(212,175,55,0.25)]">
-            <button onclick="closeWishModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button type="button" onclick="closeWishModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
             
             <h3 class="font-cinzel text-2xl font-bold gold-gradient-text mb-1">Send Birthday Wish</h3>
             <p class="text-gray-400 text-xs mb-4">Set your profile photo, attach portrait photo & optional voice note!</p>
@@ -817,7 +804,7 @@
         </div>
     </div>
 
-    <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
+    <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
@@ -840,7 +827,7 @@
         </div>
     </div>
 
-    <div id="lightboxModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4" onclick="closeLightbox()">
+    <div id="lightboxModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] flex items-center justify-center hidden p-4" onclick="closeLightbox()">
         <img id="lightboxImg" class="max-w-full max-h-[85vh] rounded-2xl border-2 border-gold shadow-2xl object-contain">
     </div>
 
@@ -1173,12 +1160,12 @@
                 const osc = globalAudioCtx.createOscillator();
                 const gain = globalAudioCtx.createGain();
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(60, now);
-                osc.frequency.exponentialRampToValueAtTime(1400, now + 0.8);
+                osc.frequency.setValueAtTime(100, now);
+                osc.frequency.exponentialRampToValueAtTime(900, now + 0.5);
                 gain.gain.setValueAtTime(1.0, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
                 osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(now); osc.stop(now + 0.95);
+                osc.start(now); osc.stop(now + 0.85);
             } catch(e) {}
         }
 
@@ -1243,7 +1230,7 @@
                         e.preventDefault();
                         e.stopPropagation();
                         playGlassPopSound();
-                        toggleExpandedWish(randomWish, b);
+                        toggleExpandedWish(randomWish);
                     };
 
                     b.addEventListener('click', openWishAction);
@@ -1264,15 +1251,8 @@
         }
         window.addEventListener('load', initSection4WishesFlow);
 
-        let activeWishModalItem = null;
-
-        function toggleExpandedWish(wish, bubbleElement) {
+        function toggleExpandedWish(wish) {
             const modal = document.getElementById('wishCardModal');
-            if (modal.classList.contains('active') && activeWishModalItem === wish) {
-                closeExpandedWish();
-                return;
-            }
-            activeWishModalItem = wish;
             document.getElementById('expandedAvatar').src = wish.avatar;
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
@@ -1293,12 +1273,16 @@
             modal.classList.add('active');
         }
 
+        function closeExpandedWishForce() {
+            const modal = document.getElementById('wishCardModal');
+            const audioElem = document.getElementById('expandedAudioElem');
+            audioElem.pause();
+            modal.classList.remove('active');
+        }
+
         function closeExpandedWish(e) {
-            if (!e || e.target.id === 'wishCardModal' || e.target.closest('button')) {
-                const audioElem = document.getElementById('expandedAudioElem');
-                audioElem.pause();
-                document.getElementById('wishCardModal').classList.add('hidden');
-                activeWishModalItem = null;
+            if (e.target.id === 'wishCardModal') {
+                closeExpandedWishForce();
             }
         }
 
@@ -1563,11 +1547,20 @@
             if (isUnlocked) return; isUnlocked = true;
             if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
             
-            const sec1 = document.getElementById('section1');
-            
-            gsap.to('#curtainLeft', { xPercent: -125, duration: 1.8, ease: 'power4.inOut' });
-            gsap.to('#curtainRight', { xPercent: 125, duration: 1.8, ease: 'power4.inOut', onComplete: () => {
-                sec1.style.display = 'none';
+            // Start audio immediately on user click/tap
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.play().then(() => {
+                document.getElementById('musicIcon').classList.add('animate-spin');
+                document.getElementById('eqContainer').classList.remove('opacity-50');
+            }).catch(() => {});
+
+            // Smooth fade out of countdown content while curtains open
+            gsap.to('#frontHeader', { opacity: 0, duration: 1.0 });
+            gsap.to('#wishButtonWrapper', { opacity: 0, duration: 1.0 });
+
+            gsap.to('#curtainLeft', { xPercent: -125, duration: 2.0, ease: 'power4.inOut' });
+            gsap.to('#curtainRight', { xPercent: 125, duration: 2.0, ease: 'power4.inOut', onComplete: () => {
+                document.getElementById('section1').style.display = 'none';
                 startHorrorJumpscareSequence();
             }});
         }
@@ -1577,17 +1570,8 @@
             overlay.style.opacity = '1';
             playScaryJumpscareSound();
 
-            // Jumpscare ko 2.2 seconds tak screen par thame rakhenge taki dhang se feel ho
             setTimeout(() => {
                 overlay.style.opacity = '0';
-
-                const bgMusic = document.getElementById('bgMusic');
-                if (bgMusic.paused) {
-                    bgMusic.play().then(() => {
-                        document.getElementById('musicIcon').classList.add('animate-spin');
-                        document.getElementById('eqContainer').classList.remove('opacity-50');
-                    }).catch(() => {});
-                }
 
                 const storySubtitle = document.getElementById('storySubtitle');
                 const ageContainer = document.getElementById('ageContainer');
@@ -1636,7 +1620,7 @@
                         });
                     }});
                 }});
-            }, 2200);
+            }, 2400);
         }
 
         function skipToNext() { 
