@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
@@ -112,10 +113,10 @@
 
         .smart-gold-frame {
             border: 3px solid #D4AF37;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.25);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.3);
             background: #000;
-            border-radius: 12px;
-            padding: 4px;
+            border-radius: 14px;
+            padding: 5px;
             position: relative;
             overflow: hidden;
             display: inline-flex;
@@ -123,8 +124,8 @@
             justify-content: center;
             width: fit-content;
             height: fit-content;
-            max-width: 260px;
-            max-height: 320px;
+            max-width: 280px;
+            max-height: 350px;
             margin: 0 auto;
         }
 
@@ -219,22 +220,25 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        .gold-blast-fx {
+        /* Rocket Firework Trail & Flare Elements */
+        .firework-rocket-trail {
             position: absolute;
-            inset: -150px;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 215, 0, 0.9) 25%, rgba(212, 175, 55, 0.5) 50%, transparent 80%);
-            mix-blend-mode: screen;
-            filter: blur(25px);
-            opacity: 0;
+            bottom: 0px;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(to top, transparent, #FFF6D1, #FFD700);
+            border-radius: 4px;
+            filter: drop-shadow(0 0 10px #FFD700);
             pointer-events: none;
-            z-index: 25;
+            z-index: 35;
+            opacity: 0;
         }
 
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -1500px;
+            bottom: 20px;
             width: 140px;
-            height: 1400px;
+            height: 1200px;
             pointer-events: none;
             z-index: 5;
             opacity: 0;
@@ -423,27 +427,27 @@
 
         @keyframes organicSparkFloat {
             0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
-            20% { opacity: 0.9; transform: translate(10px, -20px) scale(1) rotate(15deg); }
-            80% { opacity: 0.6; transform: translate(-10px, -50px) scale(0.8) rotate(40deg); }
-            100% { transform: translate(6px, -75px) scale(0.1); opacity: 0; }
+            20% { opacity: 0.9; transform: translate(12px, -25px) scale(1.1) rotate(25deg); }
+            80% { opacity: 0.7; transform: translate(-12px, -60px) scale(0.9) rotate(50deg); }
+            100% { transform: translate(8px, -90px) scale(0.1); opacity: 0; }
         }
 
         .gold-organic-spark {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
+            width: 7px;
+            height: 7px;
+            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 55%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
-            box-shadow: 0 0 8px #D4AF37;
-            animation: organicSparkFloat 3s infinite ease-in-out;
+            box-shadow: 0 0 10px #D4AF37, 0 0 20px #FFF6D1;
+            animation: organicSparkFloat 2.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #wishCardModal {
             position: fixed; inset: 0; 
-            background: rgba(12, 10, 9, 0.55);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(12, 10, 9, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
@@ -456,10 +460,10 @@
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; 
             border-radius: 26px; 
-            padding: 14px 16px;
+            padding: 16px 18px;
             max-width: 380px; 
             width: 100%; 
-            max-height: 85vh; 
+            max-height: 88vh; 
             display: flex;
             flex-direction: column;
             animation: goldShimmer 4s infinite ease-in-out;
@@ -491,6 +495,13 @@
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
 
     <div id="sec4WishesContainer"></div>
+
+    <!-- Hidden 3D Rocket Trails for Sui-Sui Sound Blast -->
+    <div id="rocketContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30">
+        <div id="rocket1" class="firework-rocket-trail" style="left: 30%;"></div>
+        <div id="rocket2" class="firework-rocket-trail" style="left: 50%;"></div>
+        <div id="rocket3" class="firework-rocket-trail" style="left: 70%;"></div>
+    </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
         <button onclick="skipToNext()" class="pointer-events-auto px-3.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold rounded-full shadow-2xl border border-red-400 transition transform hover:scale-105 flex items-center gap-1.5">
@@ -745,13 +756,16 @@
 
     <!-- Private Vault Modal -->
     <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
-        <div class="glass-badge w-full max-w-xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_60px_rgba(212,175,55,0.6)] my-auto text-center">
-            <button onclick="closePrivateVault()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
+            <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
+            <div class="gold-organic-spark" style="top: 15px; right: 20px; animation-delay: 1.2s;"></div>
+
+            <button onclick="closePrivateVault()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <h2 class="font-cinzel text-xl sm:text-2xl font-bold gold-gradient-text mb-1">🔒 SECRET PRIVATE VAULT</h2>
-            <p class="text-gray-400 text-[11px] mb-5">Exclusive private messages & media gifts for Arvind</p>
+            <h2 class="font-cinzel text-2xl sm:text-3xl font-bold gold-gradient-text mb-1">🔒 SECRET PRIVATE VAULT</h2>
+            <p class="text-gray-300 text-xs mb-6">Exclusive confidential birthday gifts & private wishes for Arvind</p>
             
-            <div id="privateVaultContainer" class="space-y-6 max-h-[65vh] overflow-y-auto pr-1"></div>
+            <div id="privateVaultContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[65vh] overflow-y-auto pr-1"></div>
         </div>
     </div>
 
@@ -849,6 +863,7 @@
 
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
+            <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
             <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the 4:5 frame!</p>
             
@@ -937,10 +952,10 @@
             const container = document.getElementById('privateVaultContainer');
             container.innerHTML = '';
             if (privateWishes.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6">No private wishes in the vault yet.</p>`;
+                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6 col-span-2">No private wishes in the vault yet.</p>`;
             } else {
                 privateWishes.forEach(wish => {
-                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="max-w-full max-h-[260px] w-auto h-auto object-contain rounded-lg"></div>`;
+                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="max-w-full max-h-[220px] w-auto h-auto object-contain rounded-lg"></div>`;
 
                     let audioHTML = '';
                     if (wish.audioSrc) {
@@ -948,17 +963,19 @@
                     }
 
                     container.innerHTML += `
-                        <div class="p-4 rounded-2xl bg-gradient-to-br from-neutral-900/90 to-black/90 border-2 border-gold/60 text-left shadow-[0_0_20px_rgba(212,175,55,0.25)] relative overflow-hidden">
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-neutral-900/95 to-black/95 border-2 border-gold/60 text-left shadow-[0_0_25px_rgba(212,175,55,0.3)] relative overflow-hidden flex flex-col justify-between">
                             <div class="gold-organic-spark" style="top: 8px; right: 10px;"></div>
-                            <div class="flex items-center gap-3 mb-3 border-b border-gold/30 pb-2">
-                                <img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_10px_#D4AF37]">
-                                <div class="flex flex-col">
-                                    <span class="font-cinzel font-bold text-gold text-sm">${wish.name}</span>
-                                    <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Private Gift</span>
+                            <div>
+                                <div class="flex items-center gap-3 mb-3 border-b border-gold/30 pb-2">
+                                    <img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_10px_#D4AF37]">
+                                    <div class="flex flex-col overflow-hidden">
+                                        <span class="font-cinzel font-bold text-gold text-sm truncate">${wish.name}</span>
+                                        <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Private Gift</span>
+                                    </div>
                                 </div>
+                                <div class="flex justify-center">${mediaHTML}</div>
+                                <p class="text-gray-100 text-xs italic leading-relaxed font-medium text-center mb-2">"${wish.text}"</p>
                             </div>
-                            <div class="flex justify-center">${mediaHTML}</div>
-                            <p class="text-gray-100 text-xs sm:text-sm italic leading-relaxed font-medium text-center mb-2">"${wish.text}"</p>
                             ${audioHTML}
                         </div>`;
                 });
@@ -1027,7 +1044,6 @@
                         viewport.style.borderRadius = '12px';
                     }
 
-                    // Default scale calculation so photo fits entirely inside the frame without cutting
                     if (cropTargetType === 'gift') {
                         const frameRatio = 4 / 5;
                         const imgRatio = cropImgObj.width / cropImgObj.height;
@@ -1113,7 +1129,7 @@
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
             const targetW = (cropTargetType === 'avatar') ? 500 : 800;
-            const targetH = (cropTargetType === 'avatar') ? 500 : 1000; // 4:5 Ratio
+            const targetH = (cropTargetType === 'avatar') ? 500 : 1000;
             canvas.width = targetW; canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
@@ -1126,7 +1142,6 @@
             ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
-            // Contain fit so no part of the portrait photo is cropped or cut off
             const hRatio = targetW / cropImgObj.width;
             const vRatio = targetH / cropImgObj.height;
             const ratio = (cropTargetType === 'gift') ? Math.min(hRatio, vRatio) : Math.max(hRatio, vRatio);
@@ -1188,51 +1203,73 @@
             } catch(e) {}
         }
 
-        function playFirecrackerBurstSound() {
+        // Realistic 3D Rocket "Sui-Sui" Whistle + Blast Sound Generator
+        function playSuiSuiRocketAndBlastSound() {
             try {
                 initGlobalAudioContext();
                 if (!globalAudioCtx) return;
                 const now = globalAudioCtx.currentTime;
 
-                const osc = globalAudioCtx.createOscillator();
-                const bassGain = globalAudioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(180, now);
-                osc.frequency.exponentialRampToValueAtTime(25, now + 0.45);
+                // 1. "Sui-Sui" Rocket upward whistling sound (Frequency sweep up)
+                const whistle = globalAudioCtx.createOscillator();
+                const whistleGain = globalAudioCtx.createGain();
+                whistle.type = 'sine';
+                whistle.frequency.setValueAtTime(400, now);
+                whistle.frequency.exponentialRampToValueAtTime(2400, now + 0.7);
                 
-                bassGain.gain.setValueAtTime(1.0, now);
-                bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                whistleGain.gain.setValueAtTime(0.3, now);
+                whistleGain.gain.linearRampToValueAtTime(0.5, now + 0.65);
+                whistleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
 
-                osc.connect(bassGain);
-                bassGain.connect(globalAudioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.52);
+                whistle.connect(whistleGain);
+                whistleGain.connect(globalAudioCtx.destination);
+                whistle.start(now);
+                whistle.stop(now + 0.75);
 
-                const bufferSize = globalAudioCtx.sampleRate * 0.6;
-                const noiseBuffer = globalAudioCtx.createBuffer(1, bufferSize, globalAudioCtx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.random() * 2 - 1;
-                }
+                // 2. Blast Explosion sound right after whistle peaks (at 0.75s)
+                setTimeout(() => {
+                    const blastTime = globalAudioCtx.currentTime;
+                    const osc = globalAudioCtx.createOscillator();
+                    const bassGain = globalAudioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(160, blastTime);
+                    osc.frequency.exponentialRampToValueAtTime(20, blastTime + 0.5);
+                    
+                    bassGain.gain.setValueAtTime(1.2, blastTime);
+                    bassGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.55);
 
-                const whiteNoise = globalAudioCtx.createBufferSource();
-                whiteNoise.buffer = noiseBuffer;
+                    osc.connect(bassGain);
+                    bassGain.connect(globalAudioCtx.destination);
+                    osc.start(blastTime);
+                    osc.stop(blastTime + 0.58);
 
-                const filter = globalAudioCtx.createBiquadFilter();
-                filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(1200, now);
-                filter.Q.value = 1.2;
+                    const bufferSize = globalAudioCtx.sampleRate * 0.6;
+                    const noiseBuffer = globalAudioCtx.createBuffer(1, bufferSize, globalAudioCtx.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
 
-                const noiseGain = globalAudioCtx.createGain();
-                noiseGain.gain.setValueAtTime(0.8, now);
-                noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                    const whiteNoise = globalAudioCtx.createBufferSource();
+                    whiteNoise.buffer = noiseBuffer;
 
-                whiteNoise.connect(filter);
-                filter.connect(noiseGain);
-                noiseGain.connect(globalAudioCtx.destination);
+                    const filter = globalAudioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1000, blastTime);
+                    filter.Q.value = 1.0;
 
-                whiteNoise.start(now);
-                whiteNoise.stop(now + 0.6);
+                    const noiseGain = globalAudioCtx.createGain();
+                    noiseGain.gain.setValueAtTime(0.9, blastTime);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.6);
+
+                    whiteNoise.connect(filter);
+                    filter.connect(noiseGain);
+                    noiseGain.connect(globalAudioCtx.destination);
+
+                    whiteNoise.start(blastTime);
+                    whiteNoise.stop(blastTime + 0.65);
+                }, 720);
+
             } catch(e) {}
         }
 
@@ -1528,28 +1565,48 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        playFirecrackerBurstSound();
+                        // 1. Trigger Sui-Sui Rocket trails flying from bottom to top with sound
+                        playSuiSuiRocketAndBlastSound();
 
-                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
-                        
-                        confetti({ particleCount: 300, spread: 160, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
-                        
+                        const rocketTl = gsap.timeline();
+                        rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
+                                .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
+
+                        // 2. Blast Flash and Multi-directional Confetti Bursts
                         setTimeout(() => {
-                            playFirecrackerBurstSound();
-                            confetti({ particleCount: 200, angle: 60, spread: 100, origin: { x: 0.1, y: 0.5 } });
-                            confetti({ particleCount: 200, angle: 120, spread: 100, origin: { x: 0.9, y: 0.5 } });
-                        }, 350);
+                            gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
+                            confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
+                            
+                            setTimeout(() => {
+                                confetti({ particleCount: 200, angle: 60, spread: 110, origin: { x: 0.1, y: 0.5 } });
+                                confetti({ particleCount: 200, angle: 120, spread: 110, origin: { x: 0.9, y: 0.5 } });
+                            }, 300);
+                        }, 720);
 
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
+                        // 3. Balloons float up smoothly and pause inside Section 2 until user scrolls to Section 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
-                        const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 700 }, { y: -300, duration: 2.5, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2400, duration: 5.5, ease: 'power1.in' });
+                        gsap.fromTo('#balloonBundleLeft, #balloonBundleRight', 
+                            { y: 800 }, 
+                            { y: 150, duration: 3.0, ease: 'sine.out' }
+                        );
+
+                        // ScrollTrigger: When entering Section 3, balloons smoothly exit off screen top
+                        gsap.to('#balloonBundleLeft, #balloonBundleRight', {
+                            y: -2500,
+                            ease: 'power1.in',
+                            scrollTrigger: {
+                                trigger: '#section3',
+                                start: 'top bottom',
+                                end: 'top top',
+                                scrub: true
+                            }
+                        });
 
                         bdayBanner.classList.remove('opacity-0', 'translate-y-10');
                     };
