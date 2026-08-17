@@ -225,7 +225,6 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Rocket Firework Trail & Flare Elements */
         .firework-rocket-trail {
             position: absolute;
             bottom: 0px;
@@ -490,7 +489,7 @@
         .eq-bar:nth-child(3) { height: 8px;  animation-delay: 0.2s; }
 
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
-        .fog-container { background: radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.15) 0%, transparent 65%); }
+        .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0c0a09; }
@@ -501,7 +500,6 @@
 
     <div id="sec4WishesContainer"></div>
 
-    <!-- Hidden 3D Rocket Trails for Sui-Sui Sound Blast -->
     <div id="rocketContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30">
         <div id="rocket1" class="firework-rocket-trail" style="left: 30%;"></div>
         <div id="rocket2" class="firework-rocket-trail" style="left: 50%;"></div>
@@ -595,9 +593,12 @@
         <div class="section-transition-feather"></div>
     </section>
 
+    <!-- SECTION 2: 3D CYBERNETIC VORTEX HOLOGRAM SURPRISE -->
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
-        <div class="absolute top-0 w-96 h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.15)_0%,transparent_70%)] pointer-events-none"></div>
+        
+        <!-- Interactive 3D Canvas Vortex -->
+        <canvas id="hologramCanvas" class="absolute inset-0 z-0 pointer-events-auto"></canvas>
 
         <div id="balloonBundleLeft" class="balloon-bundle-left">
             <div class="realistic-balloon balloon-gold" style="bottom: 0px; left: 0px; animation-delay: 0.1s;"><div class="balloon-string"></div></div>
@@ -625,10 +626,10 @@
             <div class="realistic-balloon balloon-gold" style="bottom: 405px; right: 60px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
         </div>
 
-        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6">
+        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none">
             <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
             
-            <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full">
+            <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto">
                 <div id="fireBurnOverlay" class="gold-blast-fx"></div>
 
                 <div class="age-slot-container">
@@ -669,8 +670,7 @@
                 </div>
             </div>
 
-            <!-- Centered Banner -->
-            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center">
+            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center pointer-events-auto">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
                     <span>🎉 HAPPY BIRTHDAY</span> 
                     <span class="gold-gradient-text">ARVIND_ZX</span> 
@@ -759,7 +759,6 @@
         </div>
     </div>
 
-    <!-- Private Vault Modal -->
     <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
         <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
             <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
@@ -788,7 +787,7 @@
             <div id="expandedAudioContainer" class="w-full mb-2 hidden flex-shrink-0">
                 <div class="p-2 bg-neutral-900/90 border border-gold/40 rounded-xl flex items-center gap-2">
                     <i class="fa-solid fa-music text-gold text-sm animate-pulse ml-1"></i>
-                    <audio id="expandedAudioElem" controls class="w-full h-8" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio>
+                    <audio id="expandedAudioElem" controls class="w-full h-8" onplay="handleExpandedAudioPlay()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></audio>
                 </div>
             </div>
 
@@ -879,7 +878,7 @@
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
-            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the 4:5 frame!</p>
+            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the frame!</p>
             
             <div id="cropViewport" class="relative mx-auto bg-black rounded-xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none" style="width: 150px; height: 187.5px;">
                 <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
@@ -970,10 +969,9 @@
             } else {
                 privateWishes.forEach(wish => {
                     let mediaHTML = `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" alt="Gift"></div>`;
-
                     let audioHTML = '';
                     if (wish.audioSrc) {
-                        audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full h-8"></audio></div>`;
+                        audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full h-8" onplay="handleExpandedAudioPlay()"></audio></div>`;
                     }
 
                     container.innerHTML += `
@@ -1140,34 +1138,41 @@
             document.getElementById('cropModal').classList.add('hidden');
         }
 
+        // PROBLEM 1 FIX: Precise Cropping mapping without side black borders
         function confirmCustomCrop() {
             const canvas = document.createElement('canvas');
             const targetW = (cropTargetType === 'avatar') ? 500 : 800;
             const targetH = (cropTargetType === 'avatar') ? 500 : 1000;
-            canvas.width = targetW; canvas.height = targetH;
+            canvas.width = targetW; 
+            canvas.height = targetH;
             const ctx = canvas.getContext('2d');
 
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, targetW, targetH);
 
-            ctx.save();
-            const viewW = (cropTargetType === 'avatar') ? 180 : 150;
-            const viewH = (cropTargetType === 'avatar') ? 180 : 187.5;
-            ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
-            ctx.scale(imgScale, imgScale);
-            
-            const hRatio = targetW / cropImgObj.width;
-            const vRatio = targetH / cropImgObj.height;
-            const ratio = (cropTargetType === 'gift') ? Math.min(hRatio, vRatio) : Math.max(hRatio, vRatio);
+            const cImg = document.getElementById('customCropImage');
+            const viewW = viewport.clientWidth;
+            const viewH = viewport.clientHeight;
 
-            const w = cropImgObj.width * ratio;
-            const h = cropImgObj.height * ratio;
-            ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
+            ctx.save();
+            ctx.translate(targetW / 2, targetH / 2);
+            ctx.translate(imgPosX * (targetW / viewW), imgPosY * (targetH / viewH));
+            ctx.scale(imgScale, imgScale);
+
+            const hRatio = targetW / cImg.naturalWidth;
+            const vRatio = targetH / cImg.naturalHeight;
+            const ratio = Math.max(hRatio, vRatio);
+
+            const w = cImg.naturalWidth * ratio;
+            const h = cImg.naturalHeight * ratio;
+            
+            ctx.drawImage(cImg, -w / 2, -h / 2, w, h);
             ctx.restore();
 
             if (cropTargetType === 'avatar') {
                 const circleCanvas = document.createElement('canvas');
-                circleCanvas.width = targetW; circleCanvas.height = targetH;
+                circleCanvas.width = targetW; 
+                circleCanvas.height = targetH;
                 const cCtx = circleCanvas.getContext('2d');
                 cCtx.beginPath();
                 cCtx.arc(targetW / 2, targetH / 2, targetW / 2, 0, Math.PI * 2);
@@ -1217,14 +1222,12 @@
             } catch(e) {}
         }
 
-        // Realistic 3D Rocket "Sui-Sui" Whistle + Blast Sound Generator
         function playSuiSuiRocketAndBlastSound() {
             try {
                 initGlobalAudioContext();
                 if (!globalAudioCtx) return;
                 const now = globalAudioCtx.currentTime;
 
-                // 1. "Sui-Sui" Rocket upward whistling sound (Frequency sweep up)
                 const whistle = globalAudioCtx.createOscillator();
                 const whistleGain = globalAudioCtx.createGain();
                 whistle.type = 'sine';
@@ -1240,7 +1243,6 @@
                 whistle.start(now);
                 whistle.stop(now + 0.75);
 
-                // 2. Blast Explosion sound right after whistle peaks (at 0.75s)
                 setTimeout(() => {
                     const blastTime = globalAudioCtx.currentTime;
                     const osc = globalAudioCtx.createOscillator();
@@ -1381,7 +1383,6 @@
             document.getElementById('expandedAvatar').src = wish.avatar;
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
-            
             document.getElementById('expandedMediaImg').src = wish.mediaSrc;
 
             const audioContainer = document.getElementById('expandedAudioContainer');
@@ -1405,11 +1406,12 @@
                 audioElem.pause();
                 document.getElementById('wishCardModal').classList.remove('active');
                 activeWishModalItem = null;
-                resumeBgMusic();
             }
         }
 
-        function pauseBgMusic() {
+        // PROBLEM 2 FIX: Background music ONLY plays if manually switched on by user. Opening wishes will NEVER force-play bgMusic.
+        function handleExpandedAudioPlay() {
+            // When a wish audio note plays, we pause background music only if it was playing, but do NOT auto-start it otherwise.
             const bgMusic = document.getElementById('bgMusic');
             if (!bgMusic.paused) {
                 bgMusic.pause();
@@ -1419,30 +1421,26 @@
         }
 
         function resumeBgMusic() {
-            const bgMusic = document.getElementById('bgMusic');
-            const audioElem = document.getElementById('expandedAudioElem');
-            const isAudioPlaying = audioElem && !audioElem.paused && audioElem.src;
-            if (!document.getElementById('wishCardModal').classList.contains('active') || !isAudioPlaying) {
-                if (bgMusic.paused && document.getElementById('wishCardModal').classList.contains('active') === false) {
-                    bgMusic.play().then(() => { 
-                        document.getElementById('musicIcon').classList.add('animate-spin'); 
-                        document.getElementById('eqContainer').classList.remove('opacity-50'); 
-                    }).catch(() => {});
-                }
-            }
+            // Do nothing automatically to respect user's manual mute choice.
         }
 
         function toggleAudio(e) {
             if (e) e.stopPropagation();
-            const bgMusic = document.getElementById('bgMusic'); const musicIcon = document.getElementById('musicIcon'); const eq = document.getElementById('eqContainer');
-            if (bgMusic.paused) { bgMusic.play().then(() => { musicIcon.classList.add('animate-spin'); eq.classList.remove('opacity-50'); }).catch(() => {}); } 
-            else { bgMusic.pause(); musicIcon.classList.remove('animate-spin'); eq.classList.add('opacity-50'); }
+            const bgMusic = document.getElementById('bgMusic'); 
+            const musicIcon = document.getElementById('musicIcon'); 
+            const eq = document.getElementById('eqContainer');
+            
+            if (bgMusic.paused) { 
+                bgMusic.play().then(() => { 
+                    musicIcon.classList.add('animate-spin'); 
+                    eq.classList.remove('opacity-50'); 
+                }).catch(() => {}); 
+            } else { 
+                bgMusic.pause(); 
+                musicIcon.classList.remove('animate-spin'); 
+                eq.classList.add('opacity-50'); 
+            }
         }
-
-        window.addEventListener('click', () => {
-            const bgMusic = document.getElementById('bgMusic');
-            if (bgMusic.paused) { bgMusic.play().then(() => { document.getElementById('musicIcon').classList.add('animate-spin'); document.getElementById('eqContainer').classList.remove('opacity-50'); }).catch(() => {}); }
-        }, { once: true });
 
         const canvas = document.getElementById('dustCanvas'); const ctx = canvas.getContext('2d'); let particles = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -1456,6 +1454,90 @@
         for (let i = 0; i < 40; i++) { particles.push(new Particle()); }
         function animateDust() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateDust); }
         animateDust();
+
+        // PROBLEM 3: 3D CYBERNETIC VORTEX HOLOGRAM EFFECT FOR SECTION 2
+        const hCanvas = document.getElementById('hologramCanvas');
+        const hCtx = hCanvas.getContext('2d');
+        let hParticles = [];
+        let mouseX = 0, mouseY = 0;
+
+        function resizeHologramCanvas() {
+            hCanvas.width = hCanvas.parentElement.clientWidth;
+            hCanvas.height = hCanvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeHologramCanvas);
+        resizeHologramCanvas();
+
+        hCanvas.addEventListener('mousemove', (e) => {
+            const rect = hCanvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left - hCanvas.width / 2;
+            mouseY = e.clientY - rect.top - hCanvas.height / 2;
+        });
+
+        class HologramNode {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.angle = Math.random() * Math.PI * 2;
+                this.radius = Math.random() * 220 + 20;
+                this.baseY = (Math.random() - 0.5) * 300;
+                this.y = this.baseY;
+                this.size = Math.random() * 2.2 + 0.8;
+                this.speed = Math.random() * 0.015 + 0.005;
+                this.alpha = Math.random() * 0.8 + 0.2;
+                this.color = Math.random() > 0.2 ? '#D4AF37' : '#FFF6D1';
+            }
+            update() {
+                this.angle += this.speed;
+                this.y += Math.sin(this.angle * 2) * 0.6;
+            }
+            draw() {
+                const cx = hCanvas.width / 2 + (mouseX * 0.05);
+                const cy = hCanvas.height / 2 + (mouseY * 0.05);
+
+                const x = cx + Math.cos(this.angle) * this.radius;
+                const z = cy + Math.sin(this.angle) * (this.radius * 0.4) + this.y;
+
+                hCtx.fillStyle = this.color;
+                hCtx.globalAlpha = this.alpha;
+                hCtx.beginPath();
+                hCtx.arc(x, z, this.size, 0, Math.PI * 2);
+                hCtx.fill();
+                hCtx.globalAlpha = 1.0;
+            }
+        }
+
+        for (let i = 0; i < 120; i++) {
+            hParticles.push(new HologramNode());
+        }
+
+        function animateHologramVortex() {
+            hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+            
+            // Draw interactive glowing cybernetic core rings
+            const cx = hCanvas.width / 2;
+            const cy = hCanvas.height / 2;
+            
+            hCtx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+            hCtx.lineWidth = 1.5;
+            hCtx.beginPath();
+            hCtx.arc(cx, cy, 140, 0, Math.PI * 2);
+            hCtx.stroke();
+
+            hCtx.strokeStyle = 'rgba(255, 246, 209, 0.25)';
+            hCtx.beginPath();
+            hCtx.arc(cx, cy, 80, 0, Math.PI * 2);
+            hCtx.stroke();
+
+            hParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateHologramVortex);
+        }
+        animateHologramVortex();
 
         let dotCount = 1;
         setInterval(() => { dotCount = (dotCount % 3) + 1; document.getElementById('loadingDots').innerText = '.'.repeat(dotCount); }, 500);
@@ -1585,14 +1667,12 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        // 1. Trigger Sui-Sui Rocket trails flying from bottom to top with sound
                         playSuiSuiRocketAndBlastSound();
 
                         const rocketTl = gsap.timeline();
                         rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
                                 .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
 
-                        // 2. Blast Flash and Multi-directional Confetti Bursts
                         setTimeout(() => {
                             gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
                             confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
@@ -1605,7 +1685,6 @@
 
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 3. Balloons float up smoothly and pause inside Section 2 until user scrolls to Section 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
@@ -1616,7 +1695,6 @@
                             { y: 150, duration: 3.0, ease: 'sine.out' }
                         );
 
-                        // ScrollTrigger: When entering Section 3, balloons smoothly exit off screen top
                         gsap.to('#balloonBundleLeft, #balloonBundleRight', {
                             y: -2500,
                             ease: 'power1.in',
