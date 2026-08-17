@@ -111,6 +111,142 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.85);
         }
 
+        /* 3D Quantum Portal & Holographic Ring Matrix */
+        .quantum-portal-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .holographic-ring {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border: 2px dashed rgba(212, 175, 55, 0.35);
+            border-radius: 50%;
+            animation: quantumSpin 15s linear infinite;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1), inset 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .holographic-ring:nth-child(2) {
+            width: 460px;
+            height: 460px;
+            border: 1px solid rgba(255, 246, 209, 0.2);
+            animation: quantumSpinReverse 22s linear infinite;
+        }
+
+        @keyframes quantumSpin {
+            0% { transform: rotateX(65deg) rotateZ(0deg); }
+            100% { transform: rotateX(65deg) rotateZ(360deg); }
+        }
+
+        @keyframes quantumSpinReverse {
+            0% { transform: rotateX(75deg) rotateZ(360deg); }
+            100% { transform: rotateX(75deg) rotateZ(0deg); }
+        }
+
+        .quantum-core-glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,246,209,0.7) 0%, rgba(212,175,55,0.3) 50%, transparent 80%);
+            border-radius: 50%;
+            filter: blur(30px);
+            animation: corePulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes corePulse {
+            0% { transform: scale(0.8); opacity: 0.4; }
+            100% { transform: scale(1.3); opacity: 0.8; }
+        }
+
+        /* 3D Virtual Birthday Cake Styling */
+        .virtual-cake-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0 15px 0;
+            perspective: 800px;
+            z-index: 10;
+        }
+
+        .cake-body {
+            position: relative;
+            width: 150px;
+            height: 90px;
+            background: linear-gradient(135deg, #3a220f 0%, #1a1007 100%);
+            border-radius: 12px 12px 4px 4px;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8), inset 0 0 12px rgba(212,175,55,0.3);
+        }
+
+        .cake-layer-top {
+            position: absolute;
+            top: -12px; left: -4px; right: -4px;
+            height: 28px;
+            background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 100%);
+            border-radius: 50% 50% 10% 10%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .cake-candles-container {
+            position: absolute;
+            top: -38px;
+            left: 0; right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .birthday-candle {
+            position: relative;
+            width: 8px;
+            height: 30px;
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255,75,43,0.6);
+        }
+
+        .candle-flame {
+            position: absolute;
+            top: -15px; left: -3px;
+            width: 14px; height: 18px;
+            background: radial-gradient(circle at 50% 30%, #fff 0%, #ffdf00 40%, #ff4500 100%);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 12px #ffdf00, 0 0 20px #ff4500;
+            animation: flickerFlame 0.3s infinite alternate ease-in-out;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .candle-flame.extinguished {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        @keyframes flickerFlame {
+            0% { transform: scale(1) rotate(-3deg); }
+            100% { transform: scale(1.1) rotate(3deg); }
+        }
+
+        .cake-label {
+            position: absolute;
+            top: 45%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 22px;
+            color: #FFF6D1;
+            text-shadow: 0 0 8px #D4AF37;
+            pointer-events: none;
+        }
+
         /* Portrait Photo Frame Styling */
         .smart-gold-frame {
             border: 2.5px solid #D4AF37;
@@ -609,8 +745,14 @@
     </section>
 
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
+        <!-- 3D Quantum Hologram Background -->
+        <div class="quantum-portal-container">
+            <div class="quantum-core-glow"></div>
+            <div class="holographic-ring"></div>
+            <div class="holographic-ring"></div>
+        </div>
+
         <div class="section-transition-top-feather"></div>
-        <div class="absolute top-0 w-96 h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.15)_0%,transparent_70%)] pointer-events-none"></div>
 
         <div id="balloonBundleLeft" class="balloon-bundle-left">
             <div class="realistic-balloon balloon-gold" style="bottom: 0px; left: 0px; animation-delay: 0.1s;"><div class="balloon-string"></div></div>
@@ -638,8 +780,8 @@
             <div class="realistic-balloon balloon-gold" style="bottom: 405px; right: 60px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
         </div>
 
-        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6">
-            <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 block">Milestone Transcended</span>
+        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-4">
+            <span class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-2 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full">
                 <div class="age-slot-container">
@@ -673,14 +815,30 @@
                     </div>
                 </div>
 
-                <div id="tapPrompt" class="mt-4 opacity-0 transition-opacity duration-700">
+                <!-- Virtual 3D Birthday Cake Component -->
+                <div class="virtual-cake-wrapper">
+                    <div class="cake-body">
+                        <div class="cake-layer-top"></div>
+                        <div class="cake-candles-container">
+                            <div class="birthday-candle"><div class="candle-flame" onclick="blowCandle(this)" title="Tap to Blow Candle!"></div></div>
+                            <div class="birthday-candle"><div class="candle-flame" onclick="blowCandle(this)" title="Tap to Blow Candle!"></div></div>
+                            <div class="birthday-candle"><div class="candle-flame" onclick="blowCandle(this)" title="Tap to Blow Candle!"></div></div>
+                        </div>
+                        <div class="cake-label">27</div>
+                    </div>
+                    <span class="text-[9px] text-gold/80 font-mono tracking-widest mt-2 uppercase animate-pulse">
+                        🎂 Tap candles to blow them out! 🎂
+                    </span>
+                </div>
+
+                <div id="tapPrompt" class="mt-2 opacity-0 transition-opacity duration-700">
                     <span class="text-[11px] md:text-xs text-gold/90 tracking-widest uppercase font-mono animate-pulse border border-gold/40 px-5 py-2 rounded-full bg-black/80 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                         ✨ Tap here to Ignite Chapter 27 ✨
                     </span>
                 </div>
             </div>
 
-            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center">
+            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-4 w-full flex flex-col items-center justify-center text-center">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
                     <span>🎉 HAPPY BIRTHDAY</span> 
                     <span class="gold-gradient-text">ARVIND_ZX</span> 
@@ -931,6 +1089,26 @@
             { id: 'pw2', name: "Karan Bhai", text: "Level 27 unlocked! Proud of everything you've built. Keep rising.", avatar: "https://picsum.photos/seed/secret2/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret2/800/1000", audioSrc: "" },
             { id: 'pw3', name: "Deepika", text: "Wishing the smartest person I know a wonderful birthday filled with absolute joy!", avatar: "https://picsum.photos/seed/secret3/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret3/800/1000", audioSrc: "" }
         ];
+
+        let candlesBlownCount = 0;
+        function blowCandle(flameElement) {
+            if (!flameElement.classList.contains('extinguished')) {
+                flameElement.classList.add('extinguished');
+                candlesBlownCount++;
+                playGlassPopSound();
+
+                if (candlesBlownCount === 3) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 300,
+                            spread: 160,
+                            origin: { y: 0.6 },
+                            colors: ['#D4AF37', '#FFF6D1', '#FF4500', '#FFD700']
+                        });
+                    }, 400);
+                }
+            }
+        }
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -1576,12 +1754,10 @@
 
                         playSuiSuiRocketAndBlastSound();
 
-                        // 1. Rocket trails shooting up from deep bottom
                         const rocketTl = gsap.timeline();
                         rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 600, opacity: 0 }, { y: -500, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
                                 .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
 
-                        // 2. 3D Flash Light Aura & Confetti burst exactly when rocket hits top
                         setTimeout(() => {
                             gsap.fromTo(fireBurnOverlay, 
                                 { opacity: 0, scale: 0.2 }, 
@@ -1598,7 +1774,6 @@
 
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
-                        // 3. Balloons smoothly rise from deep bottom to rest perfectly around Chapter 27
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
@@ -1609,7 +1784,6 @@
                             { y: 80, duration: 2.8, ease: 'sine.out' }
                         );
 
-                        // 4. ScrollTrigger: When entering Section 3, balloons exit COMPLETELY off-screen to the top
                         gsap.to('#balloonBundleLeft, #balloonBundleRight', {
                             y: -1600,
                             ease: 'power1.in',
