@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
@@ -111,11 +112,11 @@
         }
 
         .smart-gold-frame {
-            border: 4px solid #D4AF37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.35);
+            border: 3px solid #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.3);
             background: #000;
-            border-radius: 16px;
-            padding: 6px;
+            border-radius: 14px;
+            padding: 5px;
             position: relative;
             overflow: hidden;
             display: inline-flex;
@@ -123,8 +124,8 @@
             justify-content: center;
             width: fit-content;
             height: fit-content;
-            max-width: 100%;
-            max-height: 420px;
+            max-width: 280px;
+            max-height: 350px;
             margin: 0 auto;
         }
 
@@ -219,20 +220,23 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        .gold-blast-fx {
+        /* Rocket Firework Trail & Flare Elements */
+        .firework-rocket-trail {
             position: absolute;
-            inset: -50px;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.9) 0%, rgba(212, 175, 55, 0.4) 40%, transparent 75%);
-            mix-blend-mode: screen;
-            filter: blur(15px);
-            opacity: 0;
+            bottom: 0px;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(to top, transparent, #FFF6D1, #FFD700);
+            border-radius: 4px;
+            filter: drop-shadow(0 0 10px #FFD700);
             pointer-events: none;
-            z-index: 25;
+            z-index: 35;
+            opacity: 0;
         }
 
         .balloon-bundle-left, .balloon-bundle-right {
             position: absolute;
-            bottom: -1500px;
+            bottom: 20px;
             width: 140px;
             height: 1200px;
             pointer-events: none;
@@ -423,27 +427,27 @@
 
         @keyframes organicSparkFloat {
             0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
-            20% { opacity: 0.9; transform: translate(10px, -20px) scale(1) rotate(15deg); }
-            80% { opacity: 0.6; transform: translate(-10px, -50px) scale(0.8) rotate(40deg); }
-            100% { transform: translate(6px, -75px) scale(0.1); opacity: 0; }
+            20% { opacity: 0.9; transform: translate(12px, -25px) scale(1.1) rotate(25deg); }
+            80% { opacity: 0.7; transform: translate(-12px, -60px) scale(0.9) rotate(50deg); }
+            100% { transform: translate(8px, -90px) scale(0.1); opacity: 0; }
         }
 
         .gold-organic-spark {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 60%, transparent 100%);
+            width: 7px;
+            height: 7px;
+            background: radial-gradient(circle, #FFF6D1 0%, #D4AF37 55%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
-            box-shadow: 0 0 8px #D4AF37;
-            animation: organicSparkFloat 3s infinite ease-in-out;
+            box-shadow: 0 0 10px #D4AF37, 0 0 20px #FFF6D1;
+            animation: organicSparkFloat 2.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #wishCardModal {
             position: fixed; inset: 0; 
-            background: rgba(12, 10, 9, 0.55);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(12, 10, 9, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none;
@@ -456,10 +460,10 @@
             background: linear-gradient(135deg, rgba(32, 18, 24, 0.96) 0%, rgba(12, 8, 10, 0.99) 100%);
             border: 3px solid #D4AF37; 
             border-radius: 26px; 
-            padding: 14px 16px;
+            padding: 16px 18px;
             max-width: 380px; 
             width: 100%; 
-            max-height: 85vh; 
+            max-height: 88vh; 
             display: flex;
             flex-direction: column;
             animation: goldShimmer 4s infinite ease-in-out;
@@ -491,6 +495,13 @@
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
 
     <div id="sec4WishesContainer"></div>
+
+    <!-- Hidden 3D Rocket Trails for Sui-Sui Sound Blast -->
+    <div id="rocketContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30">
+        <div id="rocket1" class="firework-rocket-trail" style="left: 30%;"></div>
+        <div id="rocket2" class="firework-rocket-trail" style="left: 50%;"></div>
+        <div id="rocket3" class="firework-rocket-trail" style="left: 70%;"></div>
+    </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
         <button onclick="skipToNext()" class="pointer-events-auto px-3.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold rounded-full shadow-2xl border border-red-400 transition transform hover:scale-105 flex items-center gap-1.5">
@@ -585,28 +596,28 @@
 
         <div id="balloonBundleLeft" class="balloon-bundle-left">
             <div class="realistic-balloon balloon-gold" style="bottom: 0px; left: 0px; animation-delay: 0.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 35px; left: 30px; animation-delay: 0.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 70px; left: 60px; animation-delay: 0.4s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 105px; left: 15px; animation-delay: 1.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 140px; left: 45px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 175px; left: 75px; animation-delay: 1.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 210px; left: 25px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 245px; left: 55px; animation-delay: 1.8s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 280px; left: 10px; animation-delay: 0.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 315px; left: 40px; animation-delay: 1.4s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 45px; left: 35px; animation-delay: 0.8s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 90px; left: 15px; animation-delay: 0.4s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 135px; left: 55px; animation-delay: 1.2s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 180px; left: 25px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 225px; left: 70px; animation-delay: 1.5s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 270px; left: 10px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 315px; left: 45px; animation-delay: 1.8s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 360px; left: 30px; animation-delay: 0.9s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 405px; left: 60px; animation-delay: 1.4s;"><div class="balloon-string"></div></div>
         </div>
 
         <div id="balloonBundleRight" class="balloon-bundle-right">
             <div class="realistic-balloon balloon-black" style="bottom: 0px; right: 0px; animation-delay: 0.3s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 35px; right: 30px; animation-delay: 1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 70px; right: 60px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 105px; right: 15px; animation-delay: 1.6s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 140px; right: 45px; animation-delay: 0.2s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 175px; right: 75px; animation-delay: 1.1s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 210px; right: 25px; animation-delay: 0.7s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 245px; right: 55px; animation-delay: 1.9s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-black" style="bottom: 280px; right: 10px; animation-delay: 0.5s;"><div class="balloon-string"></div></div>
-            <div class="realistic-balloon balloon-gold" style="bottom: 315px; right: 40px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 45px; right: 35px; animation-delay: 1s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 90px; right: 15px; animation-delay: 0.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 135px; right: 55px; animation-delay: 1.6s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 180px; right: 25px; animation-delay: 0.2s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 225px; right: 70px; animation-delay: 1.1s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 270px; right: 10px; animation-delay: 0.7s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 315px; right: 45px; animation-delay: 1.9s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-black" style="bottom: 360px; right: 30px; animation-delay: 0.5s;"><div class="balloon-string"></div></div>
+            <div class="realistic-balloon balloon-gold" style="bottom: 405px; right: 60px; animation-delay: 1.3s;"><div class="balloon-string"></div></div>
         </div>
 
         <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6">
@@ -653,9 +664,12 @@
                 </div>
             </div>
 
-            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-4 w-full flex flex-col items-center justify-center text-center">
-                <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center">
-                    🎉 HAPPY BIRTHDAY <span class="gold-gradient-text">ARVIND_ZX</span> 🎉
+            <!-- Centered Banner -->
+            <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center">
+                <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
+                    <span>🎉 HAPPY BIRTHDAY</span> 
+                    <span class="gold-gradient-text">ARVIND_ZX</span> 
+                    <span>🎉</span>
                 </h2>
                 <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center">Welcome to the elite era of growth, wisdom, and boundless success.</p>
             </div>
@@ -740,14 +754,18 @@
         </div>
     </div>
 
+    <!-- Private Vault Modal -->
     <div id="privateVaultModal" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 flex items-center justify-center hidden px-4 py-8 overflow-y-auto">
-        <div class="glass-badge w-full max-w-3xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_60px_rgba(212,175,55,0.6)] my-auto">
-            <button onclick="closePrivateVault()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+        <div class="glass-badge w-full max-w-2xl p-6 sm:p-8 rounded-3xl relative border-2 border-gold shadow-[0_0_70px_rgba(212,175,55,0.7)] my-auto text-center">
+            <div class="gold-organic-spark" style="top: 15px; left: 20px;"></div>
+            <div class="gold-organic-spark" style="top: 15px; right: 20px; animation-delay: 1.2s;"></div>
+
+            <button onclick="closePrivateVault()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <h2 class="font-cinzel text-2xl sm:text-3xl font-bold gold-gradient-text mb-1 text-center">🔒 SECRET PRIVATE VAULT</h2>
-            <p class="text-gray-400 text-xs mb-6 text-center">Only you (Arvind) can see these private messages and media gifts</p>
+            <h2 class="font-cinzel text-2xl sm:text-3xl font-bold gold-gradient-text mb-1">🔒 SECRET PRIVATE VAULT</h2>
+            <p class="text-gray-300 text-xs mb-6">Exclusive confidential birthday gifts & private wishes for Arvind</p>
             
-            <div id="privateVaultContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div>
+            <div id="privateVaultContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[65vh] overflow-y-auto pr-1"></div>
         </div>
     </div>
 
@@ -779,7 +797,7 @@
             <button onclick="closeWishModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             
             <h3 class="font-cinzel text-2xl font-bold gold-gradient-text mb-1">Send Birthday Wish</h3>
-            <p class="text-gray-400 text-xs mb-4">Set your profile photo, attach gift photo & optional voice note!</p>
+            <p class="text-gray-400 text-xs mb-4">Set your profile photo, attach portrait photo & optional voice note!</p>
             
             <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
                 <div>
@@ -815,13 +833,13 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Primary Gift Media (Photo / Video)</label>
-                    <input type="file" id="mediaInput" accept="image/*,video/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Portrait Gift Photo (4:5 Fit)</label>
+                    <input type="file" id="mediaInput" accept="image/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <div id="giftThumbContainer" class="w-12 h-10 rounded border border-gold overflow-hidden flex items-center justify-center bg-black"></div>
-                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Media Attached!</span>
+                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Photo Attached!</span>
                     <button type="button" onclick="document.getElementById('mediaInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
                 </div>
 
@@ -845,16 +863,17 @@
 
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
+            <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
             <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
-            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Drag to pan or use zoom slider!</p>
+            <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the 4:5 frame!</p>
             
-            <div id="cropViewport" class="relative mx-auto bg-black rounded-2xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none">
+            <div id="cropViewport" class="relative mx-auto bg-black rounded-xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none" style="width: 150px; height: 187.5px;">
                 <img id="customCropImage" class="absolute max-none select-none pointer-events-none" style="transform-origin: center center;">
             </div>
 
             <div class="flex items-center gap-3 mb-4 px-2">
                 <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-minus"></i></span>
-                <input type="range" id="zoomRange" min="1" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
+                <input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" oninput="onZoomSliderChange(this.value)" class="w-full accent-gold cursor-pointer">
                 <span class="text-[11px] text-gold font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
             </div>
 
@@ -875,7 +894,6 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
-        // 🔒 PLACEHOLDERS FOR GITHUB SECRETS INJECTION
         const targetUserHash = "TARGET_USER_HASH_PLACEHOLDER"; 
         const targetPassHash = "TARGET_PASS_HASH_PLACEHOLDER";
 
@@ -887,14 +905,18 @@
         }
 
         let publicWishes = [
-            { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1200", audioSrc: "" },
-            { id: 'w2', name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "video", mediaSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", audioSrc: "" },
+            { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1000", audioSrc: "" },
+            { id: 'w2', name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1000", audioSrc: "" },
             { id: 'w3', name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3", audioSrc: "" },
-            { id: 'w4', name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1200", audioSrc: "" },
-            { id: 'w5', name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1200", audioSrc: "" }
+            { id: 'w4', name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1000", audioSrc: "" },
+            { id: 'w5', name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish4/800/1000", audioSrc: "" }
         ];
 
-        let privateWishes = [{ id: 'pw1', name: "Secret Admirer", text: "Wishing the best coder an incredible birthday!", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1200", audioSrc: "" }];
+        let privateWishes = [
+            { id: 'pw1', name: "Ananya (Secret)", text: "Happy 27th Birthday Arvind! You are destined for greatness. Here is a secret memory just for you.", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1000", audioSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3" },
+            { id: 'pw2', name: "Karan Bhai", text: "Level 27 unlocked! Proud of everything you've built. Keep rising.", avatar: "https://picsum.photos/seed/secret2/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret2/800/1000", audioSrc: "" },
+            { id: 'pw3', name: "Deepika", text: "Wishing the smartest person I know a wonderful birthday filled with absolute joy!", avatar: "https://picsum.photos/seed/secret3/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret3/800/1000", audioSrc: "" }
+        ];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -930,21 +952,31 @@
             const container = document.getElementById('privateVaultContainer');
             container.innerHTML = '';
             if (privateWishes.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6">No private wishes in the vault yet.</p>`;
+                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6 col-span-2">No private wishes in the vault yet.</p>`;
             } else {
                 privateWishes.forEach(wish => {
-                    let mediaHTML = '';
-                    if (wish.mediaType === 'image') mediaHTML = `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" class="max-w-full max-h-[350px] w-auto h-auto object-contain rounded-lg"></div>`;
-                    else if (wish.mediaType === 'video') mediaHTML = `<div class="smart-gold-frame mb-3 bg-black"><video src="${wish.mediaSrc}" controls class="max-w-full max-h-[350px] w-auto h-auto object-contain bg-black rounded-lg"></video></div>`;
-                    else if (wish.mediaType === 'audio') mediaHTML = `<div class="custom-gold-audio mb-3"><audio src="${wish.mediaSrc}" controls></audio></div>`;
+                    let mediaHTML = `<div class="smart-gold-frame mb-3 w-full"><img src="${wish.mediaSrc}" class="max-w-full max-h-[220px] w-auto h-auto object-contain rounded-lg"></div>`;
+
+                    let audioHTML = '';
+                    if (wish.audioSrc) {
+                        audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full"></audio></div>`;
+                    }
+
                     container.innerHTML += `
-                        <div class="p-4 rounded-2xl bg-black/60 border border-gold/40 text-left" data-id="${wish.id}">
-                            <div class="flex items-center gap-3 mb-2">
-                                <img src="${wish.avatar}" class="w-8 h-8 rounded-full border border-gold object-cover">
-                                <span class="font-cinzel font-bold text-gold text-sm">${wish.name}</span>
-                                <span class="text-[9px] font-mono text-gold/70 uppercase ml-auto">🔒 Private Gift</span>
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-neutral-900/95 to-black/95 border-2 border-gold/60 text-left shadow-[0_0_25px_rgba(212,175,55,0.3)] relative overflow-hidden flex flex-col justify-between">
+                            <div class="gold-organic-spark" style="top: 8px; right: 10px;"></div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-3 border-b border-gold/30 pb-2">
+                                    <img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_10px_#D4AF37]">
+                                    <div class="flex flex-col overflow-hidden">
+                                        <span class="font-cinzel font-bold text-gold text-sm truncate">${wish.name}</span>
+                                        <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Private Gift</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">${mediaHTML}</div>
+                                <p class="text-gray-100 text-xs italic leading-relaxed font-medium text-center mb-2">"${wish.text}"</p>
                             </div>
-                            ${mediaHTML}<p class="text-gray-200 text-xs italic">"${wish.text}"</p>
+                            ${audioHTML}
                         </div>`;
                 });
             }
@@ -953,13 +985,12 @@
 
         function closePrivateVault() {
             document.getElementById('privateVaultModal').classList.add('hidden');
-            document.querySelectorAll('#privateVaultContainer video, #privateVaultContainer audio').forEach(el => el.pause());
+            document.querySelectorAll('#privateVaultContainer audio').forEach(el => el.pause());
         }
 
         let cropTargetType = 'avatar';
         let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
         let finalizedGiftUrl = "";
-        let finalizedGiftType = "image";
         let finalizedAudioUrl = "";
 
         let cropImgObj = new Image();
@@ -977,18 +1008,7 @@
         function openGiftCropModal(e) {
             const file = e.target.files[0];
             if (!file) return;
-
-            if (file.type.startsWith('video/')) {
-                finalizedGiftType = 'video';
-                finalizedGiftUrl = URL.createObjectURL(file);
-                document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = file.name;
-                document.getElementById('giftThumbContainer').innerHTML = `<i class="fa-solid fa-video text-gold text-lg"></i>`;
-                return;
-            }
-
             cropTargetType = 'gift';
-            finalizedGiftType = 'image';
             setupCropReader(file);
         }
 
@@ -1013,19 +1033,26 @@
                     if (cropTargetType === 'avatar') {
                         document.getElementById('cropModalTitle').innerText = "Avatar Circle Frame";
                         document.getElementById('cropModalSub').innerText = "Fit your face inside the circle!";
-                        viewport.style.width = '200px';
-                        viewport.style.height = '200px';
+                        viewport.style.width = '180px';
+                        viewport.style.height = '180px';
                         viewport.style.borderRadius = '50%';
                     } else {
-                        document.getElementById('cropModalTitle').innerText = "Smart Flexible Frame";
-                        document.getElementById('cropModalSub').innerText = "Position your media inside the frame!";
-                        viewport.style.width = '180px';
-                        viewport.style.height = '240px';
-                        viewport.style.borderRadius = '16px';
+                        document.getElementById('cropModalTitle').innerText = "Portrait 4:5 Frame";
+                        document.getElementById('cropModalSub').innerText = "Position your photo inside the frame (No Crop Cut)!";
+                        viewport.style.width = '150px';
+                        viewport.style.height = '187.5px';
+                        viewport.style.borderRadius = '12px';
                     }
 
-                    imgScale = 1;
-                    document.getElementById('zoomRange').value = 1;
+                    if (cropTargetType === 'gift') {
+                        const frameRatio = 4 / 5;
+                        const imgRatio = cropImgObj.width / cropImgObj.height;
+                        imgScale = imgRatio > frameRatio ? (frameRatio / imgRatio) : 1;
+                    } else {
+                        imgScale = 1;
+                    }
+
+                    document.getElementById('zoomRange').value = imgScale;
                     imgPosX = 0; imgPosY = 0;
                     updateCropImageTransform();
                 }
@@ -1078,7 +1105,7 @@
                     e.touches[0].clientY - e.touches[1].clientY
                 );
                 let scaleFactor = currentDistance / initialPinchDistance;
-                imgScale = Math.min(Math.max(1, imgScale * scaleFactor), 3);
+                imgScale = Math.min(Math.max(0.4, imgScale * scaleFactor), 3);
                 document.getElementById('zoomRange').value = imgScale;
                 initialPinchDistance = currentDistance;
                 updateCropImageTransform();
@@ -1110,12 +1137,15 @@
             ctx.fillRect(0, 0, targetW, targetH);
 
             ctx.save();
-            const viewW = (cropTargetType === 'avatar') ? 200 : 180;
-            const viewH = (cropTargetType === 'avatar') ? 200 : 240;
+            const viewW = (cropTargetType === 'avatar') ? 180 : 150;
+            const viewH = (cropTargetType === 'avatar') ? 180 : 187.5;
             ctx.translate(targetW / 2 + imgPosX * (targetW / viewW), targetH / 2 + imgPosY * (targetH / viewH));
             ctx.scale(imgScale, imgScale);
             
-            const ratio = Math.max(targetW / cropImgObj.width, targetH / cropImgObj.height);
+            const hRatio = targetW / cropImgObj.width;
+            const vRatio = targetH / cropImgObj.height;
+            const ratio = (cropTargetType === 'gift') ? Math.min(hRatio, vRatio) : Math.max(hRatio, vRatio);
+
             const w = cropImgObj.width * ratio;
             const h = cropImgObj.height * ratio;
             ctx.drawImage(cropImgObj, -w / 2, -h / 2, w, h);
@@ -1136,7 +1166,7 @@
             } else {
                 finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
-                document.getElementById('giftThumbName').innerText = "Smart Framed Set";
+                document.getElementById('giftThumbName').innerText = "Portrait 4:5 Set";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
             }
             cancelCrop();
@@ -1173,6 +1203,76 @@
             } catch(e) {}
         }
 
+        // Realistic 3D Rocket "Sui-Sui" Whistle + Blast Sound Generator
+        function playSuiSuiRocketAndBlastSound() {
+            try {
+                initGlobalAudioContext();
+                if (!globalAudioCtx) return;
+                const now = globalAudioCtx.currentTime;
+
+                // 1. "Sui-Sui" Rocket upward whistling sound (Frequency sweep up)
+                const whistle = globalAudioCtx.createOscillator();
+                const whistleGain = globalAudioCtx.createGain();
+                whistle.type = 'sine';
+                whistle.frequency.setValueAtTime(400, now);
+                whistle.frequency.exponentialRampToValueAtTime(2400, now + 0.7);
+                
+                whistleGain.gain.setValueAtTime(0.3, now);
+                whistleGain.gain.linearRampToValueAtTime(0.5, now + 0.65);
+                whistleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+
+                whistle.connect(whistleGain);
+                whistleGain.connect(globalAudioCtx.destination);
+                whistle.start(now);
+                whistle.stop(now + 0.75);
+
+                // 2. Blast Explosion sound right after whistle peaks (at 0.75s)
+                setTimeout(() => {
+                    const blastTime = globalAudioCtx.currentTime;
+                    const osc = globalAudioCtx.createOscillator();
+                    const bassGain = globalAudioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(160, blastTime);
+                    osc.frequency.exponentialRampToValueAtTime(20, blastTime + 0.5);
+                    
+                    bassGain.gain.setValueAtTime(1.2, blastTime);
+                    bassGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.55);
+
+                    osc.connect(bassGain);
+                    bassGain.connect(globalAudioCtx.destination);
+                    osc.start(blastTime);
+                    osc.stop(blastTime + 0.58);
+
+                    const bufferSize = globalAudioCtx.sampleRate * 0.6;
+                    const noiseBuffer = globalAudioCtx.createBuffer(1, bufferSize, globalAudioCtx.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
+
+                    const whiteNoise = globalAudioCtx.createBufferSource();
+                    whiteNoise.buffer = noiseBuffer;
+
+                    const filter = globalAudioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1000, blastTime);
+                    filter.Q.value = 1.0;
+
+                    const noiseGain = globalAudioCtx.createGain();
+                    noiseGain.gain.setValueAtTime(0.9, blastTime);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.6);
+
+                    whiteNoise.connect(filter);
+                    filter.connect(noiseGain);
+                    noiseGain.connect(globalAudioCtx.destination);
+
+                    whiteNoise.start(blastTime);
+                    whiteNoise.stop(blastTime + 0.65);
+                }, 720);
+
+            } catch(e) {}
+        }
+
         function startAutomaticTicking() {
             if (tickingInterval) return;
             tickingInterval = setInterval(() => {
@@ -1202,8 +1302,6 @@
             } catch(e) {}
         }
 
-        let lastZoneIndex = -1;
-
         function initSection4WishesFlow() {
             const container = document.getElementById('sec4WishesContainer');
             const section4 = document.getElementById('section4');
@@ -1215,16 +1313,8 @@
                     const b = document.createElement('div');
                     b.className = 'sec4-bubble';
                     
-                    const zones = [
-                        () => -8 + Math.random() * 25,   
-                        () => 28 + Math.random() * 28,  
-                        () => 62 + Math.random() * 30   
-                    ];
-                    
-                    let nextZoneIdx = (lastZoneIndex + 1) % zones.length;
-                    lastZoneIndex = nextZoneIdx;
-                    
-                    b.style.left = `${zones[nextZoneIdx]()}%`;
+                    const randomLeft = 5 + Math.random() * 75;
+                    b.style.left = `${randomLeft}%`;
                     
                     const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
 
@@ -1238,7 +1328,7 @@
                         </div>
                     `;
 
-                    b.style.animation = `floatFromSec4ToSec1 18s linear forwards`;
+                    b.style.animation = `floatFromSec4ToSec1 16s linear forwards`;
                     
                     const openWishAction = (e) => {
                         e.preventDefault();
@@ -1251,7 +1341,7 @@
                     b.addEventListener('touchstart', openWishAction, { passive: false });
                     
                     container.appendChild(b);
-                    setTimeout(() => b.remove(), 18000);
+                    setTimeout(() => b.remove(), 16000);
                 }
             }
 
@@ -1261,7 +1351,7 @@
             }, { threshold: 0.1 });
 
             observer.observe(section4);
-            setInterval(spawnBubble, 2200);
+            setInterval(spawnBubble, 1800);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
@@ -1280,16 +1370,7 @@
             const mediaContainer = document.getElementById('expandedMediaContainer');
             mediaContainer.innerHTML = '';
 
-            let mediaHTML = '';
-            mediaContainer.className = "w-full mb-2 flex items-center justify-center smart-gold-frame flex-shrink-0";
-
-            if (wish.mediaType === 'image') {
-                mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[385px] w-auto h-auto object-contain rounded-lg">`;
-            } else if (wish.mediaType === 'video') {
-                mediaHTML = `<video src="${wish.mediaSrc}" controls autoplay playsinline class="max-w-full max-h-[385px] w-auto h-auto object-contain bg-black rounded-lg" onplay="pauseBgMusic()" onpause="resumeBgMusic()" onended="resumeBgMusic()"></video>`;
-            } else {
-                mediaHTML = `<img src="${wish.avatar}" class="w-24 h-28 rounded-lg object-cover">`;
-            }
+            let mediaHTML = `<img src="${wish.mediaSrc}" class="max-w-full max-h-[300px] w-auto h-auto object-contain rounded-lg">`;
 
             let audioHTML = '';
             if (wish.audioSrc) {
@@ -1302,7 +1383,7 @@
 
         function closeExpandedWish(e) {
             if (!e || e.target.id === 'wishCardModal' || e.target.closest('button')) {
-                document.querySelectorAll('#expandedMediaContainer video, #expandedMediaContainer audio').forEach(el => el.pause());
+                document.querySelectorAll('#expandedMediaContainer audio').forEach(el => el.pause());
                 document.getElementById('wishCardModal').classList.remove('active');
                 activeWishModalItem = null;
                 resumeBgMusic();
@@ -1320,7 +1401,7 @@
 
         function resumeBgMusic() {
             const bgMusic = document.getElementById('bgMusic');
-            const anyMediaPlaying = Array.from(document.querySelectorAll('#expandedMediaContainer video, #expandedMediaContainer audio')).some(el => !el.paused);
+            const anyMediaPlaying = Array.from(document.querySelectorAll('#expandedMediaContainer audio')).some(el => !el.paused);
             if (!document.getElementById('wishCardModal').classList.contains('active') || !anyMediaPlaying) {
                 if (bgMusic.paused && document.getElementById('wishCardModal').classList.contains('active') === false) {
                     bgMusic.play().then(() => { 
@@ -1361,7 +1442,7 @@
 
         function renderSingleRibbonGallery() {
             const track = document.getElementById('singleRibbonTrack'); track.innerHTML = ''; let itemsHTML = '';
-            for(let i = 1; i <= 12; i++) { itemsHTML += `<div class="ribbon-photo-item" onclick="openLightbox('https://picsum.photos/seed/arvind${i}/400/500')"><img src="https://picsum.photos/seed/arvind${i}/400/500" class="w-full h-full object-cover"></div>`; }
+            for(let i = 1; i <= 12; i++) { itemsHTML += `<div class="ribbon-photo-item" onclick="openLightbox('https://picsum.photos/seed/arvind${i}/800/1000')"><img src="https://picsum.photos/seed/arvind${i}/800/1000" class="w-full h-full object-cover"></div>`; }
             track.innerHTML = itemsHTML + itemsHTML + itemsHTML;
         }
         renderSingleRibbonGallery();
@@ -1484,24 +1565,48 @@
 
                         tapPrompt.style.opacity = '0';
 
-                        gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.4, yoyo: true, repeat: 1 });
-                        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+                        // 1. Trigger Sui-Sui Rocket trails flying from bottom to top with sound
+                        playSuiSuiRocketAndBlastSound();
+
+                        const rocketTl = gsap.timeline();
+                        rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
+                                .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
+
+                        // 2. Blast Flash and Multi-directional Confetti Bursts
+                        setTimeout(() => {
+                            gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
+                            confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
+                            
+                            setTimeout(() => {
+                                confetti({ particleCount: 200, angle: 60, spread: 110, origin: { x: 0.1, y: 0.5 } });
+                                confetti({ particleCount: 200, angle: 120, spread: 110, origin: { x: 0.9, y: 0.5 } });
+                            }, 300);
+                        }, 720);
 
                         gsap.to(drum2Track, { y: -itemHeight * 7, duration: 1.2, ease: "power2.inOut" });
 
+                        // 3. Balloons float up smoothly and pause inside Section 2 until user scrolls to Section 3
                         const bundleLeft = document.getElementById('balloonBundleLeft');
                         const bundleRight = document.getElementById('balloonBundleRight');
                         bundleLeft.style.opacity = '1';
                         bundleRight.style.opacity = '1';
 
-                        const balloonTl = gsap.timeline();
-                        balloonTl.fromTo('#balloonBundleLeft, #balloonBundleRight', { y: 600 }, { y: -260, duration: 2.2, ease: 'sine.out' })
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -260, duration: 3.5 }) 
-                                 .to('#balloonBundleLeft, #balloonBundleRight', { y: -2200, duration: 4.0, ease: 'power2.in', scrollTrigger: {
-                                     trigger: '#section3',
-                                     start: 'top bottom',
-                                     toggleActions: 'play none none none'
-                                 }});
+                        gsap.fromTo('#balloonBundleLeft, #balloonBundleRight', 
+                            { y: 800 }, 
+                            { y: 150, duration: 3.0, ease: 'sine.out' }
+                        );
+
+                        // ScrollTrigger: When entering Section 3, balloons smoothly exit off screen top
+                        gsap.to('#balloonBundleLeft, #balloonBundleRight', {
+                            y: -2500,
+                            ease: 'power1.in',
+                            scrollTrigger: {
+                                trigger: '#section3',
+                                start: 'top bottom',
+                                end: 'top top',
+                                scrub: true
+                            }
+                        });
 
                         bdayBanner.classList.remove('opacity-0', 'translate-y-10');
                     };
@@ -1526,14 +1631,14 @@
         }
 
         function finalizeWishPush(name, msg, isPrivate) {
-            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1200";
+            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1000";
 
             const newWish = { 
                 id: 'wish_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
                 name: name, 
                 text: msg, 
                 avatar: finalizedAvatarUrl, 
-                mediaType: finalizedGiftType, 
+                mediaType: 'image', 
                 mediaSrc: finalizedGiftUrl,
                 audioSrc: finalizedAudioUrl 
             };
@@ -1550,4 +1655,3 @@
     </script>
 </body>
 </html>
-
