@@ -230,17 +230,23 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        .firework-rocket-trail {
-            position: absolute;
-            bottom: 0px;
-            width: 4px;
-            height: 80px;
-            background: linear-gradient(to top, transparent, #FFF6D1, #FFD700);
-            border-radius: 4px;
-            filter: drop-shadow(0 0 10px #FFD700);
-            pointer-events: none;
-            z-index: 35;
-            opacity: 0;
+        /* Ghost Jumpscare Overlay */
+        #jumpscareOverlay {
+            position: absolute; inset: 0; background: #000; z-index: 60;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+        }
+        .ghost-face {
+            font-size: 100px; color: #ff0033; filter: drop-shadow(0 0 30px #ff0000);
+            animation: glitchGhost 0.15s infinite;
+        }
+        @keyframes glitchGhost {
+            0% { transform: translate(0, 0) scale(1); }
+            20% { transform: translate(-10px, 10px) scale(1.1); }
+            40% { transform: translate(10px, -10px) scale(0.95); }
+            60% { transform: translate(-5px, -5px) scale(1.05); }
+            80% { transform: translate(8px, 5px) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
         }
 
         .section-velvet-blend {
@@ -450,10 +456,10 @@
 
     <div id="sec4WishesContainer"></div>
 
-    <div id="rocketContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30">
-        <div id="rocket1" class="firework-rocket-trail" style="left: 30%;"></div>
-        <div id="rocket2" class="firework-rocket-trail" style="left: 50%;"></div>
-        <div id="rocket3" class="firework-rocket-trail" style="left: 70%;"></div>
+    <div id="jumpscareOverlay">
+        <div class="ghost-face">
+            <i class="fa-solid fa-ghost"></i>
+        </div>
     </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
@@ -526,7 +532,7 @@
                     <span class="text-[9px] sm:text-[11px] text-gold/90 font-digital uppercase tracking-widest mt-2 font-bold">MIN</span>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
+                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/40 border border-gold/40 shadow-2xl relative justify-center w-full">
                         <div class="reel-frame"><div id="s1" class="reel-track"><div class="reel-digit">0</div></div></div>
                         <div class="reel-frame"><div id="s2" class="reel-track"><div class="reel-digit">0</div></div></div>
                     </div>
@@ -543,7 +549,7 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- SECTION 2: 3D CYBERNETIC VORTEX & CINEMATIC STORY REVEAL -->
+    <!-- SECTION 2: GHOST JUMPSCARE TO PHOENIX & GOLDEN SAND REVEAL -->
     <section id="section2" class="cinematic-section section-pitch-black fog-container z-20">
         <div class="section-transition-top-feather"></div>
         
@@ -553,8 +559,6 @@
             <span id="storySubtitle" class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 opacity-0 transition-opacity duration-1000 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto opacity-0 transition-opacity duration-1000">
-                <div id="fireBurnOverlay" class="gold-blast-fx"></div>
-
                 <div class="age-slot-container">
                     <div class="age-digit-drum">
                         <div id="drum1Track" class="age-drum-track">
@@ -588,7 +592,7 @@
 
                 <div id="tapPrompt" class="mt-4 opacity-0 transition-opacity duration-700">
                     <span class="text-[11px] md:text-xs text-gold/90 tracking-widest uppercase font-mono animate-pulse border border-gold/40 px-5 py-2 rounded-full bg-black/80 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                        ✨ Tap here to Ignite Chapter 27 ✨
+                        ✨ Tap here to Awaken Chapter 27 ✨
                     </span>
                 </div>
             </div>
@@ -1143,70 +1147,20 @@
             } catch(e) {}
         }
 
-        function playSuiSuiRocketAndBlastSound() {
+        function playScaryJumpscareSound() {
             try {
                 initGlobalAudioContext();
                 if (!globalAudioCtx) return;
                 const now = globalAudioCtx.currentTime;
-
-                const whistle = globalAudioCtx.createOscillator();
-                const whistleGain = globalAudioCtx.createGain();
-                whistle.type = 'sine';
-                whistle.frequency.setValueAtTime(400, now);
-                whistle.frequency.exponentialRampToValueAtTime(2400, now + 0.7);
-                
-                whistleGain.gain.setValueAtTime(0.3, now);
-                whistleGain.gain.linearRampToValueAtTime(0.5, now + 0.65);
-                whistleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
-
-                whistle.connect(whistleGain);
-                whistleGain.connect(globalAudioCtx.destination);
-                whistle.start(now);
-                whistle.stop(now + 0.75);
-
-                setTimeout(() => {
-                    const blastTime = globalAudioCtx.currentTime;
-                    const osc = globalAudioCtx.createOscillator();
-                    const bassGain = globalAudioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(160, blastTime);
-                    osc.frequency.exponentialRampToValueAtTime(20, blastTime + 0.5);
-                    
-                    bassGain.gain.setValueAtTime(1.2, blastTime);
-                    bassGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.55);
-
-                    osc.connect(bassGain);
-                    bassGain.connect(globalAudioCtx.destination);
-                    osc.start(blastTime);
-                    osc.stop(blastTime + 0.58);
-
-                    const bufferSize = globalAudioCtx.sampleRate * 0.6;
-                    const noiseBuffer = globalAudioCtx.createBuffer(1, bufferSize, globalAudioCtx.sampleRate);
-                    const output = noiseBuffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) {
-                        output[i] = Math.random() * 2 - 1;
-                    }
-
-                    const whiteNoise = globalAudioCtx.createBufferSource();
-                    whiteNoise.buffer = noiseBuffer;
-
-                    const filter = globalAudioCtx.createBiquadFilter();
-                    filter.type = 'bandpass';
-                    filter.frequency.setValueAtTime(1000, blastTime);
-                    filter.Q.value = 1.0;
-
-                    const noiseGain = globalAudioCtx.createGain();
-                    noiseGain.gain.setValueAtTime(0.9, blastTime);
-                    noiseGain.gain.exponentialRampToValueAtTime(0.001, blastTime + 0.6);
-
-                    whiteNoise.connect(filter);
-                    filter.connect(noiseGain);
-                    noiseGain.connect(globalAudioCtx.destination);
-
-                    whiteNoise.start(blastTime);
-                    whiteNoise.stop(blastTime + 0.65);
-                }, 720);
-
+                const osc = globalAudioCtx.createOscillator();
+                const gain = globalAudioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, now);
+                osc.frequency.exponentialRampToValueAtTime(900, now + 0.4);
+                gain.gain.setValueAtTime(0.8, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                osc.connect(gain); gain.connect(globalAudioCtx.destination);
+                osc.start(now); osc.stop(now + 0.5);
             } catch(e) {}
         }
 
@@ -1567,89 +1521,80 @@
             
             gsap.to(['#frontHeader', '#wishButtonWrapper'], { opacity: 0, y: -30, duration: 0.8, onComplete: () => {
                 gsap.to('#curtainLeft', { xPercent: -125, duration: 2.2, ease: 'power4.inOut' });
-                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startCinematicStoryReveal });
+                gsap.to('#curtainRight', { xPercent: 125, duration: 2.2, ease: 'power4.inOut', onComplete: startGhostJumpscareSequence });
             }});
         }
 
-        // Problem 1 & 2 & 3: Cinematic Story Reveal with Auto Music Trigger & Clean UI
-        function startCinematicStoryReveal() {
+        // Ghost Jumpscare to Phoenix & Sand Climax Sequence
+        function startGhostJumpscareSequence() {
             const sec2 = document.getElementById('section2');
             sec2.scrollIntoView({ behavior: 'smooth' });
 
-            // Auto Play Background Music on Curtain Open
-            const bgMusic = document.getElementById('bgMusic');
-            if (bgMusic.paused) {
-                bgMusic.play().then(() => {
-                    document.getElementById('musicIcon').classList.add('animate-spin');
-                    document.getElementById('eqContainer').classList.remove('opacity-50');
-                }).catch(() => {});
-            }
+            const overlay = document.getElementById('jumpscareOverlay');
+            overlay.style.opacity = '1';
+            playScaryJumpscareSound();
 
-            const storySubtitle = document.getElementById('storySubtitle');
-            const ageContainer = document.getElementById('ageContainer');
-            const drum1Track = document.getElementById('drum1Track');
-            const drum2Track = document.getElementById('drum2Track');
-            const tapPrompt = document.getElementById('tapPrompt');
-            const fireBurnOverlay = document.getElementById('fireBurnOverlay');
-            const bdayBanner = document.getElementById('bdayBanner');
+            // After 0.6 seconds, horror vanishes, lights turn on, music auto-starts, and Phoenix & Sand reveal begins
+            setTimeout(() => {
+                overlay.style.opacity = '0';
 
-            const itemHeight = window.innerWidth >= 768 ? 160 : 120;
+                // Auto Play Background Music
+                const bgMusic = document.getElementById('bgMusic');
+                if (bgMusic.paused) {
+                    bgMusic.play().then(() => {
+                        document.getElementById('musicIcon').classList.add('animate-spin');
+                        document.getElementById('eqContainer').classList.remove('opacity-50');
+                    }).catch(() => {});
+                }
 
-            // Step 1: Fade in subtitle
-            gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
-                // Step 2: Fade in Age Container
-                gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
-                    gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+                const storySubtitle = document.getElementById('storySubtitle');
+                const ageContainer = document.getElementById('ageContainer');
+                const drum1Track = document.getElementById('drum1Track');
+                const drum2Track = document.getElementById('drum2Track');
+                const tapPrompt = document.getElementById('tapPrompt');
+                const bdayBanner = document.getElementById('bdayBanner');
 
-                    gsap.fromTo(drum2Track, { y: 0 }, { 
-                        y: -itemHeight * 6, 
-                        duration: 2.5, 
-                        ease: "power2.inOut", 
-                        onComplete: () => {
-                            tapPrompt.classList.remove('opacity-0');
-                            tapPrompt.style.cursor = 'pointer';
+                const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-                            let autoSpinTimer = setTimeout(() => { triggerIgnition(); }, 4000);
+                gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
+                    gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
+                        gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-                            const triggerIgnition = () => {
-                                clearTimeout(autoSpinTimer);
-                                document.getElementById('ageContainer').removeEventListener('click', triggerIgnition);
-                                document.getElementById('ageContainer').removeEventListener('touchstart', triggerIgnition);
+                        gsap.fromTo(drum2Track, { y: 0 }, { 
+                            y: -itemHeight * 6, 
+                            duration: 2.5, 
+                            ease: "power2.inOut", 
+                            onComplete: () => {
+                                tapPrompt.classList.remove('opacity-0');
+                                tapPrompt.style.cursor = 'pointer';
 
-                                tapPrompt.style.opacity = '0';
-                                playSuiSuiRocketAndBlastSound();
+                                let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
 
-                                const rocketTl = gsap.timeline();
-                                rocketTl.fromTo('#rocket1, #rocket2, #rocket3', { y: 500, opacity: 0 }, { y: -400, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power2.out' })
-                                        .to('#rocket1, #rocket2, #rocket3', { opacity: 0, duration: 0.1 });
+                                const triggerAwaken = () => {
+                                    clearTimeout(autoAwakenTimer);
+                                    document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
+                                    document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
 
-                                setTimeout(() => {
-                                    gsap.to(fireBurnOverlay, { opacity: 1, duration: 0.2, yoyo: true, repeat: 3 });
-                                    confetti({ particleCount: 350, spread: 180, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF6D1', '#FFFFFF', '#FFD700', '#FF4500'] });
-                                    
-                                    setTimeout(() => {
-                                        confetti({ particleCount: 200, angle: 60, spread: 110, origin: { x: 0.1, y: 0.5 } });
-                                        confetti({ particleCount: 200, angle: 120, spread: 110, origin: { x: 0.9, y: 0.5 } });
-                                    }, 300);
-                                }, 720);
+                                    tapPrompt.style.opacity = '0';
 
-                                gsap.to(drum2Track, { 
-                                    y: -itemHeight * 7, 
-                                    duration: 1.2, 
-                                    ease: "power2.inOut",
-                                    onComplete: () => {
-                                        document.body.classList.remove('locked-scroll');
-                                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                                    }
-                                });
-                            };
+                                    gsap.to(drum2Track, { 
+                                        y: -itemHeight * 7, 
+                                        duration: 1.2, 
+                                        ease: "power2.inOut",
+                                        onComplete: () => {
+                                            document.body.classList.remove('locked-scroll');
+                                            bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                                        }
+                                    });
+                                };
 
-                            document.getElementById('ageContainer').addEventListener('click', triggerIgnition);
-                            document.getElementById('ageContainer').addEventListener('touchstart', triggerIgnition, { passive: true });
-                        }
-                    });
+                                document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
+                                document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
+                            }
+                        });
+                    }});
                 }});
-            }});
+            }, 600);
         }
 
         function skipToNext() { 
