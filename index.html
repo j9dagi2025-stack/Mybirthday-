@@ -232,7 +232,17 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Luxury Cinematic Foggy/Radiant Iris Color Reveal for Gallery */
+        /* Magical Real Fire Glow Effect on Drum Reveal */
+        .fire-awakened-glow {
+            border-color: #ff4500 !important;
+            box-shadow: 0 0 40px rgba(255, 69, 0, 0.8), inset 0 0 25px rgba(255, 140, 0, 0.6) !important;
+            animation: firePulseBorder 1.2s infinite alternate ease-in-out;
+        }
+        @keyframes firePulseBorder {
+            0% { border-color: #ff4500; box-shadow: 0 0 30px rgba(255, 69, 0, 0.7), inset 0 0 20px rgba(255, 140, 0, 0.5); }
+            100% { border-color: #ffaa00; box-shadow: 0 0 60px rgba(255, 165, 0, 0.95), inset 0 0 35px rgba(255, 69, 0, 0.85); }
+        }
+
         .ribbon-photo-item {
             position: relative;
             overflow: hidden;
@@ -560,7 +570,7 @@
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto opacity-0 transition-opacity duration-1000">
                 <div class="age-slot-container">
-                    <div class="age-digit-drum">
+                    <div id="drum1Wrapper" class="age-digit-drum">
                         <div id="drum1Track" class="age-drum-track">
                             <div class="age-drum-number">0</div>
                             <div class="age-drum-number">1</div>
@@ -574,7 +584,7 @@
                             <div class="age-drum-number">9</div>
                         </div>
                     </div>
-                    <div class="age-digit-drum">
+                    <div id="drum2Wrapper" class="age-digit-drum">
                         <div id="drum2Track" class="age-drum-track">
                             <div class="age-drum-number">0</div>
                             <div class="age-drum-number">1</div>
@@ -592,16 +602,16 @@
 
                 <div id="tapPrompt" class="mt-4 opacity-0 transition-opacity duration-700">
                     <span class="text-[11px] md:text-xs text-gold/90 tracking-widest uppercase font-mono animate-pulse border border-gold/40 px-5 py-2 rounded-full bg-black/80 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                        ✨ Tap here to Awaken Chapter 27 ✨
+                        🔥 Tap here to Awaken Chapter 27 🔥
                     </span>
                 </div>
             </div>
 
             <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center pointer-events-auto">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
-                    <span class="gold-gradient-text gold-shine-anim">HAPPY BIRTHDAY TO ME // ARVIND_ZX</span>
+                    <span class="gold-gradient-text gold-shine-anim">HAPPY 27TH BIRTHDAY // ARVIND_ZX</span>
                 </h2>
-                <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center mt-2">Welcome to the elite era of growth, wisdom, and boundless success.</p>
+                <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center mt-2">Stepping into the greatest year yet with silent power and zero limits.</p>
             </div>
         </div>
         <div class="section-transition-feather"></div>
@@ -619,7 +629,7 @@
             </div>
 
             <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white mb-2 leading-tight tracking-wider">
-                HAPPY BIRTHDAY <span class="gold-gradient-text">TO ME</span>
+                HAPPY 27TH <span class="gold-gradient-text">BIRTHDAY</span>
             </h2>
         </div>
 
@@ -1180,53 +1190,35 @@
             } catch(e) {}
         }
 
-        // Trigger Flying Balloons & Butterflies Swarm on Curtain Open
+        // Exact 5 from Left and 5 from Right ordered Butterfly / Balloon Swarm entry
         function triggerCelebrationSwarm() {
             const overlay = document.getElementById('celebrationOverlay');
             overlay.innerHTML = '';
             
-            // 10 Left & 10 Right Balloons (Golden & Black) + Butterflies
-            for (let i = 0; i < 20; i++) {
+            // Exactly 5 Left & 5 Right items that fly in, then disperse across screen
+            for (let i = 0; i < 10; i++) {
                 const item = document.createElement('div');
                 item.className = 'flying-item';
                 
-                const isLeft = i < 10;
-                const startX = isLeft ? (Math.random() * 20) : (80 + Math.random() * 20);
-                const color = (i % 2 === 0) ? '#D4AF37' : '#111111';
+                const isLeft = i < 5;
+                const startX = isLeft ? 2 : 98; // 5 from extreme left, 5 from extreme right
+                const color = (i % 2 === 0) ? '#D4AF37' : '#FF4500';
                 
-                item.innerHTML = `<i class="fa-solid fa-balloon" style="color: ${color}; font-size: ${28 + Math.random()*18}px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.6));"></i>`;
+                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${28 + (i * 2)}px; filter: drop-shadow(0 0 15px #FFD700);"></i>`;
                 
                 item.style.left = `${startX}vw`;
-                item.style.bottom = `-10vh`;
+                item.style.bottom = `${20 + (i * 6)}vh`;
                 
                 overlay.appendChild(item);
 
+                // Phase 1: Converge/Spread inward & upward across screen, Phase 2: float away
                 gsap.to(item, {
-                    y: -110 - Math.random() * 20 + 'vh',
-                    x: (isLeft ? 1 : -1) * (20 + Math.random() * 40) + 'vw',
-                    rotation: (Math.random() - 0.5) * 60,
-                    duration: 4.5 + Math.random() * 2,
-                    ease: "power1.out",
-                    delay: Math.random() * 0.8
-                });
-            }
-
-            // Also spawn golden glowing butterflies
-            for (let j = 0; j < 12; j++) {
-                const b = document.createElement('div');
-                b.className = 'flying-item';
-                b.innerHTML = `<i class="fa-solid fa-feather" style="color: #FFD700; font-size: 22px; filter: drop-shadow(0 0 12px #FFD700);"></i>`;
-                b.style.left = `${15 + Math.random() * 70}vw`;
-                b.style.bottom = `-10vh`;
-                overlay.appendChild(b);
-
-                gsap.to(b, {
-                    y: -100 - Math.random() * 25 + 'vh',
-                    x: (Math.random() - 0.5) * 50 + 'vw',
-                    rotation: (Math.random() - 0.5) * 120,
-                    duration: 5 + Math.random() * 2,
-                    ease: "power1.out",
-                    delay: 0.3 + Math.random() * 1.0
+                    x: (isLeft ? 1 : -1) * (30 + Math.random() * 35) + 'vw',
+                    y: -70 - Math.random() * 30 + 'vh',
+                    rotation: (Math.random() - 0.5) * 140,
+                    duration: 5.5 + Math.random() * 1.5,
+                    ease: "power2.out",
+                    delay: 0.1 * i
                 });
             }
         }
@@ -1645,6 +1637,10 @@
                                 document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
 
                                 tapPrompt.style.opacity = '0';
+
+                                // Apply Magical Real Fire Glow Effect on Drums when tapped to change 27
+                                document.getElementById('drum1Wrapper').classList.add('fire-awakened-glow');
+                                document.getElementById('drum2Wrapper').classList.add('fire-awakened-glow');
 
                                 gsap.to(drum2Track, { 
                                     y: -itemHeight * 7, 
