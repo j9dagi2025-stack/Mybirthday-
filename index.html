@@ -388,6 +388,7 @@
             100% { transform: translateY(-125vh) scale(0.95); opacity: 0; }
         }
 
+        /* Section 2 Anchored Balloons Container */
         #section2BalloonsContainer {
             position: absolute;
             inset: 0;
@@ -400,12 +401,13 @@
 
         .balloon-3d {
             position: absolute;
-            top: -220px;
+            top: -240px;
             border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
             will-change: transform;
             display: flex;
             flex-direction: column;
             align-items: center;
+            opacity: 0;
         }
 
         .balloon-gold {
@@ -433,15 +435,8 @@
             position: absolute;
             top: 100%;
             width: 1.5px;
-            height: 85px;
-            background: linear-gradient(180deg, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.15) 100%);
             transform-origin: top center;
-            animation: stringWave 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes stringWave {
-            0% { transform: rotate(-5deg); }
-            100% { transform: rotate(5deg); }
         }
 
         @keyframes goldShimmer {
@@ -1418,63 +1413,73 @@
         }
         animateCelebrationButterflies();
 
-        // --- Section 2 3D Balloon Launch (Top to Bottom: 10 Left, 10 Right) ---
+        // --- Section 2 Anchored 3D Balloon Bouquet (10 Left, 10 Right) ---
         function launchChapter27Balloons() {
             const container = document.getElementById('section2BalloonsContainer');
             container.innerHTML = '';
 
-            const leftBalloons = [
-                'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold',
-                'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black'
+            const leftOffsets = [
+                { x: 3,  y: 18 }, { x: 9,  y: 12 }, { x: 15, y: 22 }, { x: 5,  y: 32 }, { x: 12, y: 38 },
+                { x: 18, y: 28 }, { x: 6,  y: 48 }, { x: 14, y: 54 }, { x: 4,  y: 62 }, { x: 11, y: 68 }
             ];
 
-            const rightBalloons = [
-                'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black',
-                'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold'
+            const rightOffsets = [
+                { x: 91, y: 18 }, { x: 85, y: 12 }, { x: 79, y: 22 }, { x: 89, y: 32 }, { x: 82, y: 38 },
+                { x: 76, y: 28 }, { x: 88, y: 48 }, { x: 80, y: 54 }, { x: 90, y: 62 }, { x: 83, y: 68 }
             ];
 
-            // 10 on the Left Side
-            leftBalloons.forEach((type, index) => {
+            const colors = ['balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black'];
+
+            leftOffsets.forEach((pos, i) => {
                 setTimeout(() => {
-                    createAndDropBalloon(type, 3 + Math.random() * 20, index);
-                }, index * 120);
+                    createAndAnchorBalloon(colors[i], pos.x, pos.y, 'left', i);
+                }, i * 90);
             });
 
-            // 10 on the Right Side
-            rightBalloons.forEach((type, index) => {
+            rightOffsets.forEach((pos, i) => {
                 setTimeout(() => {
-                    createAndDropBalloon(type, 77 + Math.random() * 20, index);
-                }, index * 120 + 60);
+                    createAndAnchorBalloon(colors[(i + 1) % 10], pos.x, pos.y, 'right', i);
+                }, i * 90 + 45);
             });
 
-            function createAndDropBalloon(type, leftPercent, i) {
+            function createAndAnchorBalloon(type, targetX, targetY, side, idx) {
                 const balloon = document.createElement('div');
-                const width = 45 + Math.floor(Math.random() * 20);
+                const width = 44 + (idx % 3) * 6;
                 const height = width * 1.25;
 
                 balloon.className = `balloon-3d ${type}`;
                 balloon.style.width = `${width}px`;
                 balloon.style.height = `${height}px`;
-                balloon.style.left = `${leftPercent}%`;
-                balloon.style.top = `-220px`;
+                balloon.style.left = `${targetX}%`;
 
+                const stringHeight = Math.max(70, Math.floor(window.innerHeight * (0.85 - (targetY / 100))));
                 balloon.innerHTML = `
                     <div class="balloon-knot"></div>
-                    <div class="balloon-string"></div>
+                    <div class="balloon-string" style="height: ${stringHeight}px;"></div>
                 `;
 
                 container.appendChild(balloon);
 
-                const duration = 5.5 + Math.random() * 3.0;
-                const sway = 25 + Math.random() * 35;
+                const finalTop = (window.innerHeight * (targetY / 100));
 
+                // Descend from top and anchor into tied position
                 gsap.to(balloon, {
-                    y: window.innerHeight + 320,
-                    x: `+=${(Math.random() - 0.5) * sway * 2}`,
-                    rotation: (Math.random() - 0.5) * 20,
-                    duration: duration,
-                    ease: "power1.inOut",
-                    onComplete: () => balloon.remove()
+                    top: finalTop,
+                    opacity: 1,
+                    duration: 2.2 + (idx * 0.1),
+                    ease: "elastic.out(1, 0.65)",
+                    onComplete: () => {
+                        // Gentle perpetual tied floating wobble
+                        gsap.to(balloon, {
+                            y: "+=12",
+                            x: side === 'left' ? "+=6" : "-=6",
+                            rotation: (Math.random() - 0.5) * 10,
+                            duration: 2.4 + Math.random() * 1.2,
+                            repeat: -1,
+                            yoyo: true,
+                            ease: "sine.inOut"
+                        });
+                    }
                 });
             }
         }
@@ -1861,7 +1866,7 @@
                                 document.getElementById('drum1Wrapper').classList.add('fire-awakened-glow');
                                 document.getElementById('drum2Wrapper').classList.add('fire-awakened-glow');
 
-                                // Launch 10 Left + 10 Right Balloons from Top to Bottom
+                                // Launch 10 Left + 10 Right Balloons Anchored to Screen Sides
                                 launchChapter27Balloons();
 
                                 gsap.to(drum2Track, { 
