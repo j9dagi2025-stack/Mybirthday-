@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700;1,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDKs (Compat v9) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -341,7 +346,6 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
-        /* Full Screen Traversal Wishes Layer */
         #section4WishesContainer {
             position: absolute;
             top: 0;
@@ -353,7 +357,6 @@
             overflow: hidden;
         }
 
-        /* Highly Clear & Solid Bubble Styles */
         .sec4-bubble {
             position: absolute;
             background: linear-gradient(145deg, #1f1418 0%, #0d070a 100%) !important;
@@ -408,7 +411,7 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
             white-space: nowrap;
             overflow: hidden;
-            text-ellipsis: ellipsis;
+            text-overflow: ellipsis;
         }
 
         @media (min-width: 640px) {
@@ -919,6 +922,108 @@
     </div>
 
     <script>
+        // --- YOUR FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtFYsDjTS0rZNyhcbWvB577USxmBfkfuc",
+            authDomain: "aaravbirthday.firebaseapp.com",
+            projectId: "aaravbirthday",
+            storageBucket: "aaravbirthday.firebasestorage.app",
+            messagingSenderId: "108024087050",
+            appId: "1:108024087050:web:d7ecfb460ef11c9f3855f3",
+            measurementId: "G-6HHEWZE5KX"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        let publicWishes = [];
+        let privateWishes = [];
+
+        function listenToDatabaseWishes() {
+            db.collection("wishes").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                publicWishes = [];
+                privateWishes = [];
+                
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    data.id = doc.id;
+                    if (data.isPrivate) {
+                        privateWishes.push(data);
+                    } else {
+                        publicWishes.push(data);
+                    }
+                });
+            }, (error) => {
+                console.log("Using local fallback data");
+                publicWishes = [
+                    { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1000", audioSrc: "" }
+                ];
+            });
+        }
+        window.addEventListener('load', listenToDatabaseWishes);
+
+        async function uploadFileToStorage(file, folder) {
+            if (!file) return "";
+            const fileName = `${folder}/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(fileName);
+            const snapshot = await storageRef.put(file);
+            return await snapshot.ref.getDownloadURL();
+        }
+
+        async function finalizeWishPush(name, msg, isPrivate) {
+            const submitBtn = document.querySelector('#wishModal button[type="submit"]');
+            submitBtn.innerText = "Uploading & Locking... ⏳";
+            submitBtn.disabled = true;
+
+            try {
+                let avatarUrl = finalizedAvatarUrl || "https://picsum.photos/seed/default/200/200";
+                let giftUrl = finalizedGiftUrl || "";
+                let audioUrl = "";
+
+                const audioFile = document.getElementById('audioInput').files[0];
+                if (audioFile) {
+                    audioUrl = await uploadFileToStorage(audioFile, 'audios');
+                }
+
+                if (finalizedGiftUrl && finalizedGiftUrl.startsWith('data:image')) {
+                    const giftBlob = await (await fetch(finalizedGiftUrl)).blob();
+                    const giftRef = storage.ref(`gifts/${Date.now()}_gift.jpg`);
+                    const snap = await giftRef.put(giftBlob);
+                    giftUrl = await snap.ref.getDownloadURL();
+                } else if (!giftUrl) {
+                    giftUrl = `https://picsum.photos/seed/${encodeURIComponent(name)}/800/1000`;
+                }
+
+                await db.collection("wishes").add({
+                    name: name,
+                    text: msg,
+                    avatar: avatarUrl,
+                    mediaType: 'image',
+                    mediaSrc: giftUrl,
+                    audioSrc: audioUrl,
+                    isPrivate: isPrivate,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                if (isPrivate) { 
+                    alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!"); 
+                } else { 
+                    alert("✨ Wish Locked & Floated into Public Galaxy Successfully!"); 
+                }
+                closeWishModal(); 
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+            } finally {
+                submitBtn.innerText = "Lock My Wish 🔒";
+                submitBtn.disabled = false;
+            }
+        }
+
         if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
@@ -933,20 +1038,6 @@
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
-
-        let publicWishes = [
-            { id: 'w1', name: "Aman Verma", text: "Happy 27th Birthday Arvind! Massive success ahead!", avatar: "https://picsum.photos/seed/user1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish1/800/1000", audioSrc: "" },
-            { id: 'w2', name: "Priya Sharma", text: "Keep crushing your goals. Happy Level 27!", avatar: "https://picsum.photos/seed/user2/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish2/800/1000", audioSrc: "" },
-            { id: 'w3', name: "Rahul", text: "Silent power moves only. Have a legendary birthday, bhai!", avatar: "https://picsum.photos/seed/user3/200/200", mediaType: "audio", mediaSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3", audioSrc: "" },
-            { id: 'w4', name: "Neha", text: "Party hard tonight! So proud of you.", avatar: "https://picsum.photos/seed/user4/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish3/800/1000", audioSrc: "" },
-            { id: 'w5', name: "Vikram", text: "To infinity and beyond! Happy Birthday!", avatar: "https://picsum.photos/seed/user5/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/wish4/800/1000", audioSrc: "" }
-        ];
-
-        let privateWishes = [
-            { id: 'pw1', name: "Ananya (Secret)", text: "Happy 27th Birthday Arvind! You are destined for greatness. Here is a secret memory just for you.", avatar: "https://picsum.photos/seed/secret1/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret1/800/1000", audioSrc: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c3658a1d.mp3?filename=birthday-107775.mp3" },
-            { id: 'pw2', name: "Karan Bhai", text: "Level 27 unlocked! Proud of everything you've built. Keep rising.", avatar: "https://picsum.photos/seed/secret2/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret2/800/1000", audioSrc: "" },
-            { id: 'pw3', name: "Deepika", text: "Wishing the smartest person I know a wonderful birthday filled with absolute joy!", avatar: "https://picsum.photos/seed/secret3/200/200", mediaType: "image", mediaSrc: "https://picsum.photos/seed/secret3/800/1000", audioSrc: "" }
-        ];
 
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
@@ -1268,7 +1359,6 @@
             } catch(e) {}
         }
 
-        // --- Non-Crowding Bounded 3D Butterflies ---
         const cCanvas = document.getElementById('celebrationCanvas');
         const cCtx = cCanvas.getContext('2d');
         let celebrationButterflies = [];
@@ -1352,7 +1442,6 @@
                 wingGrad.addColorStop(1, '#AA7C11');
                 cCtx.fillStyle = wingGrad;
 
-                // Right Wings
                 cCtx.save();
                 cCtx.scale(flap, 1);
                 cCtx.beginPath();
@@ -1367,7 +1456,6 @@
                 cCtx.fill();
                 cCtx.restore();
 
-                // Left Wings
                 cCtx.save();
                 cCtx.scale(-flap, 1);
                 cCtx.beginPath();
@@ -1382,7 +1470,6 @@
                 cCtx.fill();
                 cCtx.restore();
 
-                // Center Body
                 cCtx.fillStyle = '#FFF6D1';
                 cCtx.beginPath();
                 cCtx.ellipse(0, 0, 1.6, s * 0.6, 0, 0, Math.PI * 2);
@@ -1439,7 +1526,6 @@
         }
         animateCelebrationButterflies();
 
-        // --- Section 2 Anchored 3D Balloon Bouquet (10 Left, 10 Right) ---
         function launchChapter27Balloons() {
             const container = document.getElementById('section2BalloonsContainer');
             container.innerHTML = '';
@@ -1508,7 +1594,6 @@
             }
         }
 
-        // --- Completely Organic Unpredictable Flow (Anti-Pattern / Anti-Queue) ---
         let wishesTimer = null;
         let lastXPosition = -1;
 
@@ -1516,13 +1601,12 @@
             const container = document.getElementById('section4WishesContainer');
             const section4 = document.getElementById('section4');
 
-            // 4 dynamic pools: Outer-Left, Inner-Left, Inner-Right, Outer-Right
             const isMobile = window.innerWidth < 640;
             const pools = isMobile ? [
-                { min: -8, max: -2 },   // Pool 0: Left cut-off
-                { min: 16, max: 30 },   // Pool 1: Mid-Left
-                { min: 46, max: 60 },   // Pool 2: Mid-Right
-                { min: 76, max: 86 }    // Pool 3: Right cut-off
+                { min: -8, max: -2 },   
+                { min: 16, max: 30 },   
+                { min: 46, max: 60 },   
+                { min: 76, max: 86 }    
             ] : [
                 { min: -2, max: 4 },    
                 { min: 22, max: 34 },   
@@ -1534,7 +1618,6 @@
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
 
-                // Pick an unpredictable pool that is distinct from the last spawn
                 let chosenPoolIdx;
                 do {
                     chosenPoolIdx = Math.floor(Math.random() * pools.length);
@@ -1546,12 +1629,15 @@
 
                 b.style.left = `${chosenLeft}%`;
                 
-                const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
+                const currentPool = (publicWishes && publicWishes.length > 0) ? publicWishes : [
+                    { name: "Aman", text: "Happy Birthday!", avatar: "https://picsum.photos/200" }
+                ];
+                const randomWish = currentPool[Math.floor(Math.random() * currentPool.length)];
 
                 b.innerHTML = `
                     <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
                     <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
-                    <img src="${randomWish.avatar}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_12px_#FFD700]">
+                    <img src="${randomWish.avatar || 'https://picsum.photos/200'}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_12px_#FFD700]">
                     <div class="flex flex-col text-left overflow-hidden">
                         <span class="sec4-name">${randomWish.name}</span>
                         <span class="sec4-text">"${randomWish.text}"</span>
@@ -1593,7 +1679,6 @@
                 
                 spawnSingleBubble();
 
-                // Random delay between 1.1s and 2.3s so timing never feels robotic
                 const nextDelay = 1100 + Math.random() * 1200;
                 wishesTimer = setTimeout(scheduleNextSpawn, nextDelay);
             }
@@ -1617,10 +1702,10 @@
 
         function toggleExpandedWish(wish) {
             const modal = document.getElementById('wishCardModal');
-            document.getElementById('expandedAvatar').src = wish.avatar;
+            document.getElementById('expandedAvatar').src = wish.avatar || 'https://picsum.photos/200';
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
-            document.getElementById('expandedMediaImg').src = wish.mediaSrc;
+            document.getElementById('expandedMediaImg').src = wish.mediaSrc || wish.media || 'https://picsum.photos/800/1000';
 
             const audioContainer = document.getElementById('expandedAudioContainer');
             const audioElem = document.getElementById('expandedAudioElem');
@@ -1969,29 +2054,6 @@
             const isPrivate = document.getElementById('privateToggle').checked; 
             
             finalizeWishPush(name, msg, isPrivate);
-        }
-
-        function finalizeWishPush(name, msg, isPrivate) {
-            if (!finalizedGiftUrl) finalizedGiftUrl = "https://picsum.photos/seed/" + name + "/800/1000";
-
-            const newWish = { 
-                id: 'wish_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
-                name: name, 
-                text: msg, 
-                avatar: finalizedAvatarUrl, 
-                mediaType: 'image', 
-                mediaSrc: finalizedGiftUrl,
-                audioSrc: finalizedAudioUrl 
-            };
-
-            if (isPrivate) { 
-                privateWishes.push(newWish); 
-                alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!"); 
-            } else { 
-                publicWishes.unshift(newWish); 
-                alert("✨ Wish Locked & Floated into Public Galaxy Successfully!"); 
-            }
-            closeWishModal(); 
         }
     </script>
 </body>
