@@ -852,6 +852,7 @@
                     <img id="avatarThumbnail" class="w-10 h-10 rounded-full border border-gold object-cover">
                     <span class="text-xs text-gold font-bold">Profile Circle Set!</span>
                     <button type="button" onclick="document.getElementById('avatarFileInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
+                    <button type="button" onclick="removeAvatarSelection()" class="text-[10px] text-red-400 font-bold ml-2">❌ Remove</button>
                 </div>
 
                 <div class="p-3 bg-neutral-900/80 border border-gold/30 rounded-xl flex items-center justify-between">
@@ -872,8 +873,9 @@
 
                 <div id="giftPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <div id="giftThumbContainer" class="w-10 h-[50px] rounded border border-gold overflow-hidden flex items-center justify-center bg-black flex-shrink-0"></div>
-                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Portrait 4:5 Set!</span>
+                    <span id="giftThumbName" class="text-xs text-gold font-bold truncate max-w-[140px]">Portrait 4:5 Set!</span>
                     <button type="button" onclick="document.getElementById('mediaInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
+                    <button type="button" onclick="removeGiftSelection()" class="text-[10px] text-red-400 font-bold ml-2">❌ Remove</button>
                 </div>
 
                 <div>
@@ -883,8 +885,9 @@
 
                 <div id="audioPreviewBox" class="hidden flex items-center gap-3 p-2 border border-gold/40 rounded-xl bg-black/60">
                     <i class="fa-solid fa-music text-gold text-lg ml-2"></i>
-                    <span id="audioThumbName" class="text-xs text-gold font-bold truncate max-w-[180px]">Audio Note Attached!</span>
+                    <span id="audioThumbName" class="text-xs text-gold font-bold truncate max-w-[140px]">Audio Note Attached!</span>
                     <button type="button" onclick="document.getElementById('audioInput').click()" class="ml-auto text-[10px] text-gray-300 underline">Change</button>
+                    <button type="button" onclick="removeAudioSelection()" class="text-[10px] text-red-400 font-bold ml-2">❌ Remove</button>
                 </div>
 
                 <button type="submit" class="w-full py-3 bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-wider text-xs rounded-xl shadow-lg hover:scale-[1.02] transition">
@@ -981,14 +984,14 @@
 
             try {
                 let avatarUrl = finalizedAvatarUrl || "https://picsum.photos/seed/default/200/200";
-                let giftUrl = finalizedGiftUrl || `https://picsum.photos/seed/${encodeURIComponent(name)}/800/1000`;
+                let giftUrl = finalizedGiftUrl || ""; // Optional photo, can be empty for text-only wishes
                 let audioUrl = finalizedAudioUrl || "";
 
                 const newWishObj = {
                     name: name,
                     text: msg,
                     avatar: avatarUrl,
-                    mediaType: 'image',
+                    mediaType: giftUrl ? 'image' : '',
                     mediaSrc: giftUrl,
                     audioSrc: audioUrl,
                     isPrivate: isPrivate,
@@ -1009,13 +1012,12 @@
                     alert("✨ Wish Locked & Floated into Public Galaxy Successfully!");
                 }
 
+                // Reset form fields & previews
                 document.getElementById('senderName').value = '';
                 document.getElementById('senderMsg').value = '';
-                document.getElementById('avatarPreviewBox').classList.add('hidden');
-                document.getElementById('giftPreviewBox').classList.add('hidden');
-                document.getElementById('audioPreviewBox').classList.add('hidden');
-                finalizedGiftUrl = "";
-                finalizedAudioUrl = "";
+                removeAvatarSelection();
+                removeGiftSelection();
+                removeAudioSelection();
 
                 closeWishModal();
 
@@ -1025,6 +1027,24 @@
                 submitBtn.innerText = "Lock My Wish 🔒";
                 submitBtn.disabled = false;
             }
+        }
+
+        function removeAvatarSelection() {
+            finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
+            document.getElementById('avatarFileInput').value = '';
+            document.getElementById('avatarPreviewBox').classList.add('hidden');
+        }
+
+        function removeGiftSelection() {
+            finalizedGiftUrl = "";
+            document.getElementById('mediaInput').value = '';
+            document.getElementById('giftPreviewBox').classList.add('hidden');
+        }
+
+        function removeAudioSelection() {
+            finalizedAudioUrl = "";
+            document.getElementById('audioInput').value = '';
+            document.getElementById('audioPreviewBox').classList.add('hidden');
         }
 
         if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
@@ -1089,7 +1109,7 @@
                 container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6 col-span-2">No private wishes in the vault yet.</p>`;
             } else {
                 privateWishes.forEach(wish => {
-                    let mediaHTML = `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" alt="Gift"></div>`;
+                    let mediaHTML = wish.mediaSrc && wish.mediaSrc.trim() !== '' ? `<div class="smart-gold-frame mb-3"><img src="${wish.mediaSrc}" alt="Gift"></div>` : '';
                     let audioHTML = '';
                     if (wish.audioSrc) {
                         audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full h-8" onplay="handleExpandedAudioPlay()"></audio></div>`;
@@ -1718,7 +1738,15 @@
             document.getElementById('expandedAvatar').src = wish.avatar || 'https://picsum.photos/200';
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
-            document.getElementById('expandedMediaImg').src = wish.mediaSrc || wish.media || 'https://picsum.photos/800/1000';
+            
+            const mediaFrame = document.querySelector('.expanded-wish-card .smart-gold-frame');
+            if (wish.mediaSrc && wish.mediaSrc.trim() !== '') {
+                document.getElementById('expandedMediaImg').src = wish.mediaSrc;
+                mediaFrame.classList.remove('hidden');
+            } else {
+                document.getElementById('expandedMediaImg').src = '';
+                mediaFrame.classList.add('hidden');
+            }
 
             const audioContainer = document.getElementById('expandedAudioContainer');
             const audioElem = document.getElementById('expandedAudioElem');
@@ -1936,7 +1964,7 @@
 
         function animateRibbonLoop() {
             if (!isDragging) { 
-                scrollPos += 1.3; // Speed increased from 0.5 to 1.3
+                scrollPos += 1.3; 
                 const halfWidth = ribbonTrack.scrollWidth / 3; 
                 if (scrollPos >= halfWidth) scrollPos = 0; 
                 else if (scrollPos < 0) scrollPos = halfWidth; 
