@@ -232,20 +232,44 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Clean Cinematic Dark Fade Jumpscare Overlay */
+        /* Glitch & Horror Jumpscare Sequence Styles */
         #jumpscareOverlay {
             position: fixed; inset: 0; background: #000000; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.5s ease-in-out;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .glitch-screen {
+            animation: digitalGlitch 0.12s infinite;
+        }
+        @keyframes digitalGlitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg) contrast(150%); }
+            20% { transform: translate(-10px, 5px); filter: hue-rotate(90deg) contrast(200%); }
+            40% { transform: translate(10px, -5px); filter: hue-rotate(180deg) contrast(150%); }
+            60% { transform: translate(-5px, -10px); filter: hue-rotate(270deg) contrast(250%); }
+            80% { transform: translate(5px, 10px); filter: hue-rotate(45deg) contrast(180%); }
+            100% { transform: translate(0); filter: hue-rotate(0deg) contrast(150%); }
         }
 
-        /* Gallery Black & White to Smooth Color Effect */
+        /* High-End Luxury Cinematic Gallery Reveal Effect */
+        .ribbon-photo-item {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+        }
         .ribbon-photo-item img {
-            filter: grayscale(100%) contrast(120%);
-            transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease;
+            filter: grayscale(100%) contrast(130%) brightness(90%);
+            transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s ease;
+            transform: scale(1);
+        }
+        .ribbon-photo-item:hover, .ribbon-photo-item.touched {
+            transform: scale(1.15) translateY(-5px) rotate(0deg) !important;
+            border-color: #FFD700 !important;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 15px 30px rgba(0,0,0,0.9) !important;
+            z-index: 40;
         }
         .ribbon-photo-item:hover img, .ribbon-photo-item.touched img {
-            filter: grayscale(0%) contrast(100%);
+            filter: grayscale(0%) contrast(105%) brightness(105%);
+            transform: scale(1.08);
         }
 
         .section-velvet-blend {
@@ -302,7 +326,6 @@
             flex-shrink: 0; width: 120px; height: 160px;
             border-radius: 14px; overflow: hidden;
             border: 1.5px solid rgba(212, 175, 55, 0.55);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(212, 175, 55, 0.2);
             cursor: pointer; background: #111;
         }
 
@@ -320,12 +343,6 @@
         .ribbon-photo-item:nth-child(12n+10) { transform: translateY(40px) rotate(-2deg); }
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
-
-        .ribbon-photo-item:hover {
-            transform: scale(1.12) translateY(0) rotate(0deg) !important;
-            border-color: rgba(255, 215, 0, 1); z-index: 30;
-            box-shadow: 0 20px 35px rgba(212, 175, 55, 0.45);
-        }
 
         #sec4WishesContainer {
             position: fixed;
@@ -454,11 +471,12 @@
 
     <div id="sec4WishesContainer"></div>
 
-    <!-- Clean Cinematic Scary Jumpscare Overlay -->
+    <!-- Glitch -> Ghost -> Sorry Sequence Overlay -->
     <div id="jumpscareOverlay">
-        <div class="text-center px-4">
-            <i class="fa-solid fa-ghost text-7xl sm:text-9xl text-red-500 mb-4 animate-pulse"></i>
-            <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white tracking-[0.3em] uppercase drop-shadow-[0_0_30px_#ff0000]">CHAPTER 27 UNLOCKED</h2>
+        <div id="jumpscareContent" class="glitch-screen text-center px-4">
+            <i id="jumpscareIcon" class="fa-solid fa-skull text-8xl sm:text-9xl text-red-600 mb-4 filter drop-shadow-[0_0_50px_#ff0000]"></i>
+            <h2 id="jumpscareTitle" class="font-cinzel text-3xl sm:text-5xl font-black text-red-500 tracking-[0.25em] uppercase drop-shadow-[0_0_30px_#ff0000] mb-2">CHAPTER 27 UNLOCKED</h2>
+            <p id="jumpscareSub" class="font-playfair italic text-gray-300 text-lg sm:text-2xl tracking-widest hidden">"Sorry... hope you didn't get too scared."</p>
         </div>
     </div>
 
@@ -479,14 +497,14 @@
     
     <audio id="bgMusic" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-acoustic-guitar-112317.mp3"></audio>
 
-    <!-- Section 1 (Strictly single-screen locked with perfectly visible wish button) -->
-    <section id="section1" class="cinematic-section section-blend-top z-40" style="height: 100vh; height: 100dvh; overflow: hidden;">
+    <!-- Section 1 (Countdown & Curtains) -->
+    <section id="section1" class="cinematic-section section-blend-top z-40" style="min-height: 100vh; min-height: 100dvh;">
         <canvas id="dustCanvas" class="absolute inset-0 z-35 pointer-events-none opacity-80"></canvas>
 
         <div id="curtainLeft" class="curtain-panel curtain-left-shadow absolute top-0 left-0 w-[50.5%] h-full z-30 flex items-center justify-end"></div>
         <div id="curtainRight" class="curtain-panel curtain-right-shadow absolute top-0 right-0 w-[50.5%] h-full z-30 flex items-center justify-start"></div>
 
-        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto my-auto flex flex-col items-center w-full px-2">
+        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto my-auto flex flex-col items-center w-full px-2 pt-6">
             
             <div class="inline-block border border-gold/40 px-4 py-1.5 rounded-full backdrop-blur-md bg-black/40 text-[10px] sm:text-xs text-gold uppercase tracking-[0.3em] font-semibold mb-2 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                 ✨ GRAND PREMIERE ✨
@@ -608,6 +626,7 @@
         <div class="section-transition-feather"></div>
     </section>
 
+    <!-- Section 3 (Gallery) -->
     <section id="section3" class="cinematic-section section-velvet-blend z-25">
         <div class="section-transition-top-feather"></div>
         <div class="feather-top-fade"></div>
@@ -1559,12 +1578,11 @@
                 document.getElementById('eqContainer').classList.remove('opacity-50');
             }).catch(() => {});
 
-            // Parde khulte hi turant countdown ko hide kar rahe hain taaki piche ka section saaf dikhe
-            gsap.to('#frontHeader', { opacity: 0, duration: 0.3 });
-            gsap.to('#wishButtonWrapper', { opacity: 0, duration: 0.3 });
+            gsap.to('#frontHeader', { opacity: 0, duration: 0.2 });
+            gsap.to('#wishButtonWrapper', { opacity: 0, duration: 0.2 });
 
-            gsap.to('#curtainLeft', { xPercent: -125, duration: 2.0, ease: 'power4.inOut' });
-            gsap.to('#curtainRight', { xPercent: 125, duration: 2.0, ease: 'power4.inOut', onComplete: () => {
+            gsap.to('#curtainLeft', { xPercent: -125, duration: 1.8, ease: 'power4.inOut' });
+            gsap.to('#curtainRight', { xPercent: 125, duration: 1.8, ease: 'power4.inOut', onComplete: () => {
                 document.getElementById('section1').style.display = 'none';
                 startHorrorJumpscareSequence();
             }});
@@ -1572,59 +1590,70 @@
 
         function startHorrorJumpscareSequence() {
             const overlay = document.getElementById('jumpscareOverlay');
+            const icon = document.getElementById('jumpscareIcon');
+            const title = document.getElementById('jumpscareTitle');
+            const sub = document.getElementById('jumpscareSub');
+
             overlay.style.opacity = '1';
             playScaryJumpscareSound();
 
             setTimeout(() => {
-                overlay.style.opacity = '0';
+                icon.className = "fa-solid fa-ghost text-8xl sm:text-9xl text-red-600 mb-4 animate-bounce filter drop-shadow-[0_0_50px_#ff0000]";
+                title.innerText = "CH 27 UNLOCKED";
+                sub.classList.remove('hidden');
 
-                const storySubtitle = document.getElementById('storySubtitle');
-                const ageContainer = document.getElementById('ageContainer');
-                const drum1Track = document.getElementById('drum1Track');
-                const drum2Track = document.getElementById('drum2Track');
-                const tapPrompt = document.getElementById('tapPrompt');
-                const bdayBanner = document.getElementById('bdayBanner');
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
 
-                const itemHeight = window.innerWidth >= 768 ? 160 : 120;
+                    const storySubtitle = document.getElementById('storySubtitle');
+                    const ageContainer = document.getElementById('ageContainer');
+                    const drum1Track = document.getElementById('drum1Track');
+                    const drum2Track = document.getElementById('drum2Track');
+                    const tapPrompt = document.getElementById('tapPrompt');
+                    const bdayBanner = document.getElementById('bdayBanner');
 
-                gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
-                    gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
-                        gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+                    const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-                        gsap.fromTo(drum2Track, { y: 0 }, { 
-                            y: -itemHeight * 6, 
-                            duration: 2.5, 
-                            ease: "power2.inOut", 
-                            onComplete: () => {
-                                tapPrompt.classList.remove('opacity-0');
-                                tapPrompt.style.cursor = 'pointer';
+                    gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
+                        gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
+                            gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-                                let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
+                            gsap.fromTo(drum2Track, { y: 0 }, { 
+                                y: -itemHeight * 6, 
+                                duration: 2.5, 
+                                ease: "power2.inOut", 
+                                onComplete: () => {
+                                    tapPrompt.classList.remove('opacity-0');
+                                    tapPrompt.style.cursor = 'pointer';
 
-                                const triggerAwaken = () => {
-                                    clearTimeout(autoAwakenTimer);
-                                    document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
-                                    document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
+                                    let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
 
-                                    tapPrompt.style.opacity = '0';
+                                    const triggerAwaken = () => {
+                                        clearTimeout(autoAwakenTimer);
+                                        document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
+                                        document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
 
-                                    gsap.to(drum2Track, { 
-                                        y: -itemHeight * 7, 
-                                        duration: 1.2, 
-                                        ease: "power2.inOut",
-                                        onComplete: () => {
-                                            bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                                        }
-                                    });
-                                };
+                                        tapPrompt.style.opacity = '0';
 
-                                document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
-                                document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
-                            }
-                        });
+                                        gsap.to(drum2Track, { 
+                                            y: -itemHeight * 7, 
+                                            duration: 1.2, 
+                                            ease: "power2.inOut",
+                                            onComplete: () => {
+                                                document.body.classList.remove('locked-scroll');
+                                                bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                                            }
+                                        });
+                                    };
+
+                                    document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
+                                    document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
+                                }
+                            });
+                        }});
                     }});
-                }});
-            }, 1800);
+                }, 1600);
+            }, 1200);
         }
 
         function skipToNext() { 
