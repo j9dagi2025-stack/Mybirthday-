@@ -232,14 +232,14 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Horror Video Jumpscare Overlay */
+        /* Real Horror Video Jumpscare Overlay */
         #jumpscareOverlay {
             position: fixed; inset: 0; background: #000000; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
         }
 
-        /* Gallery Black & White to Color Toggle Effect (Only active on touch/hover) */
+        /* Gallery Black & White to Color Toggle Effect */
         .ribbon-photo-item img {
             filter: grayscale(100%) contrast(120%);
             transition: filter 0.6s ease, transform 0.4s ease;
@@ -451,8 +451,8 @@
 
     <!-- Real Horror Video Jumpscare Overlay with Sorry Message -->
     <div id="jumpscareOverlay">
-        <video id="horrorVideo" class="w-full h-full object-cover absolute inset-0 z-10" muted playsinline preload="auto" src="https://assets.mixkit.co/videos/preview/mixkit-scary-ghost-woman-in-the-dark-41551-large.mp4"></video>
-        <div class="absolute inset-0 bg-black/50 z-20 pointer-events-none"></div>
+        <video id="horrorVideo" class="w-full h-full object-cover absolute inset-0 z-10" playsinline preload="auto" src="https://assets.mixkit.co/videos/preview/mixkit-scary-ghost-woman-in-the-dark-41551-large.mp4"></video>
+        <div class="absolute inset-0 bg-black/40 z-20 pointer-events-none"></div>
         <div class="absolute z-30 text-center px-4 bottom-16">
             <h2 id="horrorMsg" class="font-playfair italic text-white text-xl sm:text-3xl tracking-widest opacity-0 transition-opacity duration-700 drop-shadow-[0_0_20px_#ff0000]">"Sorry... hope you didn't get too scared."</h2>
         </div>
@@ -628,7 +628,7 @@
         </div>
 
         <div class="text-[11px] text-gold/80 font-mono tracking-widest uppercase mb-3 flex items-center gap-2 animate-pulse">
-            <i class="fa-solid fa-arrows-left-right"></i> <span>Tap/Click a photo to reveal color, tap another to switch</span>
+            <i class="fa-solid fa-arrows-left-right"></i> <span>Tap a photo to reveal color, tap another to switch</span>
         </div>
 
         <div class="w-full z-20 overflow-hidden">
@@ -1148,23 +1148,6 @@
             } catch(e) {}
         }
 
-        function playScaryJumpscareSound() {
-            try {
-                initGlobalAudioContext();
-                if (!globalAudioCtx) return;
-                const now = globalAudioCtx.currentTime;
-                const osc = globalAudioCtx.createOscillator();
-                const gain = globalAudioCtx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(80, now);
-                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.7);
-                gain.gain.setValueAtTime(1.0, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
-                osc.connect(gain); gain.connect(globalAudioCtx.destination);
-                osc.start(now); osc.stop(now + 0.95);
-            } catch(e) {}
-        }
-
         function startAutomaticTicking() {
             if (tickingInterval) return;
             tickingInterval = setInterval(() => {
@@ -1582,7 +1565,6 @@
             overlay.style.opacity = '1';
             video.currentTime = 0;
             video.play().catch(() => {});
-            playScaryJumpscareSound();
 
             setTimeout(() => {
                 msg.style.opacity = '1';
