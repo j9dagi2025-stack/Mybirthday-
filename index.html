@@ -353,7 +353,7 @@
             overflow: hidden;
         }
 
-        /* 4-Column Balanced Dynamic Bubble */
+        /* 4-Area Dynamic Non-Linear Bubble */
         .sec4-bubble {
             position: absolute;
             background: linear-gradient(145deg, #1f1418 0%, #0d070a 100%) !important;
@@ -1508,30 +1508,34 @@
             }
         }
 
-        // --- 4-Lane Dynamic Flow (Edge Left, Center-Left, Center-Right, Edge Right) ---
+        // --- 4-Lane Dynamic Randomized Flow (Left Edge, Mid-Left, Mid-Right, Right Edge) ---
         let wishesSpawnInterval = null;
-        let currentLaneIndex = 0;
+        let lastLaneIndex = -1;
 
         function initSection4WishesFlow() {
             const container = document.getElementById('section4WishesContainer');
             const section4 = document.getElementById('section4');
 
-            function spawnContinuousBubble() {
+            // 4 zones: Extreme Left cut, Mid Left, Mid Right, Extreme Right cut
+            const isMobile = window.innerWidth < 640;
+            const laneZones = isMobile ? [
+                { min: -10, max: -4 },  // Area 1: Left Outer Cut
+                { min: 18,  max: 28 },  // Area 2: Mid-Left
+                { min: 46,  max: 56 },  // Area 3: Mid-Right
+                { min: 78,  max: 86 }   // Area 4: Right Outer Cut
+            ] : [
+                { min: -3,  max: 2 },   // Desktop Area 1
+                { min: 24,  max: 32 },  // Desktop Area 2
+                { min: 52,  max: 60 },  // Desktop Area 3
+                { min: 82,  max: 88 }   // Desktop Area 4
+            ];
+
+            function spawnBubbleInRandomLane(laneIndex) {
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
-                
-                // 4 distinct areas:
-                // 1: Extreme Left (thoda screen se bahar cut-off style)
-                // 2: Center-Left
-                // 3: Center-Right
-                // 4: Extreme Right (thoda right edge pe cut-off style)
-                const isMobile = window.innerWidth < 640;
-                const columns = isMobile 
-                    ? [-8, 22, 52, 78]   
-                    : [-2, 26, 56, 84];  
 
-                const chosenLeft = columns[currentLaneIndex];
-                currentLaneIndex = (currentLaneIndex + 1) % columns.length;
+                const zone = laneZones[laneIndex];
+                const chosenLeft = zone.min + Math.random() * (zone.max - zone.min);
 
                 b.style.left = `${chosenLeft}%`;
                 
@@ -1565,9 +1569,11 @@
 
                 gsap.set(b, { top: startY, opacity: 1, scale: 0.95 });
                 
-                // Constant synchronized flow speed across all 4 tracks to eliminate overlapping
+                // Controlled synchronized movement per track with subtle organic sway
+                const swayAmount = (Math.random() - 0.5) * 16;
                 gsap.to(b, {
                     top: endY,
+                    x: `+=${swayAmount}`,
                     opacity: 1,
                     scale: 1,
                     duration: 21,
@@ -1576,11 +1582,30 @@
                 });
             }
 
+            function triggerDynamicBurst() {
+                // Pick 1 or 2 distinct random lanes simultaneously to break single-file queue look
+                const lanesAvailable = [0, 1, 2, 3].filter(idx => idx !== lastLaneIndex);
+                
+                // Shuffle available lanes
+                lanesAvailable.sort(() => Math.random() - 0.5);
+
+                const countToSpawn = Math.random() > 0.4 ? 2 : 1;
+                const chosenLanes = lanesAvailable.slice(0, countToSpawn);
+
+                chosenLanes.forEach((laneIdx, i) => {
+                    setTimeout(() => {
+                        spawnBubbleInRandomLane(laneIdx);
+                    }, i * 350);
+                });
+
+                lastLaneIndex = chosenLanes[chosenLanes.length - 1];
+            }
+
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
                     if (!wishesSpawnInterval) {
-                        spawnContinuousBubble();
-                        wishesSpawnInterval = setInterval(spawnContinuousBubble, 2000);
+                        triggerDynamicBurst();
+                        wishesSpawnInterval = setInterval(triggerDynamicBurst, 1800);
                     }
                 }
             }, { threshold: 0.15 });
