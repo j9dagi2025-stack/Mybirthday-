@@ -13,7 +13,6 @@
     <!-- Firebase SDKs (Compat v9) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
@@ -923,7 +922,7 @@
     </div>
 
     <script>
-        // --- UPDATED FIREBASE CONFIGURATION ---
+        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyCtFYsDjTS0rZNyhcbWvB577USxmBfkfuc",
             authDomain: "aaravbirthday.firebaseapp.com",
@@ -938,7 +937,6 @@
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
         let publicWishes = [];
         let privateWishes = [];
@@ -966,38 +964,17 @@
         }
         window.addEventListener('load', listenToDatabaseWishes);
 
-        async function uploadFileToStorage(file, folder) {
-            if (!file) return "";
-            const fileName = `${folder}/${Date.now()}_${file.name}`;
-            const storageRef = storage.ref(fileName);
-            const snapshot = await storageRef.put(file);
-            return await snapshot.ref.getDownloadURL();
-        }
-
         async function finalizeWishPush(name, msg, isPrivate) {
             const submitBtn = document.querySelector('#wishModal button[type="submit"]');
-            submitBtn.innerText = "Uploading & Locking... ⏳";
+            submitBtn.innerText = "Locking Wish... ⏳";
             submitBtn.disabled = true;
 
             try {
                 let avatarUrl = finalizedAvatarUrl || "https://picsum.photos/seed/default/200/200";
-                let giftUrl = finalizedGiftUrl || "";
-                let audioUrl = "";
+                let giftUrl = finalizedGiftUrl || `https://picsum.photos/seed/${encodeURIComponent(name)}/800/1000`;
+                let audioUrl = finalizedAudioUrl || "";
 
-                const audioFile = document.getElementById('audioInput').files[0];
-                if (audioFile) {
-                    audioUrl = await uploadFileToStorage(audioFile, 'audios');
-                }
-
-                if (finalizedGiftUrl && finalizedGiftUrl.startsWith('data:image')) {
-                    const giftBlob = await (await fetch(finalizedGiftUrl)).blob();
-                    const giftRef = storage.ref(`gifts/${Date.now()}_gift.jpg`);
-                    const snap = await giftRef.put(giftBlob);
-                    giftUrl = await snap.ref.getDownloadURL();
-                } else if (!giftUrl) {
-                    giftUrl = `https://picsum.photos/seed/${encodeURIComponent(name)}/800/1000`;
-                }
-
+                // Direct Firestore Database save (100% Free, no Storage bucket needed!)
                 await db.collection("wishes").add({
                     name: name,
                     text: msg,
@@ -1009,15 +986,24 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                if (isPrivate) { 
-                    alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!"); 
-                } else { 
-                    alert("✨ Wish Locked & Floated into Public Galaxy Successfully!"); 
+                if (isPrivate) {
+                    alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!");
+                } else {
+                    alert("✨ Wish Locked & Floated into Public Galaxy Successfully!");
                 }
-                closeWishModal(); 
+
+                // Reset form fields
+                document.getElementById('senderName').value = '';
+                document.getElementById('senderMsg').value = '';
+                document.getElementById('avatarPreviewBox').classList.add('hidden');
+                document.getElementById('giftPreviewBox').classList.add('hidden');
+                document.getElementById('audioPreviewBox').classList.add('hidden');
+                finalizedGiftUrl = "";
+                finalizedAudioUrl = "";
+
+                closeWishModal();
 
             } catch (error) {
-                console.error("Error:", error);
                 alert("❌ Error: " + error.message);
             } finally {
                 submitBtn.innerText = "Lock My Wish 🔒";
@@ -1292,7 +1278,7 @@
                 document.getElementById('avatarPreviewBox').classList.remove('hidden');
                 document.getElementById('avatarThumbnail').src = finalizedAvatarUrl;
             } else {
-                finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.9);
+                finalizedGiftUrl = canvas.toDataURL('image/jpeg', 0.85);
                 document.getElementById('giftPreviewBox').classList.remove('hidden');
                 document.getElementById('giftThumbName').innerText = "Portrait 4:5 Set!";
                 document.getElementById('giftThumbContainer').innerHTML = `<img src="${finalizedGiftUrl}" class="w-full h-full object-cover">`;
