@@ -453,7 +453,7 @@
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
-        /* Floating Balloons & Butterflies overlay styles */
+        /* Colorful Butterflies Swarm overlay styles */
         #celebrationOverlay {
             position: fixed; inset: 0; pointer-events: none; z-index: 950; overflow: hidden;
         }
@@ -1190,35 +1190,36 @@
             } catch(e) {}
         }
 
-        // Exact 5 from Left and 5 from Right ordered Butterfly / Balloon Swarm entry
+        // Exactly 5 Colorful Butterflies from Left and 5 from Right on Curtains Opening
         function triggerCelebrationSwarm() {
             const overlay = document.getElementById('celebrationOverlay');
             overlay.innerHTML = '';
             
-            // Exactly 5 Left & 5 Right items that fly in, then disperse across screen
+            const vibrantColors = ['#D4AF37', '#FF4500', '#00FFFF', '#FF1493', '#32CD32'];
+
             for (let i = 0; i < 10; i++) {
                 const item = document.createElement('div');
                 item.className = 'flying-item';
                 
                 const isLeft = i < 5;
-                const startX = isLeft ? 2 : 98; // 5 from extreme left, 5 from extreme right
-                const color = (i % 2 === 0) ? '#D4AF37' : '#FF4500';
+                const startX = isLeft ? 2 : 98; // 5 from left edge, 5 from right edge
+                const color = vibrantColors[i % vibrantColors.length];
                 
-                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${28 + (i * 2)}px; filter: drop-shadow(0 0 15px #FFD700);"></i>`;
+                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${30 + (i * 2)}px; filter: drop-shadow(0 0 18px ${color});"></i>`;
                 
                 item.style.left = `${startX}vw`;
-                item.style.bottom = `${20 + (i * 6)}vh`;
+                item.style.bottom = `${15 + (i * 7)}vh`;
                 
                 overlay.appendChild(item);
 
-                // Phase 1: Converge/Spread inward & upward across screen, Phase 2: float away
+                // Spread inward and float gracefully across the screen
                 gsap.to(item, {
-                    x: (isLeft ? 1 : -1) * (30 + Math.random() * 35) + 'vw',
-                    y: -70 - Math.random() * 30 + 'vh',
-                    rotation: (Math.random() - 0.5) * 140,
+                    x: (isLeft ? 1 : -1) * (35 + Math.random() * 30) + 'vw',
+                    y: -75 - Math.random() * 25 + 'vh',
+                    rotation: (Math.random() - 0.5) * 160,
                     duration: 5.5 + Math.random() * 1.5,
                     ease: "power2.out",
-                    delay: 0.1 * i
+                    delay: 0.08 * i
                 });
             }
         }
@@ -1359,7 +1360,6 @@
         const hCanvas = document.getElementById('hologramCanvas');
         const hCtx = hCanvas.getContext('2d');
         let hParticles = [];
-        let goldenButterflies = [];
         let mouseX = 0, mouseY = 0;
 
         function resizeHologramCanvas() {
@@ -1406,48 +1406,7 @@
             }
         }
 
-        class GoldenButterfly {
-            constructor() {
-                this.x = Math.random() * hCanvas.width;
-                this.y = hCanvas.height + 50;
-                this.size = Math.random() * 8 + 10;
-                this.speedY = Math.random() * -1.5 - 0.8;
-                this.speedX = Math.random() * 2 - 1;
-                this.wingAngle = Math.random() * Math.PI;
-                this.wingSpeed = 0.15;
-            }
-            update() {
-                this.y += this.speedY;
-                this.x += Math.sin(this.y * 0.02) * 1.5 + this.speedX;
-                this.wingAngle += this.wingSpeed;
-                if (this.y < -50) {
-                    this.y = hCanvas.height + 50;
-                    this.x = Math.random() * hCanvas.width;
-                }
-            }
-            draw() {
-                hCtx.save();
-                hCtx.translate(this.x, this.y);
-                const wingScaleX = Math.cos(this.wingAngle);
-                
-                hCtx.fillStyle = '#D4AF37';
-                hCtx.shadowColor = '#FFD700';
-                hCtx.shadowBlur = 12;
-                
-                hCtx.beginPath();
-                hCtx.ellipse(-this.size * wingScaleX * 0.5, 0, this.size * Math.abs(wingScaleX), this.size * 0.7, -0.3, 0, Math.PI * 2);
-                hCtx.fill();
-                
-                hCtx.beginPath();
-                hCtx.ellipse(this.size * wingScaleX * 0.5, 0, this.size * Math.abs(wingScaleX), this.size * 0.7, 0.3, 0, Math.PI * 2);
-                hCtx.fill();
-                
-                hCtx.restore();
-            }
-        }
-
         for (let i = 0; i < 100; i++) { hParticles.push(new HologramNode()); }
-        for (let i = 0; i < 14; i++) { goldenButterflies.push(new GoldenButterfly()); }
 
         function animateHologramVortex() {
             hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
@@ -1461,7 +1420,6 @@
             hCtx.stroke();
 
             hParticles.forEach(p => { p.update(); p.draw(); });
-            goldenButterflies.forEach(b => { b.update(); b.draw(); });
 
             requestAnimationFrame(animateHologramVortex);
         }
