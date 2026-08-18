@@ -341,8 +341,8 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
-        /* Perfect Balanced Floating Wishes Container (Starts from Section 2 onwards smoothly) */
-        #sec4WishesContainer {
+        /* Global Floating Wishes Container - Starts from Section 2 onwards smoothly */
+        #globalWishesContainer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
@@ -352,7 +352,7 @@
             transition: opacity 0.5s ease;
         }
 
-        #sec4WishesContainer.active { opacity: 1; }
+        #globalWishesContainer.active { opacity: 1; }
 
         .sec4-bubble {
             position: absolute;
@@ -369,7 +369,7 @@
             pointer-events: auto !important;
             cursor: pointer;
             width: 210px;
-            max-width: 48vw;
+            max-width: 46vw;
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
@@ -384,10 +384,10 @@
         }
 
         @keyframes floatFromBottomToTop {
-            0% { transform: translateY(110vh) translateZ(0); opacity: 0; }
-            12% { opacity: 1; }
-            88% { opacity: 1; }
-            100% { transform: translateY(-15vh) translateZ(0); opacity: 0; }
+            0% { transform: translateY(112vh) translateZ(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-16vh) translateZ(0); opacity: 0; }
         }
 
         @keyframes goldShimmer {
@@ -471,7 +471,7 @@
 </head>
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
-    <div id="sec4WishesContainer"></div>
+    <div id="globalWishesContainer"></div>
     <canvas id="celebrationCanvas"></canvas>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
@@ -1209,26 +1209,25 @@
             constructor(startX, startY, isLeftDir) {
                 this.x = startX;
                 this.y = startY;
-                // Graceful, smooth glide (not too fast)
                 this.vx = (isLeftDir ? 1 : -1) * (Math.random() * 2 + 1.8);
                 this.vy = (Math.random() - 0.5) * 1.5;
                 this.size = Math.random() * 12 + 16;
                 this.wingAngle = Math.random() * Math.PI;
-                this.wingSpeed = Math.random() * 0.08 + 0.05; // Gentle flapping
+                this.wingSpeed = Math.random() * 0.08 + 0.05; 
                 this.alpha = 0;
                 this.life = 0;
                 this.maxLife = 350 + Math.random() * 100;
             }
             update() {
                 this.x += this.vx;
-                this.y += this.vy + Math.sin(this.life * 0.025) * 0.5; // Natural wave floating
+                this.y += this.vy + Math.sin(this.life * 0.025) * 0.5; 
                 this.wingAngle += this.wingSpeed;
                 this.life++;
                 
                 if (this.life < 70) {
-                    this.alpha += 0.015; // Smooth fade in
+                    this.alpha += 0.015; 
                 } else if (this.life > this.maxLife - 70) {
-                    this.alpha -= 0.015; // Smooth fade out
+                    this.alpha -= 0.015; 
                 }
             }
             draw() {
@@ -1238,7 +1237,6 @@
                 
                 const scaleX = Math.cos(this.wingAngle);
                 
-                // Rich Metallic Premium Gold Gradient with Soft Glow
                 const grad = cCtx.createLinearGradient(-this.size, -this.size, this.size, this.size);
                 grad.addColorStop(0, '#FFF6D1');
                 grad.addColorStop(0.5, '#D4AF37');
@@ -1248,20 +1246,16 @@
                 cCtx.shadowColor = 'rgba(212, 175, 55, 0.35)';
                 cCtx.shadowBlur = 12;
 
-                // Authentic Tapered Butterfly Wings (Defined Contour, No Circles)
-                // Left Wing
                 cCtx.beginPath();
                 cCtx.moveTo(0, 0);
                 cCtx.bezierCurveTo(-this.size * scaleX * 1.5, -this.size * 1.2, -this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
                 cCtx.fill();
 
-                // Right Wing
                 cCtx.beginPath();
                 cCtx.moveTo(0, 0);
                 cCtx.bezierCurveTo(this.size * scaleX * 1.5, -this.size * 1.2, this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
                 cCtx.fill();
 
-                // Center Sleek Body
                 cCtx.fillStyle = '#FFF6D1';
                 cCtx.fillRect(-1.5, -this.size * 0.45, 3, this.size * 0.9);
 
@@ -1273,7 +1267,6 @@
             celebrationButterflies = [];
             isCelebrating = true;
 
-            // Staggered cinematic flow from both sides
             for (let i = 0; i < 16; i++) {
                 const isLeft = i % 2 === 0;
                 const startX = isLeft ? -40 : window.innerWidth + 40;
@@ -1302,20 +1295,19 @@
         }
         animateCelebrationButterflies();
 
-        // Balanced 3-Lane Floating Wishes Flow starting cleanly from Section 2 onwards
-        function initSection4WishesFlow() {
-            const container = document.getElementById('sec4WishesContainer');
+        // Global Wishes Flow - Starts automatically from Section 2 onwards across all screens smoothly
+        function initGlobalWishesFlow() {
+            const container = document.getElementById('globalWishesContainer');
             const section2 = document.getElementById('section2');
 
             function spawnBubble() {
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
                 
-                // Balanced Left, Center, Right lanes with soft side padding for natural edge overflow
                 const lanes = [
-                    { min: 2, max: 28 },   // Left lane
-                    { min: 34, max: 62 },  // Center lane
-                    { min: 68, max: 96 }   // Right lane
+                    { min: 2, max: 28 },   
+                    { min: 34, max: 62 },  
+                    { min: 68, max: 96 }   
                 ];
                 const chosenLane = lanes[Math.floor(Math.random() * lanes.length)];
                 const randomLeft = chosenLane.min + Math.random() * (chosenLane.max - chosenLane.min);
@@ -1351,13 +1343,12 @@
 
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) { container.classList.add('active'); } 
-                else { container.classList.remove('active'); }
             }, { threshold: 0.02 });
 
             observer.observe(section2);
             setInterval(spawnBubble, 2200);
         }
-        window.addEventListener('load', initSection4WishesFlow);
+        window.addEventListener('load', initGlobalWishesFlow);
 
         function toggleExpandedWish(wish) {
             const modal = document.getElementById('wishCardModal');
