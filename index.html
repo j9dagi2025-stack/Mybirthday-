@@ -47,8 +47,6 @@
         body.locked-scroll {
             overflow: hidden !important;
             height: 100vh !important;
-            position: fixed;
-            width: 100%;
         }
 
         .cinematic-section {
@@ -232,20 +230,56 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Smooth Cinematic Scary Jumpscare Styling */
+        /* High-End Realistic Scary Monster Jumpscare */
         #jumpscareOverlay {
             position: fixed; inset: 0; background: #000000; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out;
         }
-        .scary-ghost-container {
+        .realistic-monster-face {
             position: relative;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, #2a0000 0%, #0a0000 80%);
+            border: 3px solid #ff0033;
+            border-radius: 50%;
+            box-shadow: 0 0 60px #ff0000, inset 0 0 40px #ff0000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: smoothGhostZoom 1.8s ease-in-out infinite alternate;
+            animation: terrifyingShake 0.08s infinite alternate;
         }
-        @keyframes smoothGhostZoom {
-            0% { transform: scale(0.9) translateY(0); filter: drop-shadow(0 0 20px #ff0000); }
-            100% { transform: scale(1.15) translateY(-10px); filter: drop-shadow(0 0 50px #ff0033); }
+        .monster-eyes-row {
+            display: flex; gap: 40px; margin-bottom: 20px;
+        }
+        .monster-eye {
+            width: 35px; height: 16px; background: #ffff00;
+            border-radius: 50%; box-shadow: 0 0 25px #ff0000, 0 0 10px #ffffff;
+            animation: eyeBlink 0.15s infinite alternate;
+        }
+        .monster-mouth {
+            width: 100px; height: 50px; background: #100000;
+            border: 3px solid #ff0000; border-radius: 0 0 50px 50px;
+            box-shadow: inset 0 0 20px #ff0000;
+        }
+        @keyframes terrifyingShake {
+            0% { transform: translate(-10px, 10px) scale(1.05) rotate(-2deg); }
+            100% { transform: translate(10px, -10px) scale(1.18) rotate(2deg); }
+        }
+        @keyframes eyeBlink {
+            0% { transform: scaleY(1); opacity: 1; }
+            100% { transform: scaleY(0.2); opacity: 0.6; }
+        }
+        .blood-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle, transparent 35%, rgba(180, 0, 0, 0.4) 75%, rgba(90, 0, 0, 0.85) 100%);
+            pointer-events: none;
+        }
+
+        /* Gallery Black & White to Smooth Color Effect */
+        .ribbon-photo-item img {
+            filter: grayscale(100%) contrast(120%);
+            transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease;
+        }
+        .ribbon-photo-item:hover img, .ribbon-photo-item.touched img {
+            filter: grayscale(0%) contrast(100%);
         }
 
         .section-velvet-blend {
@@ -303,7 +337,6 @@
             border-radius: 14px; overflow: hidden;
             border: 1.5px solid rgba(212, 175, 55, 0.55);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(212, 175, 55, 0.2);
-            transition: transform 0.35s ease, border-color 0.3s ease;
             cursor: pointer; background: #111;
         }
 
@@ -323,7 +356,7 @@
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
         .ribbon-photo-item:hover {
-            transform: scale(1.15) translateY(0) rotate(0deg) !important;
+            transform: scale(1.12) translateY(0) rotate(0deg) !important;
             border-color: rgba(255, 215, 0, 1); z-index: 30;
             box-shadow: 0 20px 35px rgba(212, 175, 55, 0.45);
         }
@@ -342,7 +375,7 @@
 
         .sec4-bubble {
             position: absolute;
-            background: linear-gradient(135deg, rgba(40, 25, 30, 0.75) 0%, rgba(15, 10, 12, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(40, 25, 30, 0.8) 0%, rgba(15, 10, 12, 0.9) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1.5px solid rgba(212, 175, 55, 0.7);
@@ -351,7 +384,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35), inset 0 0 12px rgba(255, 246, 209, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35);
             pointer-events: auto !important;
             cursor: pointer;
             width: 240px;
@@ -359,21 +392,21 @@
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .sec4-bubble:hover {
             border-color: #FFF6D1;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 246, 209, 0.7), inset 0 0 18px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 246, 209, 0.7);
             transform: scale(1.05);
             z-index: 60;
         }
 
-        @keyframes floatFromSec4ToSec1 {
+        @keyframes floatFromBottomToTop {
             0% { transform: translateY(115vh) translateZ(0); opacity: 0; }
-            12% { opacity: 1; }
-            88% { opacity: 1; }
-            100% { transform: translateY(-115vh) translateZ(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-15vh) translateZ(0); opacity: 0; }
         }
 
         @keyframes goldShimmer {
@@ -451,16 +484,21 @@
         ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
+<body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
 
     <div id="sec4WishesContainer"></div>
 
-    <!-- Cinematic Scary Smooth Jumpscare Overlay -->
+    <!-- Realistic Scary Monster Jumpscare Overlay -->
     <div id="jumpscareOverlay">
-        <div class="scary-ghost-container">
-            <i class="fa-solid fa-ghost text-6xl sm:text-8xl text-red-600 mb-4 animate-bounce"></i>
-            <h2 class="font-cinzel text-2xl sm:text-4xl font-black text-red-500 tracking-[0.3em] uppercase text-center drop-shadow-[0_0_25px_#ff0000]">CHAPTER 27 AWAKENS</h2>
+        <div class="blood-overlay"></div>
+        <div class="realistic-monster-face">
+            <div class="monster-eyes-row">
+                <div class="monster-eye"></div>
+                <div class="monster-eye"></div>
+            </div>
+            <div class="monster-mouth"></div>
         </div>
+        <h2 class="font-cinzel text-2xl sm:text-4xl font-black text-red-500 tracking-[0.3em] uppercase text-center mt-6 drop-shadow-[0_0_25px_#ff0000]">CHAPTER 27 AWAKENS</h2>
     </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
@@ -480,14 +518,14 @@
     
     <audio id="bgMusic" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-acoustic-guitar-112317.mp3"></audio>
 
-    <!-- Section 1 (Countdown & Curtains) -->
-    <section id="section1" class="cinematic-section section-blend-top z-40" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;">
+    <!-- Section 1 (Countdown & Curtains with mild scroll space for Wish button) -->
+    <section id="section1" class="cinematic-section section-blend-top z-40" style="min-height: 115vh; padding-bottom: 80px;">
         <canvas id="dustCanvas" class="absolute inset-0 z-35 pointer-events-none opacity-80"></canvas>
 
         <div id="curtainLeft" class="curtain-panel curtain-left-shadow absolute top-0 left-0 w-[50.5%] h-full z-30 flex items-center justify-end"></div>
         <div id="curtainRight" class="curtain-panel curtain-right-shadow absolute top-0 right-0 w-[50.5%] h-full z-30 flex items-center justify-start"></div>
 
-        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto transition-all duration-700 my-auto flex flex-col items-center w-full px-2">
+        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto transition-all duration-700 my-auto flex flex-col items-center w-full px-2 pt-10">
             
             <div class="inline-block border border-gold/40 px-4 py-1.5 rounded-full backdrop-blur-md bg-black/40 text-[10px] sm:text-xs text-gold uppercase tracking-[0.3em] font-semibold mb-3 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                 ✨ GRAND PREMIERE ✨
@@ -543,7 +581,7 @@
             </div>
         </div>
 
-        <div id="wishButtonWrapper" class="z-40 text-center mb-6 transition-all duration-700">
+        <div id="wishButtonWrapper" class="z-40 text-center my-6 transition-all duration-700">
             <button onclick="openWishModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-wider text-[10px] sm:text-xs shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition duration-300">
                 ✍️ Leave a Birthday Wish for Arvind_zx
             </button>
@@ -632,7 +670,7 @@
         </div>
 
         <div class="text-[11px] text-gold/80 font-mono tracking-widest uppercase mb-3 flex items-center gap-2 animate-pulse">
-            <i class="fa-solid fa-arrows-left-right"></i> <span>Drag Horizontally to Explore Gallery</span>
+            <i class="fa-solid fa-arrows-left-right"></i> <span>Touch or Hover Photos to Reveal Color</span>
         </div>
 
         <div class="w-full z-20 overflow-hidden">
@@ -643,7 +681,7 @@
         <div class="section-transition-feather"></div>
     </section>
 
-    <!-- Section 4 with Centered Wish Button -->
+    <!-- Section 4 -->
     <section id="section4" class="cinematic-section section-blend-top z-25">
         <div class="section-transition-top-feather"></div>
         <div class="text-center z-30 glass-badge px-6 py-6 sm:px-8 sm:py-8 rounded-3xl border border-gold/40 shadow-2xl max-w-xl mx-auto relative my-auto">
@@ -701,7 +739,7 @@
         </div>
     </div>
 
-    <!-- Expanded Wish Card Modal (Fixed Close Handlers) -->
+    <!-- Expanded Wish Card Modal -->
     <div id="wishCardModal" onclick="closeExpandedWish(event)">
         <div class="expanded-wish-card" onclick="event.stopPropagation()">
             <div class="gold-organic-spark" style="top: 10px; left: 12px;"></div>
@@ -1160,8 +1198,8 @@
                 const osc = globalAudioCtx.createOscillator();
                 const gain = globalAudioCtx.createGain();
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(100, now);
-                osc.frequency.exponentialRampToValueAtTime(900, now + 0.5);
+                osc.frequency.setValueAtTime(90, now);
+                osc.frequency.exponentialRampToValueAtTime(1100, now + 0.6);
                 gain.gain.setValueAtTime(1.0, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
                 osc.connect(gain); gain.connect(globalAudioCtx.destination);
@@ -1198,56 +1236,61 @@
             } catch(e) {}
         }
 
+        // Wishes Flow across Left, Center, Right spanning full vertical height up to top header
         function initSection4WishesFlow() {
             const container = document.getElementById('sec4WishesContainer');
             const section4 = document.getElementById('section4');
 
             function spawnBubble() {
-                if (!section4) return;
-                const rect = section4.getBoundingClientRect();
-                if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-                    const b = document.createElement('div');
-                    b.className = 'sec4-bubble';
-                    
-                    const randomLeft = 5 + Math.random() * 75;
-                    b.style.left = `${randomLeft}%`;
-                    
-                    const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
+                const b = document.createElement('div');
+                b.className = 'sec4-bubble';
+                
+                // Spread evenly across Left (2% - 30%), Center (32% - 62%), Right (64% - 92%)
+                const lanes = [
+                    { min: 2, max: 28 },
+                    { min: 34, max: 62 },
+                    { min: 66, max: 92 }
+                ];
+                const chosenLane = lanes[Math.floor(Math.random() * lanes.length)];
+                const randomLeft = chosenLane.min + Math.random() * (chosenLane.max - chosenLane.min);
+                b.style.left = `${randomLeft}%`;
+                
+                const randomWish = publicWishes[Math.floor(Math.random() * publicWishes.length)];
 
-                    b.innerHTML = `
-                        <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
-                        <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
-                        <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
-                        <div class="flex flex-col text-left overflow-hidden">
-                            <span class="font-cinzel font-bold text-gold text-xs">${randomWish.name}</span>
-                            <span class="text-[11px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
-                        </div>
-                    `;
+                b.innerHTML = `
+                    <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
+                    <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
+                    <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
+                    <div class="flex flex-col text-left overflow-hidden">
+                        <span class="font-cinzel font-bold text-gold text-xs">${randomWish.name}</span>
+                        <span class="text-[11px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
+                    </div>
+                `;
 
-                    b.style.animation = `floatFromSec4ToSec1 16s linear forwards`;
-                    
-                    const openWishAction = (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        playGlassPopSound();
-                        toggleExpandedWish(randomWish);
-                    };
+                // Smooth vertical floating animation spanning all the way from bottom to top
+                b.style.animation = `floatFromBottomToTop 14s linear forwards`;
+                
+                const openWishAction = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    playGlassPopSound();
+                    toggleExpandedWish(randomWish);
+                };
 
-                    b.addEventListener('click', openWishAction);
-                    b.addEventListener('touchstart', openWishAction, { passive: false });
-                    
-                    container.appendChild(b);
-                    setTimeout(() => b.remove(), 16000);
-                }
+                b.addEventListener('click', openWishAction);
+                b.addEventListener('touchstart', openWishAction, { passive: false });
+                
+                container.appendChild(b);
+                setTimeout(() => b.remove(), 14000);
             }
 
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) { container.classList.add('active'); } 
                 else { container.classList.remove('active'); }
-            }, { threshold: 0.1 });
+            }, { threshold: 0.05 });
 
             observer.observe(section4);
-            setInterval(spawnBubble, 1800);
+            setInterval(spawnBubble, 1400);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
@@ -1468,7 +1511,10 @@
             let itemsHTML = '';
             
             myPhotos.forEach(photoSrc => {
-                itemsHTML += `<div class="ribbon-photo-item" onclick="openLightbox('${photoSrc}')"><img src="${photoSrc}" class="w-full h-full object-cover"></div>`;
+                itemsHTML += `
+                    <div class="ribbon-photo-item" onclick="openLightbox('${photoSrc}')" ontouchstart="this.classList.toggle('touched')">
+                        <img src="${photoSrc}" class="w-full h-full object-cover">
+                    </div>`;
             });
             
             track.innerHTML = itemsHTML + itemsHTML + itemsHTML;
@@ -1487,7 +1533,7 @@
         window.addEventListener('mousemove', (e) => { 
             if (!isDragging) return; 
             e.preventDefault(); 
-            const walk = (e.pageX - startX) * 2; 
+            const walk = (e.pageX - startX) * 1.5; 
             ribbonStage.scrollLeft = scrollLeftStart - walk; 
             scrollPos = ribbonStage.scrollLeft; 
         });
@@ -1496,14 +1542,14 @@
         window.addEventListener('touchend', () => { isDragging = false; }, { passive: true });
         ribbonStage.addEventListener('touchmove', (e) => { 
             if (!isDragging) return; 
-            const walk = (e.touches[0].pageX - startX) * 2; 
+            const walk = (e.touches[0].pageX - startX) * 1.5; 
             ribbonStage.scrollLeft = scrollLeftStart - walk; 
             scrollPos = ribbonStage.scrollLeft; 
         }, { passive: true });
 
         function animateRibbonLoop() {
             if (!isDragging) { 
-                scrollPos += 0.8; 
+                scrollPos += 0.5; // Optimized smooth scroll speed for desktop & mobile
                 const halfWidth = ribbonTrack.scrollWidth / 3; 
                 if (scrollPos >= halfWidth) scrollPos = 0; 
                 else if (scrollPos < 0) scrollPos = halfWidth; 
@@ -1547,14 +1593,12 @@
             if (isUnlocked) return; isUnlocked = true;
             if (tickingInterval) { clearInterval(tickingInterval); tickingInterval = null; }
             
-            // Start audio immediately on user click/tap
             const bgMusic = document.getElementById('bgMusic');
             bgMusic.play().then(() => {
                 document.getElementById('musicIcon').classList.add('animate-spin');
                 document.getElementById('eqContainer').classList.remove('opacity-50');
             }).catch(() => {});
 
-            // Smooth fade out of countdown content while curtains open
             gsap.to('#frontHeader', { opacity: 0, duration: 1.0 });
             gsap.to('#wishButtonWrapper', { opacity: 0, duration: 1.0 });
 
@@ -1608,7 +1652,6 @@
                                         duration: 1.2, 
                                         ease: "power2.inOut",
                                         onComplete: () => {
-                                            document.body.classList.remove('locked-scroll');
                                             bdayBanner.classList.remove('opacity-0', 'translate-y-10');
                                         }
                                     });
@@ -1624,7 +1667,6 @@
         }
 
         function skipToNext() { 
-            document.body.classList.remove('locked-scroll');
             triggerCurtainAndUnlock(); 
         }
 
