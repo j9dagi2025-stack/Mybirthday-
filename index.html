@@ -341,7 +341,6 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
-        /* Section 4 Wishes Floating Layer */
         #section4WishesContainer {
             position: fixed;
             inset: 0;
@@ -389,20 +388,19 @@
             100% { transform: translateY(-125vh) scale(0.95); opacity: 0; }
         }
 
-        /* Section 2 Dedicated Balloon Container */
         #section2BalloonsContainer {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
             overflow: hidden;
         }
 
         .balloon-3d {
             position: absolute;
-            bottom: -220px;
+            top: -220px;
             border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
             will-change: transform;
             display: flex;
@@ -527,7 +525,6 @@
 </head>
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
-    <!-- Section 4 Wishes Layer (Only active when scrolling to Section 4) -->
     <div id="section4WishesContainer"></div>
     <canvas id="celebrationCanvas"></canvas>
 
@@ -1421,51 +1418,68 @@
         }
         animateCelebrationButterflies();
 
-        // --- Section 2 3D Balloon Launch (From bottom of Section 2) ---
+        // --- Section 2 3D Balloon Launch (Top to Bottom: 10 Left, 10 Right) ---
         function launchChapter27Balloons() {
             const container = document.getElementById('section2BalloonsContainer');
             container.innerHTML = '';
 
-            const types = [];
-            for (let i = 0; i < 10; i++) types.push('balloon-gold');
-            for (let i = 0; i < 10; i++) types.push('balloon-black');
-            types.sort(() => Math.random() - 0.5);
+            const leftBalloons = [
+                'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold',
+                'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black'
+            ];
 
-            types.forEach((type, index) => {
+            const rightBalloons = [
+                'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black',
+                'balloon-gold', 'balloon-black', 'balloon-gold', 'balloon-black', 'balloon-gold'
+            ];
+
+            // 10 on the Left Side
+            leftBalloons.forEach((type, index) => {
                 setTimeout(() => {
-                    const balloon = document.createElement('div');
-                    const width = 48 + Math.floor(Math.random() * 24);
-                    const height = width * 1.25;
-                    const leftPos = 4 + Math.random() * 92;
-
-                    balloon.className = `balloon-3d ${type}`;
-                    balloon.style.width = `${width}px`;
-                    balloon.style.height = `${height}px`;
-                    balloon.style.left = `${leftPos}%`;
-
-                    balloon.innerHTML = `
-                        <div class="balloon-knot"></div>
-                        <div class="balloon-string"></div>
-                    `;
-
-                    container.appendChild(balloon);
-
-                    const duration = 4.5 + Math.random() * 2.5;
-                    const sway = 30 + Math.random() * 45;
-
-                    gsap.to(balloon, {
-                        y: -(window.innerHeight + 300),
-                        x: `+=${(Math.random() - 0.5) * sway * 2}`,
-                        rotation: (Math.random() - 0.5) * 18,
-                        duration: duration,
-                        ease: "power1.out",
-                        onComplete: () => balloon.remove()
-                    });
-                }, index * 140);
+                    createAndDropBalloon(type, 3 + Math.random() * 20, index);
+                }, index * 120);
             });
+
+            // 10 on the Right Side
+            rightBalloons.forEach((type, index) => {
+                setTimeout(() => {
+                    createAndDropBalloon(type, 77 + Math.random() * 20, index);
+                }, index * 120 + 60);
+            });
+
+            function createAndDropBalloon(type, leftPercent, i) {
+                const balloon = document.createElement('div');
+                const width = 45 + Math.floor(Math.random() * 20);
+                const height = width * 1.25;
+
+                balloon.className = `balloon-3d ${type}`;
+                balloon.style.width = `${width}px`;
+                balloon.style.height = `${height}px`;
+                balloon.style.left = `${leftPercent}%`;
+                balloon.style.top = `-220px`;
+
+                balloon.innerHTML = `
+                    <div class="balloon-knot"></div>
+                    <div class="balloon-string"></div>
+                `;
+
+                container.appendChild(balloon);
+
+                const duration = 5.5 + Math.random() * 3.0;
+                const sway = 25 + Math.random() * 35;
+
+                gsap.to(balloon, {
+                    y: window.innerHeight + 320,
+                    x: `+=${(Math.random() - 0.5) * sway * 2}`,
+                    rotation: (Math.random() - 0.5) * 20,
+                    duration: duration,
+                    ease: "power1.inOut",
+                    onComplete: () => balloon.remove()
+                });
+            }
         }
 
-        // --- Section 4 Wishes Flow (Triggered only when reaching Section 4) ---
+        // --- Section 4 Wishes Flow ---
         function initSection4WishesFlow() {
             const container = document.getElementById('section4WishesContainer');
             const section4 = document.getElementById('section4');
@@ -1847,7 +1861,7 @@
                                 document.getElementById('drum1Wrapper').classList.add('fire-awakened-glow');
                                 document.getElementById('drum2Wrapper').classList.add('fire-awakened-glow');
 
-                                // Launch 3D Gold & Black Balloons directly from Section 2 bottom
+                                // Launch 10 Left + 10 Right Balloons from Top to Bottom
                                 launchChapter27Balloons();
 
                                 gsap.to(drum2Track, { 
