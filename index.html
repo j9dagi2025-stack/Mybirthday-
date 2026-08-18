@@ -341,7 +341,6 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
-        /* Full Screen Traversal Wishes Layer */
         #section4WishesContainer {
             position: absolute;
             top: 0;
@@ -353,7 +352,6 @@
             overflow: hidden;
         }
 
-        /* Highly Clear & Solid Bubble Styles */
         .sec4-bubble {
             position: absolute;
             background: #150e12 !important;
@@ -1493,8 +1491,9 @@
             }
         }
 
-        // --- Section 4 Wishes Flow ---
+        // --- Balanced Section 4 Wishes Flow ---
         let wishesSpawnInterval = null;
+        let currentLaneIndex = 0;
 
         function initSection4WishesFlow() {
             const container = document.getElementById('section4WishesContainer');
@@ -1504,12 +1503,17 @@
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
                 
+                // Perfectly balanced screen lanes
                 const lanes = [
-                    { min: 4, max: 28 },   
-                    { min: 36, max: 64 },  
-                    { min: 70, max: 94 }   
+                    { min: 5, max: 25 },   // Left Side
+                    { min: 38, max: 58 },  // Center Area
+                    { min: 68, max: 78 }   // Right Side (safe within screen boundary)
                 ];
-                const chosenLane = lanes[Math.floor(Math.random() * lanes.length)];
+
+                // Alternates strictly between Left -> Center -> Right to avoid right clustering
+                const chosenLane = lanes[currentLaneIndex];
+                currentLaneIndex = (currentLaneIndex + 1) % lanes.length;
+
                 const randomLeft = chosenLane.min + Math.random() * (chosenLane.max - chosenLane.min);
                 b.style.left = `${randomLeft}%`;
                 
