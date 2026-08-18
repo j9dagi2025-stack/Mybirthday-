@@ -341,21 +341,23 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
+        /* Section 4 Wishes Floating Layer */
         #section4WishesContainer {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            inset: 0;
+            width: 100vw; height: 100vh;
             pointer-events: none;
-            z-index: 50;
+            z-index: 60;
             overflow: hidden;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
         }
 
         #section4WishesContainer.active { opacity: 1; }
 
         .sec4-bubble {
             position: absolute;
-            background: linear-gradient(135deg, rgba(40, 25, 30, 0.85) 0%, rgba(15, 10, 12, 0.92) 100%);
+            background: linear-gradient(135deg, rgba(40, 25, 30, 0.90) 0%, rgba(15, 10, 12, 0.95) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1.5px solid rgba(212, 175, 55, 0.7);
@@ -367,26 +369,81 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 205px;
+            width: 215px;
             max-width: 44vw;
             will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .sec4-bubble:hover {
             border-color: #FFF6D1;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 246, 209, 0.7);
-            transform: scale(1.05);
-            z-index: 60;
+            transform: scale(1.06);
+            z-index: 70;
         }
 
-        @keyframes floatFromBottomToTop {
-            0% { transform: translateY(112vh) translateZ(0); opacity: 0; }
-            10% { opacity: 1; }
+        @keyframes floatFromBottomToTopAllTheWay {
+            0% { transform: translateY(105vh) scale(0.9); opacity: 0; }
+            5% { opacity: 1; transform: translateY(95vh) scale(1); }
             90% { opacity: 1; }
-            100% { transform: translateY(-16vh) translateZ(0); opacity: 0; }
+            100% { transform: translateY(-125vh) scale(0.95); opacity: 0; }
+        }
+
+        /* Section 2 Dedicated Balloon Container */
+        #section2BalloonsContainer {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .balloon-3d {
+            position: absolute;
+            bottom: -220px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            will-change: transform;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .balloon-gold {
+            background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #FFF4B8 18%, #D4AF37 55%, #754f05 95%);
+            box-shadow: inset -10px -10px 25px rgba(0,0,0,0.6), 0 15px 35px rgba(212, 175, 55, 0.45);
+        }
+
+        .balloon-black {
+            background: radial-gradient(circle at 35% 30%, #555555 0%, #2b2b2b 25%, #0d0d0d 65%, #000000 100%);
+            box-shadow: inset -10px -10px 25px rgba(212, 175, 55, 0.25), 0 15px 35px rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .balloon-knot {
+            position: absolute;
+            bottom: -6px;
+            width: 10px;
+            height: 6px;
+            border-radius: 3px;
+        }
+        .balloon-gold .balloon-knot { background: #855E0B; }
+        .balloon-black .balloon-knot { background: #111111; border: 0.5px solid rgba(212, 175, 55, 0.4); }
+
+        .balloon-string {
+            position: absolute;
+            top: 100%;
+            width: 1.5px;
+            height: 85px;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.1) 100%);
+            transform-origin: top center;
+            animation: stringWave 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes stringWave {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
         }
 
         @keyframes goldShimmer {
@@ -459,7 +516,6 @@
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
-        /* Canvas shifted behind central UI elements */
         #celebrationCanvas {
             position: fixed; inset: 0; pointer-events: none; z-index: 15;
         }
@@ -471,6 +527,7 @@
 </head>
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
+    <!-- Section 4 Wishes Layer (Only active when scrolling to Section 4) -->
     <div id="section4WishesContainer"></div>
     <canvas id="celebrationCanvas"></canvas>
 
@@ -567,6 +624,7 @@
         <div class="section-transition-top-feather"></div>
         
         <canvas id="hologramCanvas" class="absolute inset-0 z-0 pointer-events-auto"></canvas>
+        <div id="section2BalloonsContainer"></div>
 
         <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-20 my-auto py-6 pointer-events-none">
             <span id="storySubtitle" class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 opacity-0 transition-opacity duration-1000 block">Milestone Transcended</span>
@@ -1230,14 +1288,12 @@
                 this.x += this.vx + Math.sin(this.hoverOffset * 0.6) * 0.7;
                 this.y += this.vy + Math.cos(this.hoverOffset * 0.4) * 0.5;
                 
-                // Screen boundary constraints
                 const pad = 35;
                 if (this.x < pad) { this.x = pad; this.vx *= -1; }
                 if (this.x > window.innerWidth - pad) { this.x = window.innerWidth - pad; this.vx *= -1; }
                 if (this.y < pad + 50) { this.y = pad + 50; this.vy *= -1; }
                 if (this.y > window.innerHeight - pad - 50) { this.y = window.innerHeight - pad - 50; this.vy *= -1; }
 
-                // Safe Zone Push: Keep them away from center drum display
                 const cx = window.innerWidth / 2;
                 const cy = window.innerHeight / 2;
                 const distCenter = Math.hypot(this.x - cx, this.y - cy);
@@ -1331,7 +1387,6 @@
             celebrationButterflies = [];
             isCelebrating = true;
 
-            // Spawn gracefully at surrounding sides (top corners, sides, bottom corners)
             const spawnPoints = [
                 { x: window.innerWidth * 0.15, y: window.innerHeight * 0.18 },
                 { x: window.innerWidth * 0.85, y: window.innerHeight * 0.18 },
@@ -1366,7 +1421,51 @@
         }
         animateCelebrationButterflies();
 
-        // Section 4 Wishes Flow
+        // --- Section 2 3D Balloon Launch (From bottom of Section 2) ---
+        function launchChapter27Balloons() {
+            const container = document.getElementById('section2BalloonsContainer');
+            container.innerHTML = '';
+
+            const types = [];
+            for (let i = 0; i < 10; i++) types.push('balloon-gold');
+            for (let i = 0; i < 10; i++) types.push('balloon-black');
+            types.sort(() => Math.random() - 0.5);
+
+            types.forEach((type, index) => {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    const width = 48 + Math.floor(Math.random() * 24);
+                    const height = width * 1.25;
+                    const leftPos = 4 + Math.random() * 92;
+
+                    balloon.className = `balloon-3d ${type}`;
+                    balloon.style.width = `${width}px`;
+                    balloon.style.height = `${height}px`;
+                    balloon.style.left = `${leftPos}%`;
+
+                    balloon.innerHTML = `
+                        <div class="balloon-knot"></div>
+                        <div class="balloon-string"></div>
+                    `;
+
+                    container.appendChild(balloon);
+
+                    const duration = 4.5 + Math.random() * 2.5;
+                    const sway = 30 + Math.random() * 45;
+
+                    gsap.to(balloon, {
+                        y: -(window.innerHeight + 300),
+                        x: `+=${(Math.random() - 0.5) * sway * 2}`,
+                        rotation: (Math.random() - 0.5) * 18,
+                        duration: duration,
+                        ease: "power1.out",
+                        onComplete: () => balloon.remove()
+                    });
+                }, index * 140);
+            });
+        }
+
+        // --- Section 4 Wishes Flow (Triggered only when reaching Section 4) ---
         function initSection4WishesFlow() {
             const container = document.getElementById('section4WishesContainer');
             const section4 = document.getElementById('section4');
@@ -1396,7 +1495,7 @@
                     </div>
                 `;
 
-                b.style.animation = `floatFromBottomToTop 16s linear forwards`;
+                b.style.animation = `floatFromBottomToTopAllTheWay 20s linear forwards`;
                 
                 const openWishAction = (e) => {
                     e.preventDefault();
@@ -1409,7 +1508,7 @@
                 b.addEventListener('touchstart', openWishAction, { passive: false });
                 
                 container.appendChild(b);
-                setTimeout(() => b.remove(), 16000);
+                setTimeout(() => b.remove(), 20500);
             }
 
             const observer = new IntersectionObserver((entries) => {
@@ -1425,7 +1524,7 @@
                 if(container.classList.contains('active')) {
                     spawnBubble();
                 }
-            }, 2500);
+            }, 2400);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
@@ -1747,6 +1846,9 @@
 
                                 document.getElementById('drum1Wrapper').classList.add('fire-awakened-glow');
                                 document.getElementById('drum2Wrapper').classList.add('fire-awakened-glow');
+
+                                // Launch 3D Gold & Black Balloons directly from Section 2 bottom
+                                launchChapter27Balloons();
 
                                 gsap.to(drum2Track, { 
                                     y: -itemHeight * 7, 
