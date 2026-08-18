@@ -232,21 +232,25 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* Real Horror Video Jumpscare Overlay */
-        #jumpscareOverlay {
-            position: fixed; inset: 0; background: #000000; z-index: 999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        /* Luxury Cinematic Foggy/Radiant Iris Color Reveal for Gallery */
+        .ribbon-photo-item {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease, border-color 0.5s ease;
         }
-
-        /* Gallery Black & White to Color Toggle Effect */
         .ribbon-photo-item img {
-            filter: grayscale(100%) contrast(120%);
-            transition: filter 0.6s ease, transform 0.4s ease;
+            filter: grayscale(100%) contrast(125%) brightness(85%);
+            transition: filter 1s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s ease;
+        }
+        .ribbon-photo-item.active-color {
+            transform: scale(1.18) translateY(-10px) rotate(0deg) !important;
+            border-color: #FFD700 !important;
+            box-shadow: 0 0 45px rgba(255, 215, 0, 0.9), 0 20px 40px rgba(0,0,0,0.95) !important;
+            z-index: 50;
         }
         .ribbon-photo-item.active-color img {
             filter: grayscale(0%) contrast(105%) brightness(105%);
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
 
         .section-velvet-blend {
@@ -303,7 +307,6 @@
             flex-shrink: 0; width: 120px; height: 160px;
             border-radius: 14px; overflow: hidden;
             border: 1.5px solid rgba(212, 175, 55, 0.55);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(212, 175, 55, 0.2);
             cursor: pointer; background: #111;
         }
 
@@ -440,6 +443,14 @@
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
+        /* Floating Balloons & Butterflies overlay styles */
+        #celebrationOverlay {
+            position: fixed; inset: 0; pointer-events: none; z-index: 950; overflow: hidden;
+        }
+        .flying-item {
+            position: absolute; will-change: transform, opacity;
+        }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0c0a09; }
         ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
@@ -448,15 +459,7 @@
 <body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
     <div id="sec4WishesContainer"></div>
-
-    <!-- Real Horror Video Jumpscare Overlay with Sorry Message -->
-    <div id="jumpscareOverlay">
-        <video id="horrorVideo" class="w-full h-full object-cover absolute inset-0 z-10" playsinline preload="auto" src="https://assets.mixkit.co/videos/preview/mixkit-scary-ghost-woman-in-the-dark-41551-large.mp4"></video>
-        <div class="absolute inset-0 bg-black/40 z-20 pointer-events-none"></div>
-        <div class="absolute z-30 text-center px-4 bottom-16">
-            <h2 id="horrorMsg" class="font-playfair italic text-white text-xl sm:text-3xl tracking-widest opacity-0 transition-opacity duration-700 drop-shadow-[0_0_20px_#ff0000]">"Sorry... hope you didn't get too scared."</h2>
-        </div>
-    </div>
+    <div id="celebrationOverlay"></div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
         <button onclick="skipToNext()" class="pointer-events-auto px-3.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white text-[11px] font-bold rounded-full shadow-2xl border border-red-400 transition transform hover:scale-105 flex items-center gap-1.5">
@@ -1177,6 +1180,57 @@
             } catch(e) {}
         }
 
+        // Trigger Flying Balloons & Butterflies Swarm on Curtain Open
+        function triggerCelebrationSwarm() {
+            const overlay = document.getElementById('celebrationOverlay');
+            overlay.innerHTML = '';
+            
+            // 10 Left & 10 Right Balloons (Golden & Black) + Butterflies
+            for (let i = 0; i < 20; i++) {
+                const item = document.createElement('div');
+                item.className = 'flying-item';
+                
+                const isLeft = i < 10;
+                const startX = isLeft ? (Math.random() * 20) : (80 + Math.random() * 20);
+                const color = (i % 2 === 0) ? '#D4AF37' : '#111111';
+                
+                item.innerHTML = `<i class="fa-solid fa-balloon" style="color: ${color}; font-size: ${28 + Math.random()*18}px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.6));"></i>`;
+                
+                item.style.left = `${startX}vw`;
+                item.style.bottom = `-10vh`;
+                
+                overlay.appendChild(item);
+
+                gsap.to(item, {
+                    y: -110 - Math.random() * 20 + 'vh',
+                    x: (isLeft ? 1 : -1) * (20 + Math.random() * 40) + 'vw',
+                    rotation: (Math.random() - 0.5) * 60,
+                    duration: 4.5 + Math.random() * 2,
+                    ease: "power1.out",
+                    delay: Math.random() * 0.8
+                });
+            }
+
+            // Also spawn golden glowing butterflies
+            for (let j = 0; j < 12; j++) {
+                const b = document.createElement('div');
+                b.className = 'flying-item';
+                b.innerHTML = `<i class="fa-solid fa-feather" style="color: #FFD700; font-size: 22px; filter: drop-shadow(0 0 12px #FFD700);"></i>`;
+                b.style.left = `${15 + Math.random() * 70}vw`;
+                b.style.bottom = `-10vh`;
+                overlay.appendChild(b);
+
+                gsap.to(b, {
+                    y: -100 - Math.random() * 25 + 'vh',
+                    x: (Math.random() - 0.5) * 50 + 'vw',
+                    rotation: (Math.random() - 0.5) * 120,
+                    duration: 5 + Math.random() * 2,
+                    ease: "power1.out",
+                    delay: 0.3 + Math.random() * 1.0
+                });
+            }
+        }
+
         // Properly balanced Left, Center, Right balanced floating wishes across full height
         function initSection4WishesFlow() {
             const container = document.getElementById('sec4WishesContainer');
@@ -1186,7 +1240,6 @@
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
                 
-                // Perfectly distributed 3 columns with safe margins to avoid crowding right side
                 const lanes = [
                     { min: 4, max: 26 },
                     { min: 35, max: 60 },
@@ -1230,7 +1283,7 @@
             }, { threshold: 0.05 });
 
             observer.observe(section4);
-            setInterval(spawnBubble, 1800); // Slower interval to prevent crowding
+            setInterval(spawnBubble, 1800);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
@@ -1452,7 +1505,7 @@
             
             myPhotos.forEach(photoSrc => {
                 itemsHTML += `
-                    <div class="ribbon-photo-item" onclick="togglePhotoColor(this)" ontouchstart="togglePhotoColor(this)">
+                    <div class="ribbon-photo-item" onclick="openLightbox('${photoSrc}')" ontouchstart="togglePhotoColor(this)" onmouseenter="togglePhotoColor(this)" onmouseleave="removePhotoColor(this)">
                         <img src="${photoSrc}" class="w-full h-full object-cover">
                     </div>`;
             });
@@ -1461,12 +1514,15 @@
         }
         renderSingleRibbonGallery();
 
-        // Strict Single-Photo Color Toggle Logic (Touch one -> color, touch another -> previous back to B&W)
         function togglePhotoColor(itemElem) {
             document.querySelectorAll('.ribbon-photo-item').forEach(el => {
                 if(el !== itemElem) el.classList.remove('active-color');
             });
             itemElem.classList.toggle('active-color');
+        }
+
+        function removePhotoColor(itemElem) {
+            itemElem.classList.remove('active-color');
         }
 
         const ribbonStage = document.getElementById('ribbonStage'); 
@@ -1550,78 +1606,63 @@
             gsap.to('#frontHeader', { opacity: 0, duration: 0.2 });
             gsap.to('#wishButtonWrapper', { opacity: 0, duration: 0.2 });
 
+            triggerCelebrationSwarm();
+
             gsap.to('#curtainLeft', { xPercent: -125, duration: 1.8, ease: 'power4.inOut' });
             gsap.to('#curtainRight', { xPercent: 125, duration: 1.8, ease: 'power4.inOut', onComplete: () => {
                 document.getElementById('section1').style.display = 'none';
-                startHorrorJumpscareSequence();
+                startSection2Sequence();
             }});
         }
 
-        function startHorrorJumpscareSequence() {
-            const overlay = document.getElementById('jumpscareOverlay');
-            const video = document.getElementById('horrorVideo');
-            const msg = document.getElementById('horrorMsg');
+        function startSection2Sequence() {
+            const storySubtitle = document.getElementById('storySubtitle');
+            const ageContainer = document.getElementById('ageContainer');
+            const drum1Track = document.getElementById('drum1Track');
+            const drum2Track = document.getElementById('drum2Track');
+            const tapPrompt = document.getElementById('tapPrompt');
+            const bdayBanner = document.getElementById('bdayBanner');
 
-            overlay.style.opacity = '1';
-            video.currentTime = 0;
-            video.play().catch(() => {});
+            const itemHeight = window.innerWidth >= 768 ? 160 : 120;
 
-            setTimeout(() => {
-                msg.style.opacity = '1';
+            gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
+                gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
+                    gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
 
-                setTimeout(() => {
-                    video.pause();
-                    overlay.style.opacity = '0';
+                    gsap.fromTo(drum2Track, { y: 0 }, { 
+                        y: -itemHeight * 6, 
+                        duration: 2.5, 
+                        ease: "power2.inOut", 
+                        onComplete: () => {
+                            tapPrompt.classList.remove('opacity-0');
+                            tapPrompt.style.cursor = 'pointer';
 
-                    const storySubtitle = document.getElementById('storySubtitle');
-                    const ageContainer = document.getElementById('ageContainer');
-                    const drum1Track = document.getElementById('drum1Track');
-                    const drum2Track = document.getElementById('drum2Track');
-                    const tapPrompt = document.getElementById('tapPrompt');
-                    const bdayBanner = document.getElementById('bdayBanner');
+                            let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
 
-                    const itemHeight = window.innerWidth >= 768 ? 160 : 120;
+                            const triggerAwaken = () => {
+                                clearTimeout(autoAwakenTimer);
+                                document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
+                                document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
 
-                    gsap.to(storySubtitle, { opacity: 1, duration: 1.2, onComplete: () => {
-                        gsap.to(ageContainer, { opacity: 1, duration: 1.0, onComplete: () => {
-                            gsap.fromTo(drum1Track, { y: -itemHeight * 9 }, { y: -itemHeight * 2, duration: 2.2, ease: "power2.inOut" });
+                                tapPrompt.style.opacity = '0';
 
-                            gsap.fromTo(drum2Track, { y: 0 }, { 
-                                y: -itemHeight * 6, 
-                                duration: 2.5, 
-                                ease: "power2.inOut", 
-                                onComplete: () => {
-                                    tapPrompt.classList.remove('opacity-0');
-                                    tapPrompt.style.cursor = 'pointer';
+                                gsap.to(drum2Track, { 
+                                    y: -itemHeight * 7, 
+                                    duration: 1.2, 
+                                    ease: "power2.inOut",
+                                    onComplete: () => {
+                                        document.body.classList.remove('locked-scroll');
+                                        bdayBanner.classList.remove('opacity-0', 'translate-y-10');
+                                    }
+                                });
+                            };
 
-                                    let autoAwakenTimer = setTimeout(() => { triggerAwaken(); }, 4000);
-
-                                    const triggerAwaken = () => {
-                                        clearTimeout(autoAwakenTimer);
-                                        document.getElementById('ageContainer').removeEventListener('click', triggerAwaken);
-                                        document.getElementById('ageContainer').removeEventListener('touchstart', triggerAwaken);
-
-                                        tapPrompt.style.opacity = '0';
-
-                                        gsap.to(drum2Track, { 
-                                            y: -itemHeight * 7, 
-                                            duration: 1.2, 
-                                            ease: "power2.inOut",
-                                            onComplete: () => {
-                                                document.body.classList.remove('locked-scroll');
-                                                bdayBanner.classList.remove('opacity-0', 'translate-y-10');
-                                            }
-                                        });
-                                    };
-
-                                    document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
-                                    document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
-                                }
-                            });
-                        }});
-                    }});
-                }, 2200);
-            }, 1800);
+                            document.getElementById('ageContainer').addEventListener('click', triggerAwaken);
+                            document.getElementById('ageContainer').addEventListener('touchstart', triggerAwaken, { passive: true });
+                        }
+                    });
+                }});
+            }});
         }
 
         function skipToNext() { 
