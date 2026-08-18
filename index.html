@@ -84,14 +84,16 @@
             z-index: 12;
         }
         
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #AA7C11 100%);
+        /* Stunning White + Rich Golden Crystal Gradient */
+        .white-gold-gradient-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF6D1 35%, #D4AF37 70%, #AA7C11 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.4));
         }
 
         .gold-shine-anim {
-            background: linear-gradient(110deg, #D4AF37 33%, #FFF6D1 50%, #D4AF37 66%);
+            background: linear-gradient(110deg, #D4AF37 33%, #FFFFFF 50%, #D4AF37 66%);
             background-size: 200% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -219,10 +221,10 @@
             font-size: 65px;
             height: 120px;
             line-height: 120px;
-            background: linear-gradient(135deg, #FFF6D1 0%, #D4AF37 50%, #AA7C11 100%);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF6D1 35%, #D4AF37 70%, #AA7C11 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -453,7 +455,7 @@
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
-        /* Colorful Butterflies Swarm overlay styles */
+        /* Colorful 3D Dynamic Butterfly Overlay Styles */
         #celebrationOverlay {
             position: fixed; inset: 0; pointer-events: none; z-index: 950; overflow: hidden;
         }
@@ -501,7 +503,7 @@
                 ✨ GRAND PREMIERE ✨
             </div>
             
-            <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black gold-shine-anim tracking-wider uppercase text-center w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+            <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black white-gold-gradient-text gold-shine-anim tracking-wider uppercase text-center w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
                 CHAPTER 27
             </h1>
 
@@ -609,7 +611,7 @@
 
             <div id="bdayBanner" class="opacity-0 transform translate-y-10 transition duration-1000 mt-6 w-full flex flex-col items-center justify-center text-center pointer-events-auto">
                 <h2 class="font-cinzel text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wider mb-2 w-full text-center flex flex-wrap items-center justify-center gap-x-3">
-                    <span class="gold-gradient-text gold-shine-anim">HAPPY 27TH BIRTHDAY // ARVIND_ZX</span>
+                    <span class="white-gold-gradient-text gold-shine-anim">HAPPY 27TH BIRTHDAY ARVIND_ZX</span>
                 </h2>
                 <p class="text-gray-400 text-xs md:text-sm max-w-lg mx-auto text-center mt-2">Stepping into the greatest year yet with silent power and zero limits.</p>
             </div>
@@ -629,7 +631,7 @@
             </div>
 
             <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white mb-2 leading-tight tracking-wider">
-                HAPPY 27TH <span class="gold-gradient-text">BIRTHDAY</span>
+                HAPPY 27TH <span class="white-gold-gradient-text">BIRTHDAY</span>
             </h2>
         </div>
 
@@ -656,7 +658,7 @@
     <section id="section4" class="cinematic-section section-blend-top z-25">
         <div class="section-transition-top-feather"></div>
         <div class="text-center z-30 glass-badge px-6 py-6 sm:px-8 sm:py-8 rounded-3xl border border-gold/40 shadow-2xl max-w-xl mx-auto relative my-auto">
-            <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold gold-gradient-text mb-2">GALAXY OF BLESSINGS</h2>
+            <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold white-gold-gradient-text mb-2">GALAXY OF BLESSINGS</h2>
             <p class="text-gray-300 text-xs sm:text-sm mb-5">Wishes flow smoothly across Left, Center, and Right! Click any bubble to read details.</p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
@@ -675,7 +677,7 @@
         <div class="glass-badge w-full max-w-sm p-6 rounded-3xl relative border-2 border-gold shadow-[0_0_40px_rgba(212,175,55,0.4)]">
             <button onclick="closeSecretLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <h3 class="font-cinzel text-xl font-bold gold-gradient-text mb-1 text-center"><i class="fa-solid fa-shield-halved mr-1"></i> ARVIND'S VAULT</h3>
+            <h3 class="font-cinzel text-xl font-bold white-gold-gradient-text mb-1 text-center"><i class="fa-solid fa-shield-halved mr-1"></i> ARVIND'S VAULT</h3>
             <p class="text-gray-400 text-[11px] mb-5 text-center">Enter credentials to view secret private wishes</p>
             
             <form onsubmit="handleSecretLogin(event)" class="space-y-3.5">
@@ -703,7 +705,7 @@
 
             <button onclick="closePrivateVault()" class="absolute top-4 right-4 text-gold hover:text-white transition z-20 text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <h2 class="font-cinzel text-2xl sm:text-3xl font-bold gold-gradient-text mb-1">🔒 SECRET PRIVATE VAULT</h2>
+            <h2 class="font-cinzel text-2xl sm:text-3xl font-bold white-gold-gradient-text mb-1">🔒 SECRET PRIVATE VAULT</h2>
             <p class="text-gray-300 text-xs mb-6">Exclusive confidential birthday gifts & private wishes for Arvind</p>
             
             <div id="privateVaultContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[65vh] overflow-y-auto pr-1"></div>
@@ -736,7 +738,7 @@
             <div class="w-full flex items-center gap-3 border-t border-gold/30 pt-3 mt-auto flex-shrink-0">
                 <img id="expandedAvatar" class="w-10 h-10 rounded-full border-2 border-gold object-cover shadow-[0_0_12px_rgba(212,175,55,0.5)] flex-shrink-0">
                 <div class="text-left flex flex-col overflow-hidden">
-                    <h3 id="expandedName" class="font-cinzel text-base font-extrabold gold-gradient-text gold-shine-anim truncate"></h3>
+                    <h3 id="expandedName" class="font-cinzel text-base font-extrabold white-gold-gradient-text gold-shine-anim truncate"></h3>
                     <span class="text-[9px] text-gold/70 uppercase tracking-widest font-mono">Chapter 27 Blessing</span>
                 </div>
             </div>
@@ -748,7 +750,7 @@
         <div class="glass-badge w-full max-w-md p-6 rounded-3xl relative border border-gold/40 my-auto shadow-[0_0_30px_rgba(212,175,55,0.25)]">
             <button type="button" onclick="closeWishModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
             
-            <h3 class="font-cinzel text-2xl font-bold gold-gradient-text mb-1">Send Birthday Wish</h3>
+            <h3 class="font-cinzel text-2xl font-bold white-gold-gradient-text mb-1">Send Birthday Wish</h3>
             <p class="text-gray-400 text-xs mb-4">Set your profile photo, attach portrait photo & optional voice note!</p>
             
             <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
@@ -816,7 +818,7 @@
     <div id="cropModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[1000] flex items-center justify-center hidden p-4">
         <div class="glass-badge w-full max-w-sm p-5 rounded-3xl border-2 border-gold text-center relative shadow-[0_0_50px_rgba(212,175,55,0.5)]">
             <div class="gold-organic-spark" style="top: 10px; left: 10px;"></div>
-            <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold gold-gradient-text mb-1">Adjust Photo Frame</h3>
+            <h3 id="cropModalTitle" class="font-cinzel text-lg font-bold white-gold-gradient-text mb-1">Adjust Photo Frame</h3>
             <p id="cropModalSub" class="text-gray-300 text-[11px] mb-3">Position your photo inside the frame!</p>
             
             <div id="cropViewport" class="relative mx-auto bg-black rounded-xl overflow-hidden border-2 border-gold/80 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center mb-4 cursor-grab select-none touch-none" style="width: 150px; height: 187.5px;">
@@ -921,7 +923,7 @@
                                 <div class="flex items-center gap-3 mb-3 border-b border-gold/30 pb-2">
                                     <img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_12px_#D4AF37]">
                                     <div class="flex flex-col overflow-hidden">
-                                        <span class="font-cinzel font-bold gold-gradient-text gold-shine-anim text-sm truncate">${wish.name}</span>
+                                        <span class="font-cinzel font-bold white-gold-gradient-text gold-shine-anim text-sm truncate">${wish.name}</span>
                                         <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Confidential Vault Gift</span>
                                     </div>
                                 </div>
@@ -1190,36 +1192,37 @@
             } catch(e) {}
         }
 
-        // Exactly 5 Colorful Butterflies from Left and 5 from Right on Curtains Opening
+        // Exactly 6 Colorful 3D Dynamic Butterflies from Left and 6 from Right on Curtains Opening
         function triggerCelebrationSwarm() {
             const overlay = document.getElementById('celebrationOverlay');
             overlay.innerHTML = '';
             
-            const vibrantColors = ['#D4AF37', '#FF4500', '#00FFFF', '#FF1493', '#32CD32'];
+            const vibrantColors = ['#FFFFFF', '#FFD700', '#FF4500', '#00FFFF', '#FF1493', '#32CD32', '#9370DB'];
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 12; i++) {
                 const item = document.createElement('div');
                 item.className = 'flying-item';
                 
-                const isLeft = i < 5;
-                const startX = isLeft ? 2 : 98; // 5 from left edge, 5 from right edge
+                const isLeft = i < 6;
+                const startX = isLeft ? 1 : 99; // 6 from extreme left, 6 from extreme right
                 const color = vibrantColors[i % vibrantColors.length];
                 
-                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${30 + (i * 2)}px; filter: drop-shadow(0 0 18px ${color});"></i>`;
+                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${28 + (i * 1.5)}px; filter: drop-shadow(0 0 20px ${color});"></i>`;
                 
                 item.style.left = `${startX}vw`;
-                item.style.bottom = `${15 + (i * 7)}vh`;
+                item.style.bottom = `${12 + (i * 7)}vh`;
                 
                 overlay.appendChild(item);
 
-                // Spread inward and float gracefully across the screen
+                // 3D dynamic curved spread inward & floating upward
                 gsap.to(item, {
-                    x: (isLeft ? 1 : -1) * (35 + Math.random() * 30) + 'vw',
-                    y: -75 - Math.random() * 25 + 'vh',
-                    rotation: (Math.random() - 0.5) * 160,
-                    duration: 5.5 + Math.random() * 1.5,
+                    x: (isLeft ? 1 : -1) * (30 + Math.random() * 35) + 'vw',
+                    y: -80 - Math.random() * 20 + 'vh',
+                    rotation: (Math.random() - 0.5) * 180,
+                    scale: 1.2,
+                    duration: 6.0 + Math.random() * 1.5,
                     ease: "power2.out",
-                    delay: 0.08 * i
+                    delay: 0.06 * i
                 });
             }
         }
@@ -1385,7 +1388,7 @@
                 this.size = Math.random() * 2.2 + 0.8;
                 this.speed = Math.random() * 0.015 + 0.005;
                 this.alpha = Math.random() * 0.8 + 0.2;
-                this.color = Math.random() > 0.2 ? '#D4AF37' : '#FFF6D1';
+                this.color = Math.random() > 0.2 ? '#D4AF37' : '#FFFFFF';
             }
             update() {
                 this.angle += this.speed;
