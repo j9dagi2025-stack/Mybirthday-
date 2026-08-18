@@ -47,6 +47,8 @@
         body.locked-scroll {
             overflow: hidden !important;
             height: 100vh !important;
+            position: fixed;
+            width: 100%;
         }
 
         .cinematic-section {
@@ -60,7 +62,7 @@
             justify-content: center;
             overflow: hidden;
             box-sizing: border-box;
-            padding: 40px 15px;
+            padding: 30px 15px;
         }
 
         .section-blend-top { background: linear-gradient(180deg, #0c0a09 0%, #150c0e 50%, #0c0a09 100%); }
@@ -141,8 +143,8 @@
 
         .reel-frame {
             position: relative;
-            width: 34px;
-            height: 50px;
+            width: 32px;
+            height: 46px;
             background: linear-gradient(180deg, #1e1e1e 0%, #0a0a0a 100%);
             border-radius: 6px;
             border: 1.5px solid rgba(212, 175, 55, 0.6);
@@ -150,7 +152,7 @@
             overflow: hidden;
         }
 
-        @media (min-width: 640px) { .reel-frame { width: 48px; height: 66px; } }
+        @media (min-width: 640px) { .reel-frame { width: 44px; height: 60px; } }
 
         .reel-track {
             position: absolute;
@@ -165,16 +167,16 @@
             font-family: 'Orbitron', monospace;
             font-weight: 800;
             color: #FFD700;
-            font-size: 26px;
-            height: 50px;
-            line-height: 50px;
+            font-size: 24px;
+            height: 46px;
+            line-height: 46px;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        @media (min-width: 640px) { .reel-digit { font-size: 36px; height: 66px; line-height: 66px; } }
+        @media (min-width: 640px) { .reel-digit { font-size: 34px; height: 60px; line-height: 60px; } }
 
         .age-slot-container {
             display: flex;
@@ -230,47 +232,11 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* High-End Realistic Scary Monster Jumpscare */
+        /* Clean Cinematic Dark Fade Jumpscare Overlay */
         #jumpscareOverlay {
             position: fixed; inset: 0; background: #000000; z-index: 999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out;
-        }
-        .realistic-monster-face {
-            position: relative;
-            width: 260px; height: 260px;
-            background: radial-gradient(circle, #2a0000 0%, #0a0000 80%);
-            border: 3px solid #ff0033;
-            border-radius: 50%;
-            box-shadow: 0 0 60px #ff0000, inset 0 0 40px #ff0000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: terrifyingShake 0.08s infinite alternate;
-        }
-        .monster-eyes-row {
-            display: flex; gap: 40px; margin-bottom: 20px;
-        }
-        .monster-eye {
-            width: 35px; height: 16px; background: #ffff00;
-            border-radius: 50%; box-shadow: 0 0 25px #ff0000, 0 0 10px #ffffff;
-            animation: eyeBlink 0.15s infinite alternate;
-        }
-        .monster-mouth {
-            width: 100px; height: 50px; background: #100000;
-            border: 3px solid #ff0000; border-radius: 0 0 50px 50px;
-            box-shadow: inset 0 0 20px #ff0000;
-        }
-        @keyframes terrifyingShake {
-            0% { transform: translate(-10px, 10px) scale(1.05) rotate(-2deg); }
-            100% { transform: translate(10px, -10px) scale(1.18) rotate(2deg); }
-        }
-        @keyframes eyeBlink {
-            0% { transform: scaleY(1); opacity: 1; }
-            100% { transform: scaleY(0.2); opacity: 0.6; }
-        }
-        .blood-overlay {
-            position: absolute; inset: 0;
-            background: radial-gradient(circle, transparent 35%, rgba(180, 0, 0, 0.4) 75%, rgba(90, 0, 0, 0.85) 100%);
-            pointer-events: none;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease-in-out;
         }
 
         /* Gallery Black & White to Smooth Color Effect */
@@ -375,7 +341,7 @@
 
         .sec4-bubble {
             position: absolute;
-            background: linear-gradient(135deg, rgba(40, 25, 30, 0.8) 0%, rgba(15, 10, 12, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(40, 25, 30, 0.85) 0%, rgba(15, 10, 12, 0.92) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1.5px solid rgba(212, 175, 55, 0.7);
@@ -387,8 +353,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 240px;
-            max-width: 65vw;
+            width: 230px;
+            max-width: 60vw;
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
@@ -403,10 +369,10 @@
         }
 
         @keyframes floatFromBottomToTop {
-            0% { transform: translateY(115vh) translateZ(0); opacity: 0; }
+            0% { transform: translateY(110vh) translateZ(0); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateY(-15vh) translateZ(0); opacity: 0; }
+            100% { transform: translateY(-12vh) translateZ(0); opacity: 0; }
         }
 
         @keyframes goldShimmer {
@@ -484,21 +450,16 @@
         ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black">
+<body class="bg-[#0c0a09] text-gray-100 font-sans antialiased selection:bg-gold selection:text-black locked-scroll">
 
     <div id="sec4WishesContainer"></div>
 
-    <!-- Realistic Scary Monster Jumpscare Overlay -->
+    <!-- Clean Cinematic Scary Jumpscare Overlay -->
     <div id="jumpscareOverlay">
-        <div class="blood-overlay"></div>
-        <div class="realistic-monster-face">
-            <div class="monster-eyes-row">
-                <div class="monster-eye"></div>
-                <div class="monster-eye"></div>
-            </div>
-            <div class="monster-mouth"></div>
+        <div class="text-center px-4">
+            <i class="fa-solid fa-ghost text-7xl sm:text-9xl text-red-500 mb-4 animate-pulse"></i>
+            <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white tracking-[0.3em] uppercase drop-shadow-[0_0_30px_#ff0000]">CHAPTER 27 UNLOCKED</h2>
         </div>
-        <h2 class="font-cinzel text-2xl sm:text-4xl font-black text-red-500 tracking-[0.3em] uppercase text-center mt-6 drop-shadow-[0_0_25px_#ff0000]">CHAPTER 27 AWAKENS</h2>
     </div>
 
     <div class="fixed top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
@@ -518,71 +479,71 @@
     
     <audio id="bgMusic" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-acoustic-guitar-112317.mp3"></audio>
 
-    <!-- Section 1 (Countdown & Curtains with mild scroll space for Wish button) -->
-    <section id="section1" class="cinematic-section section-blend-top z-40" style="min-height: 115vh; padding-bottom: 80px;">
+    <!-- Section 1 (Strictly single-screen locked with perfectly visible wish button) -->
+    <section id="section1" class="cinematic-section section-blend-top z-40" style="height: 100vh; height: 100dvh; overflow: hidden;">
         <canvas id="dustCanvas" class="absolute inset-0 z-35 pointer-events-none opacity-80"></canvas>
 
         <div id="curtainLeft" class="curtain-panel curtain-left-shadow absolute top-0 left-0 w-[50.5%] h-full z-30 flex items-center justify-end"></div>
         <div id="curtainRight" class="curtain-panel curtain-right-shadow absolute top-0 right-0 w-[50.5%] h-full z-30 flex items-center justify-start"></div>
 
-        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto transition-all duration-700 my-auto flex flex-col items-center w-full px-2 pt-10">
+        <div id="frontHeader" class="z-40 text-center max-w-4xl mx-auto my-auto flex flex-col items-center w-full px-2">
             
-            <div class="inline-block border border-gold/40 px-4 py-1.5 rounded-full backdrop-blur-md bg-black/40 text-[10px] sm:text-xs text-gold uppercase tracking-[0.3em] font-semibold mb-3 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+            <div class="inline-block border border-gold/40 px-4 py-1.5 rounded-full backdrop-blur-md bg-black/40 text-[10px] sm:text-xs text-gold uppercase tracking-[0.3em] font-semibold mb-2 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                 ✨ GRAND PREMIERE ✨
             </div>
             
-            <h1 class="font-cinzel text-4xl sm:text-6xl md:text-7xl font-black gold-shine-anim tracking-wider uppercase text-center w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+            <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black gold-shine-anim tracking-wider uppercase text-center w-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
                 CHAPTER 27
             </h1>
 
-            <div class="font-playfair italic text-gold/90 text-base sm:text-2xl mt-1 mb-3 flex items-center justify-center tracking-widest">
+            <div class="font-playfair italic text-gold/90 text-sm sm:text-xl mt-0.5 mb-2 flex items-center justify-center tracking-widest">
                 <span>— Is Loading</span>
-                <span class="inline-block text-left w-[30px] text-gold ml-1">
+                <span class="inline-block text-left w-[25px] text-gold ml-1">
                     <span id="loadingDots" class="not-italic font-sans font-bold">.</span>
                 </span>
                 <span>—</span>
             </div>
             
-            <div class="glass-badge px-4 py-2 rounded-full mb-5 max-w-[95vw]">
+            <div class="glass-badge px-4 py-1.5 rounded-full mb-3 max-w-[95vw]">
                 <span class="text-gold font-bold text-[9px] sm:text-xs tracking-[0.18em] sm:tracking-[0.25em] uppercase">
                     ARVIND_ZX OFFICIAL BIRTHDAY COUNTDOWN
                 </span>
             </div>
 
-            <div class="grid grid-cols-4 gap-2 sm:gap-4 my-2 w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto justify-items-center">
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 my-1 w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto justify-items-center">
                 <div class="flex flex-col items-center w-full">
-                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
+                    <div class="flex gap-1.5 p-1.5 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
                         <div class="reel-frame"><div id="d1" class="reel-track"><div class="reel-digit">0</div></div></div>
                         <div class="reel-frame"><div id="d2" class="reel-track"><div class="reel-digit">0</div></div></div>
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-gold/90 font-digital uppercase tracking-widest mt-2 font-bold">DAYS</span>
+                    <span class="text-[9px] sm:text-[10px] text-gold/90 font-digital uppercase tracking-widest mt-1.5 font-bold">DAYS</span>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
+                    <div class="flex gap-1.5 p-1.5 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
                         <div class="reel-frame"><div id="h1" class="reel-track"><div class="reel-digit">0</div></div></div>
                         <div class="reel-frame"><div id="h2" class="reel-track"><div class="reel-digit">0</div></div></div>
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-gold/90 font-digital uppercase tracking-widest mt-2 font-bold">HRS</span>
+                    <span class="text-[9px] sm:text-[10px] text-gold/90 font-digital uppercase tracking-widest mt-1.5 font-bold">HRS</span>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
+                    <div class="flex gap-1.5 p-1.5 rounded-xl bg-black/90 border border-gold/40 shadow-2xl relative justify-center w-full">
                         <div class="reel-frame"><div id="m1" class="reel-track"><div class="reel-digit">0</div></div></div>
                         <div class="reel-frame"><div id="m2" class="reel-track"><div class="reel-digit">0</div></div></div>
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-gold/90 font-digital uppercase tracking-widest mt-2 font-bold">MIN</span>
+                    <span class="text-[9px] sm:text-[10px] text-gold/90 font-digital uppercase tracking-widest mt-1.5 font-bold">MIN</span>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <div class="flex gap-1.5 p-2 rounded-xl bg-black/40 border border-gold/40 shadow-2xl relative justify-center w-full">
+                    <div class="flex gap-1.5 p-1.5 rounded-xl bg-black/40 border border-gold/40 shadow-2xl relative justify-center w-full">
                         <div class="reel-frame"><div id="s1" class="reel-track"><div class="reel-digit">0</div></div></div>
                         <div class="reel-frame"><div id="s2" class="reel-track"><div class="reel-digit">0</div></div></div>
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-gold/90 font-digital uppercase tracking-widest mt-2 font-bold">SEC</span>
+                    <span class="text-[9px] sm:text-[10px] text-gold/90 font-digital uppercase tracking-widest mt-1.5 font-bold">SEC</span>
                 </div>
             </div>
         </div>
 
-        <div id="wishButtonWrapper" class="z-40 text-center my-6 transition-all duration-700">
-            <button onclick="openWishModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-wider text-[10px] sm:text-xs shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition duration-300">
+        <div id="wishButtonWrapper" class="z-40 text-center mb-4">
+            <button onclick="openWishModal()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-black font-extrabold uppercase tracking-wider text-[10px] sm:text-xs shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition duration-300">
                 ✍️ Leave a Birthday Wish for Arvind_zx
             </button>
         </div>
@@ -1236,7 +1197,7 @@
             } catch(e) {}
         }
 
-        // Wishes Flow across Left, Center, Right spanning full vertical height up to top header
+        // Properly balanced Left, Center, Right balanced floating wishes across full height
         function initSection4WishesFlow() {
             const container = document.getElementById('sec4WishesContainer');
             const section4 = document.getElementById('section4');
@@ -1245,11 +1206,11 @@
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
                 
-                // Spread evenly across Left (2% - 30%), Center (32% - 62%), Right (64% - 92%)
+                // Perfectly distributed 3 columns: Left (3% - 28%), Center (35% - 62%), Right (68% - 92%)
                 const lanes = [
-                    { min: 2, max: 28 },
-                    { min: 34, max: 62 },
-                    { min: 66, max: 92 }
+                    { min: 4, max: 28 },
+                    { min: 36, max: 62 },
+                    { min: 68, max: 92 }
                 ];
                 const chosenLane = lanes[Math.floor(Math.random() * lanes.length)];
                 const randomLeft = chosenLane.min + Math.random() * (chosenLane.max - chosenLane.min);
@@ -1267,8 +1228,7 @@
                     </div>
                 `;
 
-                // Smooth vertical floating animation spanning all the way from bottom to top
-                b.style.animation = `floatFromBottomToTop 14s linear forwards`;
+                b.style.animation = `floatFromBottomToTop 13s linear forwards`;
                 
                 const openWishAction = (e) => {
                     e.preventDefault();
@@ -1281,7 +1241,7 @@
                 b.addEventListener('touchstart', openWishAction, { passive: false });
                 
                 container.appendChild(b);
-                setTimeout(() => b.remove(), 14000);
+                setTimeout(() => b.remove(), 13000);
             }
 
             const observer = new IntersectionObserver((entries) => {
@@ -1290,7 +1250,7 @@
             }, { threshold: 0.05 });
 
             observer.observe(section4);
-            setInterval(spawnBubble, 1400);
+            setInterval(spawnBubble, 1300);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
@@ -1549,7 +1509,7 @@
 
         function animateRibbonLoop() {
             if (!isDragging) { 
-                scrollPos += 0.5; // Optimized smooth scroll speed for desktop & mobile
+                scrollPos += 0.5; 
                 const halfWidth = ribbonTrack.scrollWidth / 3; 
                 if (scrollPos >= halfWidth) scrollPos = 0; 
                 else if (scrollPos < 0) scrollPos = halfWidth; 
@@ -1568,7 +1528,7 @@
         function updateDigit(trackId, newVal) {
             if (prevValues[trackId] === newVal) return; prevValues[trackId] = newVal;
             const track = document.getElementById(trackId); if (!track) return;
-            const cardHeight = window.innerWidth >= 640 ? 66 : 50;
+            const cardHeight = window.innerWidth >= 640 ? 60 : 46;
             const newElem = document.createElement('div'); newElem.className = 'reel-digit'; newElem.innerText = newVal;
             track.insertBefore(newElem, track.firstChild);
             gsap.set(track, { y: -cardHeight });
@@ -1599,8 +1559,9 @@
                 document.getElementById('eqContainer').classList.remove('opacity-50');
             }).catch(() => {});
 
-            gsap.to('#frontHeader', { opacity: 0, duration: 1.0 });
-            gsap.to('#wishButtonWrapper', { opacity: 0, duration: 1.0 });
+            // Parde khulte hi turant countdown ko hide kar rahe hain taaki piche ka section saaf dikhe
+            gsap.to('#frontHeader', { opacity: 0, duration: 0.3 });
+            gsap.to('#wishButtonWrapper', { opacity: 0, duration: 0.3 });
 
             gsap.to('#curtainLeft', { xPercent: -125, duration: 2.0, ease: 'power4.inOut' });
             gsap.to('#curtainRight', { xPercent: 125, duration: 2.0, ease: 'power4.inOut', onComplete: () => {
@@ -1663,7 +1624,7 @@
                         });
                     }});
                 }});
-            }, 2400);
+            }, 1800);
         }
 
         function skipToNext() { 
