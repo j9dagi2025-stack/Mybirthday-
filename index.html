@@ -946,7 +946,7 @@
                 publicWishes = [];
                 privateWishes = [];
                 
-                let localMyPrivateWishes = JSON.parse(localStorage.getItem('my_sent_private_wishes') || '[]');
+                let localMyWishes = JSON.parse(localStorage.getItem('my_sent_wishes_galaxy') || '[]');
 
                 snapshot.forEach((doc) => {
                     const data = doc.data();
@@ -958,10 +958,9 @@
                     }
                 });
 
-                // Include user's own private wishes into their local floating pool so they can see their own private wish float
-                localMyPrivateWishes.forEach(pw => {
-                    if (!publicWishes.some(w => w.id === pw.id)) {
-                        publicWishes.push(pw);
+                localMyWishes.forEach(mw => {
+                    if (!publicWishes.some(w => w.id === mw.id)) {
+                        publicWishes.push(mw);
                     }
                 });
 
@@ -998,18 +997,18 @@
 
                 await db.collection("wishes").add(newWishObj);
 
+                let localMyWishes = JSON.parse(localStorage.getItem('my_sent_wishes_galaxy') || '[]');
+                localMyWishes.push({ ...newWishObj, id: 'local_' + Date.now() });
+                localStorage.setItem('my_sent_wishes_galaxy', JSON.stringify(localMyWishes));
+
+                publicWishes.unshift({ ...newWishObj, id: 'local_' + Date.now() });
+
                 if (isPrivate) {
-                    // Save locally on sender's device so it floats on their screen
-                    let localMyPrivateWishes = JSON.parse(localStorage.getItem('my_sent_private_wishes') || '[]');
-                    localMyPrivateWishes.push({ ...newWishObj, id: 'local_' + Date.now() });
-                    localStorage.setItem('my_sent_private_wishes', JSON.stringify(localMyPrivateWishes));
-                    
-                    alert("🔒 Wish Sent Securely & Privately to Arvind's Vault!");
+                    alert("🔒 Wish Sent Securely & Privately to Arvind's Vault (and visible on your screen)!");
                 } else {
                     alert("✨ Wish Locked & Floated into Public Galaxy Successfully!");
                 }
 
-                // Reset form fields
                 document.getElementById('senderName').value = '';
                 document.getElementById('senderMsg').value = '';
                 document.getElementById('avatarPreviewBox').classList.add('hidden');
@@ -1033,8 +1032,8 @@
         const targetDate = new Date("August 19, 2026 00:00:00 GMT+0530").getTime();
         let isUnlocked = false;
 
-        const targetUserHash = "1f7a0774a0378e1e79393e8a4a270dbde2c3e10884606fbf38c64188cd2e742e"; 
-        const targetPassHash = "96d4b9b94090956ee9f96b27d42cfb2d07525381d501ae7375266858e37e9657"; 
+        const targetUserHash = "TARGET_USER_HASH_PLACEHOLDER"; 
+        const targetPassHash = "TARGET_PASS_HASH_PLACEHOLDER";
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -1046,7 +1045,7 @@
         function togglePrivacyMode(checkbox) {
             const desc = document.getElementById('privacyDesc');
             if (checkbox.checked) {
-                desc.innerText = "🔒 Private (Sent to Arvind's Vault & floats on your screen)";
+                desc.innerText = "🔒 Private (Sent to Arvind's Vault & visible on your screen)";
                 desc.style.color = "#D4AF37";
             } else {
                 desc.innerText = "Public (Floats on screen for everyone)";
@@ -1937,7 +1936,7 @@
 
         function animateRibbonLoop() {
             if (!isDragging) { 
-                scrollPos += 0.5; 
+                scrollPos += 1.3; // Speed increased from 0.5 to 1.3
                 const halfWidth = ribbonTrack.scrollWidth / 3; 
                 if (scrollPos >= halfWidth) scrollPos = 0; 
                 else if (scrollPos < 0) scrollPos = halfWidth; 
