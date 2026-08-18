@@ -1187,37 +1187,37 @@
             } catch(e) {}
         }
 
-        // Granular Hologram-Style Golden Butterfly Shower on Curtains Opening
+        // Stunning 3D Dynamic Golden Butterfly Shower on Curtains Opening
         function triggerCelebrationSwarm() {
             const overlay = document.getElementById('celebrationOverlay');
             overlay.innerHTML = '';
             
-            const goldenShades = ['#FFFFFF', '#FFF6D1', '#FFD700', '#D4AF37', '#FFA500'];
+            const goldenShades = ['#FFFFFF', '#FFF6D1', '#FFD700', '#D4AF37', '#FFA500', '#FF8C00'];
 
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 18; i++) {
                 const item = document.createElement('div');
                 item.className = 'flying-item';
                 
                 const isLeft = i % 2 === 0;
-                const startX = isLeft ? 5 : 95; 
+                const startX = isLeft ? 2 : 98; 
                 const color = goldenShades[i % goldenShades.length];
                 
-                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${24 + (i * 1.2)}px; filter: drop-shadow(0 0 22px ${color});"></i>`;
+                item.innerHTML = `<i class="fa-solid fa-feather" style="color: ${color}; font-size: ${26 + (i * 1.4)}px; filter: drop-shadow(0 0 25px ${color});"></i>`;
                 
                 item.style.left = `${startX}vw`;
-                item.style.bottom = `${20 + (i * 4)}vh`;
+                item.style.bottom = `${15 + (i * 5)}vh`;
                 
                 overlay.appendChild(item);
 
-                // Fluid cinematic throw trajectory spreading across screen
+                // 3D dynamic curved spread inward & floating across full screen
                 gsap.to(item, {
-                    x: (isLeft ? 1 : -1) * (20 + Math.random() * 50) + 'vw',
-                    y: -65 - Math.random() * 30 + 'vh',
-                    rotation: (Math.random() - 0.5) * 220,
-                    scale: 1.4,
-                    duration: 5.2 + Math.random() * 1.5,
+                    x: (isLeft ? 1 : -1) * (25 + Math.random() * 55) + 'vw',
+                    y: -70 - Math.random() * 25 + 'vh',
+                    rotation: (Math.random() - 0.5) * 240,
+                    scale: 1.5,
+                    duration: 5.5 + Math.random() * 1.8,
                     ease: "power2.out",
-                    delay: 0.04 * i
+                    delay: 0.03 * i
                 });
             }
         }
