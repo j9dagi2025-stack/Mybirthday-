@@ -1191,7 +1191,7 @@
             } catch(e) {}
         }
 
-        // --- Refined 3D Metallic Golden Butterflies Canvas Animation (Soft & Natural Flight) ---
+        // --- Realistic Natural Butterfly Flight Physics Animation ---
         const cCanvas = document.getElementById('celebrationCanvas');
         const cCtx = cCanvas.getContext('2d');
         let celebrationButterflies = [];
@@ -1208,25 +1208,25 @@
             constructor(startX, startY, isLeftDir) {
                 this.x = startX;
                 this.y = startY;
-                this.vx = (isLeftDir ? 1 : -1) * (Math.random() * 2 + 1.8);
-                this.vy = (Math.random() - 0.5) * 1.5;
+                this.vx = (isLeftDir ? 1 : -1) * (Math.random() * 1.5 + 1.2);
+                this.vy = (Math.random() - 0.5) * 1.0;
                 this.size = Math.random() * 12 + 16;
                 this.wingAngle = Math.random() * Math.PI;
-                this.wingSpeed = Math.random() * 0.08 + 0.05; 
+                this.wingSpeed = 0.15; 
                 this.alpha = 0;
                 this.life = 0;
-                this.maxLife = 350 + Math.random() * 100;
+                this.maxLife = 400 + Math.random() * 100;
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy + Math.sin(this.life * 0.025) * 0.5; 
+                this.x += this.vx + Math.sin(this.life * 0.04) * 0.8; 
+                this.y += this.vy + Math.cos(this.life * 0.03) * 0.6; 
                 this.wingAngle += this.wingSpeed;
                 this.life++;
                 
-                if (this.life < 70) {
-                    this.alpha += 0.015; 
-                } else if (this.life > this.maxLife - 70) {
-                    this.alpha -= 0.015; 
+                if (this.life < 80) {
+                    this.alpha += 0.012; 
+                } else if (this.life > this.maxLife - 80) {
+                    this.alpha -= 0.012; 
                 }
             }
             draw() {
@@ -1234,25 +1234,25 @@
                 cCtx.translate(this.x, this.y);
                 cCtx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
                 
-                const scaleX = Math.cos(this.wingAngle);
+                const flap = Math.sin(this.wingAngle);
                 
                 const grad = cCtx.createLinearGradient(-this.size, -this.size, this.size, this.size);
                 grad.addColorStop(0, '#FFF6D1');
                 grad.addColorStop(0.5, '#D4AF37');
-                grad.addColorStop(1, '#AA7C11');
+                grad.addColorStop(1, '#855E0B');
                 
                 cCtx.fillStyle = grad;
-                cCtx.shadowColor = 'rgba(212, 175, 55, 0.35)';
-                cCtx.shadowBlur = 12;
+                cCtx.shadowColor = 'rgba(212, 175, 55, 0.4)';
+                cCtx.shadowBlur = 10;
 
                 cCtx.beginPath();
                 cCtx.moveTo(0, 0);
-                cCtx.bezierCurveTo(-this.size * scaleX * 1.5, -this.size * 1.2, -this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
+                cCtx.bezierCurveTo(-this.size * 1.6 * flap, -this.size * 1.1, -this.size * 1.8 * flap, this.size * 0.9, 0, this.size * 0.4);
                 cCtx.fill();
 
                 cCtx.beginPath();
                 cCtx.moveTo(0, 0);
-                cCtx.bezierCurveTo(this.size * scaleX * 1.5, -this.size * 1.2, this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
+                cCtx.bezierCurveTo(this.size * 1.6 * flap, -this.size * 1.1, this.size * 1.8 * flap, this.size * 0.9, 0, this.size * 0.4);
                 cCtx.fill();
 
                 cCtx.fillStyle = '#FFF6D1';
@@ -1266,16 +1266,16 @@
             celebrationButterflies = [];
             isCelebrating = true;
 
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 14; i++) {
                 const isLeft = i % 2 === 0;
-                const startX = isLeft ? -40 : window.innerWidth + 40;
-                const startY = window.innerHeight * (0.25 + Math.random() * 0.5);
+                const startX = isLeft ? -50 : window.innerWidth + 50;
+                const startY = window.innerHeight * (0.2 + Math.random() * 0.6);
                 
                 setTimeout(() => {
                     if(isCelebrating) {
                         celebrationButterflies.push(new CanvasButterfly(startX, startY, isLeft));
                     }
-                }, i * 140);
+                }, i * 200);
             }
         }
 
@@ -1294,10 +1294,10 @@
         }
         animateCelebrationButterflies();
 
-        // Global Wishes Flow - Starts automatically from Section 2 onwards across all screens smoothly
+        // Global Wishes Flow - Starts automatically from Section 4 onwards across all screens smoothly
         function initGlobalWishesFlow() {
             const container = document.getElementById('globalWishesContainer');
-            const section2 = document.getElementById('section2');
+            const section4 = document.getElementById('section4');
 
             function spawnBubble() {
                 const b = document.createElement('div');
@@ -1342,9 +1342,9 @@
 
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) { container.classList.add('active'); } 
-            }, { threshold: 0.02 });
+            }, { threshold: 0.05 });
 
-            observer.observe(section2);
+            observer.observe(section4);
             setInterval(spawnBubble, 2200);
         }
         window.addEventListener('load', initGlobalWishesFlow);
@@ -1691,7 +1691,7 @@
             triggerCurtainAndUnlock(); 
         }
 
-        function openWishModal() { document.getElementById('wishModal').classList.remove('hidden'); }
+        function openWishModal() { document.getElementById('wishModal').classList.add('active'); document.getElementById('wishModal').classList.remove('hidden'); }
         function closeWishModal() { document.getElementById('wishModal').classList.add('hidden'); }
 
         function handleFormSubmit(e) { 
