@@ -459,8 +459,9 @@
         @keyframes eqPulse { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }
         .fog-container { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, #000000 75%); }
 
+        /* Canvas shifted behind central UI elements */
         #celebrationCanvas {
-            position: fixed; inset: 0; pointer-events: none; z-index: 950;
+            position: fixed; inset: 0; pointer-events: none; z-index: 15;
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -567,7 +568,7 @@
         
         <canvas id="hologramCanvas" class="absolute inset-0 z-0 pointer-events-auto"></canvas>
 
-        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none">
+        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center px-4 z-20 my-auto py-6 pointer-events-none">
             <span id="storySubtitle" class="text-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-3 opacity-0 transition-opacity duration-1000 block">Milestone Transcended</span>
             
             <div id="ageContainer" class="my-1 relative flex flex-col items-center justify-center w-full pointer-events-auto opacity-0 transition-opacity duration-1000">
@@ -1191,7 +1192,7 @@
             } catch(e) {}
         }
 
-        // --- Realistic 3D Flapping & Hovering Butterflies ---
+        // --- Non-Crowding Bounded 3D Butterflies ---
         const cCanvas = document.getElementById('celebrationCanvas');
         const cCtx = cCanvas.getContext('2d');
         let celebrationButterflies = [];
@@ -1206,44 +1207,54 @@
 
         class CanvasButterfly {
             constructor(startX, startY) {
-                this.x = startX || Math.random() * (window.innerWidth - 100) + 50;
-                this.y = startY || Math.random() * (window.innerHeight - 150) + 75;
-                this.size = Math.random() * 8 + 12;
+                this.x = startX;
+                this.y = startY;
+                this.size = Math.random() * 6 + 10;
                 
-                // Gentle local hovering physics
-                this.vx = (Math.random() - 0.5) * 1.2;
-                this.vy = (Math.random() - 0.5) * 0.8;
+                this.vx = (Math.random() - 0.5) * 0.9;
+                this.vy = (Math.random() - 0.5) * 0.7;
                 
-                // Natural Wing Flapping Rate
                 this.wingAngle = Math.random() * Math.PI;
-                this.wingSpeed = Math.random() * 0.12 + 0.14;
+                this.wingSpeed = Math.random() * 0.11 + 0.13;
                 
                 this.alpha = 0;
                 this.life = 0;
-                this.maxLife = 650 + Math.random() * 200;
+                this.maxLife = 700 + Math.random() * 200;
                 this.hoverOffset = Math.random() * 100;
             }
 
             update() {
                 this.life++;
-                this.hoverOffset += 0.04;
+                this.hoverOffset += 0.035;
                 
-                // Organic floating motion inside screen bounds
-                this.x += this.vx + Math.sin(this.hoverOffset * 0.7) * 0.8;
-                this.y += this.vy + Math.cos(this.hoverOffset * 0.5) * 0.6;
+                this.x += this.vx + Math.sin(this.hoverOffset * 0.6) * 0.7;
+                this.y += this.vy + Math.cos(this.hoverOffset * 0.4) * 0.5;
                 
-                // Keep them bounded inside viewport
-                const pad = 40;
+                // Screen boundary constraints
+                const pad = 35;
                 if (this.x < pad) { this.x = pad; this.vx *= -1; }
                 if (this.x > window.innerWidth - pad) { this.x = window.innerWidth - pad; this.vx *= -1; }
-                if (this.y < pad + 60) { this.y = pad + 60; this.vy *= -1; }
-                if (this.y > window.innerHeight - pad - 60) { this.y = window.innerHeight - pad - 60; this.vy *= -1; }
+                if (this.y < pad + 50) { this.y = pad + 50; this.vy *= -1; }
+                if (this.y > window.innerHeight - pad - 50) { this.y = window.innerHeight - pad - 50; this.vy *= -1; }
 
-                // Up & Down Wing Flap
+                // Safe Zone Push: Keep them away from center drum display
+                const cx = window.innerWidth / 2;
+                const cy = window.innerHeight / 2;
+                const distCenter = Math.hypot(this.x - cx, this.y - cy);
+                const safeRadius = window.innerWidth < 640 ? 140 : 180;
+                
+                if (distCenter < safeRadius) {
+                    const angle = Math.atan2(this.y - cy, this.x - cx);
+                    this.x = cx + Math.cos(angle) * (safeRadius + 15);
+                    this.y = cy + Math.sin(angle) * (safeRadius + 15);
+                    this.vx = Math.cos(angle) * 0.8;
+                    this.vy = Math.sin(angle) * 0.8;
+                }
+
                 this.wingAngle += this.wingSpeed;
 
                 if (this.life < 50) {
-                    this.alpha = Math.min(1, this.life / 50);
+                    this.alpha = Math.min(0.85, this.life / 50);
                 } else if (this.life > this.maxLife - 50) {
                     this.alpha = Math.max(0, (this.maxLife - this.life) / 50);
                 }
@@ -1254,12 +1265,11 @@
                 cCtx.translate(this.x, this.y);
                 cCtx.globalAlpha = this.alpha;
 
-                // Scale X compression generates true 3D up-down flapping perspective
                 const flap = Math.cos(this.wingAngle); 
                 const s = this.size;
 
-                cCtx.shadowColor = 'rgba(212, 175, 55, 0.75)';
-                cCtx.shadowBlur = 12;
+                cCtx.shadowColor = 'rgba(212, 175, 55, 0.6)';
+                cCtx.shadowBlur = 10;
 
                 const wingGrad = cCtx.createLinearGradient(0, -s, s, s);
                 wingGrad.addColorStop(0, '#FFFFFF');
@@ -1268,10 +1278,9 @@
                 wingGrad.addColorStop(1, '#AA7C11');
                 cCtx.fillStyle = wingGrad;
 
-                // ---- RIGHT WINGS ----
+                // Right Wings
                 cCtx.save();
                 cCtx.scale(flap, 1);
-                
                 cCtx.beginPath();
                 cCtx.moveTo(2, -2);
                 cCtx.bezierCurveTo(s * 1.5, -s * 1.6, s * 2.2, -s * 0.2, s * 0.8, s * 0.3);
@@ -1284,10 +1293,9 @@
                 cCtx.fill();
                 cCtx.restore();
 
-                // ---- LEFT WINGS ----
+                // Left Wings
                 cCtx.save();
                 cCtx.scale(-flap, 1);
-                
                 cCtx.beginPath();
                 cCtx.moveTo(2, -2);
                 cCtx.bezierCurveTo(s * 1.5, -s * 1.6, s * 2.2, -s * 0.2, s * 0.8, s * 0.3);
@@ -1300,19 +1308,19 @@
                 cCtx.fill();
                 cCtx.restore();
 
-                // ---- CENTER BODY & ANTENNAE ----
+                // Center Body
                 cCtx.fillStyle = '#FFF6D1';
                 cCtx.beginPath();
-                cCtx.ellipse(0, 0, 1.8, s * 0.65, 0, 0, Math.PI * 2);
+                cCtx.ellipse(0, 0, 1.6, s * 0.6, 0, 0, Math.PI * 2);
                 cCtx.fill();
 
-                cCtx.strokeStyle = 'rgba(255, 246, 209, 0.8)';
-                cCtx.lineWidth = 1;
+                cCtx.strokeStyle = 'rgba(255, 246, 209, 0.7)';
+                cCtx.lineWidth = 0.9;
                 cCtx.beginPath();
-                cCtx.moveTo(0, -s * 0.5);
-                cCtx.quadraticCurveTo(4, -s * 0.9, 5, -s * 1.1);
-                cCtx.moveTo(0, -s * 0.5);
-                cCtx.quadraticCurveTo(-4, -s * 0.9, -5, -s * 1.1);
+                cCtx.moveTo(0, -s * 0.45);
+                cCtx.quadraticCurveTo(3, -s * 0.85, 4, -s * 1.05);
+                cCtx.moveTo(0, -s * 0.45);
+                cCtx.quadraticCurveTo(-3, -s * 0.85, -4, -s * 1.05);
                 cCtx.stroke();
 
                 cCtx.restore();
@@ -1323,15 +1331,24 @@
             celebrationButterflies = [];
             isCelebrating = true;
 
-            for (let i = 0; i < 14; i++) {
+            // Spawn gracefully at surrounding sides (top corners, sides, bottom corners)
+            const spawnPoints = [
+                { x: window.innerWidth * 0.15, y: window.innerHeight * 0.18 },
+                { x: window.innerWidth * 0.85, y: window.innerHeight * 0.18 },
+                { x: window.innerWidth * 0.12, y: window.innerHeight * 0.50 },
+                { x: window.innerWidth * 0.88, y: window.innerHeight * 0.50 },
+                { x: window.innerWidth * 0.20, y: window.innerHeight * 0.80 },
+                { x: window.innerWidth * 0.80, y: window.innerHeight * 0.80 },
+                { x: window.innerWidth * 0.50, y: window.innerHeight * 0.12 }
+            ];
+
+            spawnPoints.forEach((pt, i) => {
                 setTimeout(() => {
                     if (isCelebrating) {
-                        const rx = window.innerWidth * 0.2 + Math.random() * (window.innerWidth * 0.6);
-                        const ry = window.innerHeight * 0.25 + Math.random() * (window.innerHeight * 0.5);
-                        celebrationButterflies.push(new CanvasButterfly(rx, ry));
+                        celebrationButterflies.push(new CanvasButterfly(pt.x, pt.y));
                     }
-                }, i * 180);
-            }
+                }, i * 220);
+            });
         }
 
         function animateCelebrationButterflies() {
