@@ -817,6 +817,7 @@
 
             <div class="w-full flex items-center gap-3 border-t border-gold/30 pt-3 mt-auto flex-shrink-0">
                 <img id="expandedAvatar" class="w-10 h-10 rounded-full border-2 border-gold object-cover shadow-[0_0_12px_rgba(212,175,55,0.5)] flex-shrink-0">
+                <div id="expandedAvatarFallback" class="w-10 h-10 rounded-full border-2 border-gold bg-gradient-to-tr from-black via-neutral-900 to-gold text-gold font-cinzel font-black flex items-center justify-center text-sm flex-shrink-0 shadow-[0_0_12px_rgba(212,175,55,0.6)] hidden"></div>
                 <div class="text-left flex flex-col overflow-hidden">
                     <h3 id="expandedName" class="font-cinzel text-base font-extrabold white-gold-gradient-text gold-shine-anim truncate"></h3>
                     <span class="text-[9px] text-gold/70 uppercase tracking-widest font-mono">Chapter 27 Blessing</span>
@@ -834,17 +835,17 @@
             
             <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Name</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Name (Compulsory)</label>
                     <input type="text" id="senderName" required placeholder="Enter your name" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-gold">
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Message</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Message (Compulsory)</label>
                     <textarea id="senderMsg" rows="3" required placeholder="Write a birthday message..." class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-gold"></textarea>
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Circle Fit)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Your Profile Photo (Optional)</label>
                     <input type="file" id="avatarFileInput" accept="image/*" onchange="openAvatarCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
@@ -867,7 +868,7 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Portrait Gift Photo (Exact 4:5 Frame)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Portrait Gift Photo (Optional)</label>
                     <input type="file" id="mediaInput" accept="image/*" onchange="openGiftCropModal(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
@@ -879,7 +880,7 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Voice Note (Any Audio File)</label>
+                    <label class="text-[10px] uppercase font-bold text-gold tracking-wider block mb-1">Attach Voice Note (Optional)</label>
                     <input type="file" id="audioInput" accept="audio/*,.mp3,.wav,.m4a,.aac" onchange="handleAudioAttachment(event)" class="w-full bg-neutral-900/90 border border-gold/25 rounded-xl px-3 py-2 text-[11px] text-gray-300 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-gold file:text-black hover:file:bg-gold-light cursor-pointer">
                 </div>
 
@@ -983,8 +984,8 @@
             submitBtn.disabled = true;
 
             try {
-                let avatarUrl = finalizedAvatarUrl || "https://picsum.photos/seed/default/200/200";
-                let giftUrl = finalizedGiftUrl || ""; // Optional photo, can be empty for text-only wishes
+                let avatarUrl = finalizedAvatarUrl || ""; // Khali rahega agar photo na ho
+                let giftUrl = finalizedGiftUrl || ""; 
                 let audioUrl = finalizedAudioUrl || "";
 
                 const newWishObj = {
@@ -1012,7 +1013,6 @@
                     alert("✨ Wish Locked & Floated into Public Galaxy Successfully!");
                 }
 
-                // Reset form fields & previews
                 document.getElementById('senderName').value = '';
                 document.getElementById('senderMsg').value = '';
                 removeAvatarSelection();
@@ -1030,7 +1030,7 @@
         }
 
         function removeAvatarSelection() {
-            finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
+            finalizedAvatarUrl = "";
             document.getElementById('avatarFileInput').value = '';
             document.getElementById('avatarPreviewBox').classList.add('hidden');
         }
@@ -1115,13 +1115,17 @@
                         audioHTML = `<div class="p-2 w-full mt-2 bg-neutral-900 border border-gold/30 rounded-xl"><audio src="${wish.audioSrc}" controls class="w-full h-8" onplay="handleExpandedAudioPlay()"></audio></div>`;
                     }
 
+                    let avatarHTML = wish.avatar && wish.avatar.trim() !== '' 
+                        ? `<img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_12px_#D4AF37]">`
+                        : `<div class="w-9 h-9 rounded-full border-2 border-gold bg-gradient-to-tr from-black via-neutral-900 to-gold text-gold font-cinzel font-black flex items-center justify-center text-xs shadow-[0_0_12px_rgba(212,175,55,0.6)]">${wish.name.charAt(0).toUpperCase()}</div>`;
+
                     container.innerHTML += `
                         <div class="p-4 rounded-2xl bg-gradient-to-br from-neutral-900/95 to-black/95 border-2 border-gold/60 text-left shadow-[0_0_30px_rgba(212,175,55,0.4)] relative overflow-hidden flex flex-col justify-between transform hover:scale-[1.02] transition duration-300">
                             <div class="gold-organic-spark" style="top: 8px; right: 10px;"></div>
                             <div class="gold-organic-spark" style="bottom: 10px; left: 10px; animation-delay: 1.1s;"></div>
                             <div>
                                 <div class="flex items-center gap-3 mb-3 border-b border-gold/30 pb-2">
-                                    <img src="${wish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover shadow-[0_0_12px_#D4AF37]">
+                                    ${avatarHTML}
                                     <div class="flex flex-col overflow-hidden">
                                         <span class="font-cinzel font-bold white-gold-gradient-text gold-shine-anim text-sm truncate">${wish.name}</span>
                                         <span class="text-[8px] font-mono text-gold/70 uppercase tracking-widest">🔒 Confidential Vault Gift</span>
@@ -1143,7 +1147,7 @@
         }
 
         let cropTargetType = 'avatar';
-        let finalizedAvatarUrl = "https://picsum.photos/seed/default/200/200";
+        let finalizedAvatarUrl = "";
         let finalizedGiftUrl = "";
         let finalizedAudioUrl = "";
 
@@ -1663,14 +1667,18 @@
                 b.style.left = `${chosenLeft}%`;
                 
                 const currentPool = (publicWishes && publicWishes.length > 0) ? publicWishes : [
-                    { name: "Aman", text: "Happy Birthday!", avatar: "https://picsum.photos/200" }
+                    { name: "Aman", text: "Happy Birthday!", avatar: "" }
                 ];
                 const randomWish = currentPool[Math.floor(Math.random() * currentPool.length)];
+
+                let avatarHtml = randomWish.avatar && randomWish.avatar.trim() !== '' 
+                    ? `<img src="${randomWish.avatar}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_12px_#FFD700]">` 
+                    : `<div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold bg-gradient-to-tr from-black via-neutral-900 to-gold text-gold font-cinzel font-black flex items-center justify-center text-xs flex-shrink-0 shadow-[0_0_12px_rgba(212,175,55,0.6)]">${randomWish.name.charAt(0).toUpperCase()}</div>`;
 
                 b.innerHTML = `
                     <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
                     <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
-                    <img src="${randomWish.avatar || 'https://picsum.photos/200'}" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_12px_#FFD700]">
+                    ${avatarHtml}
                     <div class="flex flex-col text-left overflow-hidden">
                         <span class="sec4-name">${randomWish.name}</span>
                         <span class="sec4-text">"${randomWish.text}"</span>
@@ -1735,7 +1743,20 @@
 
         function toggleExpandedWish(wish) {
             const modal = document.getElementById('wishCardModal');
-            document.getElementById('expandedAvatar').src = wish.avatar || 'https://picsum.photos/200';
+            
+            const avatarImg = document.getElementById('expandedAvatar');
+            const avatarFallback = document.getElementById('expandedAvatarFallback');
+
+            if (wish.avatar && wish.avatar.trim() !== '') {
+                avatarImg.src = wish.avatar;
+                avatarImg.classList.remove('hidden');
+                avatarFallback.classList.add('hidden');
+            } else {
+                avatarImg.classList.add('hidden');
+                avatarFallback.innerText = wish.name.charAt(0).toUpperCase();
+                avatarFallback.classList.remove('hidden');
+            }
+
             document.getElementById('expandedName').innerText = wish.name;
             document.getElementById('expandedMessage').innerText = `"${wish.text}"`;
             
