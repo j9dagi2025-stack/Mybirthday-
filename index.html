@@ -88,7 +88,7 @@
             background: linear-gradient(135deg, #FFFFFF 0%, #FFF6D1 25%, #D4AF37 65%, #AA7C11 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.7));
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
         }
 
         .gold-shine-anim {
@@ -233,7 +233,6 @@
             .age-drum-number { font-size: 95px; height: 160px; line-height: 160px; }
         }
 
-        /* 3D Realistic Dynamic Fire Flame Aura Effect on Drum Reveal */
         .fire-awakened-glow {
             border-color: #ff3b00 !important;
             box-shadow: 0 0 50px rgba(255, 69, 0, 0.95), 0 0 90px rgba(255, 140, 0, 0.7), inset 0 0 30px rgba(255, 69, 0, 0.8) !important;
@@ -342,6 +341,7 @@
         .ribbon-photo-item:nth-child(12n+11) { transform: translateY(15px) rotate(-6deg); }
         .ribbon-photo-item:nth-child(12n+12) { transform: translateY(0px) rotate(0deg); }
 
+        /* Perfect Balanced Floating Wishes Container (Starts from Section 2 onwards smoothly) */
         #sec4WishesContainer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -368,8 +368,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.35);
             pointer-events: auto !important;
             cursor: pointer;
-            width: 220px;
-            max-width: 55vw;
+            width: 210px;
+            max-width: 48vw;
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
@@ -385,9 +385,9 @@
 
         @keyframes floatFromBottomToTop {
             0% { transform: translateY(110vh) translateZ(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-12vh) translateZ(0); opacity: 0; }
+            12% { opacity: 1; }
+            88% { opacity: 1; }
+            100% { transform: translateY(-15vh) translateZ(0); opacity: 0; }
         }
 
         @keyframes goldShimmer {
@@ -1192,7 +1192,7 @@
             } catch(e) {}
         }
 
-        // --- 3D Realistic Dynamic Golden Butterflies Canvas Animation ---
+        // --- Refined 3D Metallic Golden Butterflies Canvas Animation (Soft & Natural Flight) ---
         const cCanvas = document.getElementById('celebrationCanvas');
         const cCtx = cCanvas.getContext('2d');
         let celebrationButterflies = [];
@@ -1206,54 +1206,64 @@
         resizeCelebrationCanvas();
 
         class CanvasButterfly {
-            constructor(startX, startY) {
+            constructor(startX, startY, isLeftDir) {
                 this.x = startX;
                 this.y = startY;
-                this.vx = (Math.random() - 0.5) * 10;
-                this.vy = (Math.random() - 1.3) * 8 - 4;
-                this.size = Math.random() * 14 + 16;
+                // Graceful, smooth glide (not too fast)
+                this.vx = (isLeftDir ? 1 : -1) * (Math.random() * 2 + 1.8);
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.size = Math.random() * 12 + 16;
                 this.wingAngle = Math.random() * Math.PI;
-                this.wingSpeed = Math.random() * 0.25 + 0.2;
-                this.color = Math.random() > 0.25 ? '#FFD700' : '#FFFFFF';
-                this.alpha = 1.0;
+                this.wingSpeed = Math.random() * 0.08 + 0.05; // Gentle flapping
+                this.alpha = 0;
                 this.life = 0;
-                this.maxLife = 240 + Math.random() * 80;
+                this.maxLife = 350 + Math.random() * 100;
             }
             update() {
                 this.x += this.vx;
-                this.y += this.vy;
-                this.vx *= 0.95;
-                this.vy *= 0.95;
+                this.y += this.vy + Math.sin(this.life * 0.025) * 0.5; // Natural wave floating
                 this.wingAngle += this.wingSpeed;
                 this.life++;
-                if (this.life > this.maxLife - 60) {
-                    this.alpha -= 0.02;
+                
+                if (this.life < 70) {
+                    this.alpha += 0.015; // Smooth fade in
+                } else if (this.life > this.maxLife - 70) {
+                    this.alpha -= 0.015; // Smooth fade out
                 }
             }
             draw() {
                 cCtx.save();
                 cCtx.translate(this.x, this.y);
-                cCtx.globalAlpha = Math.max(0, this.alpha);
+                cCtx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
                 
                 const scaleX = Math.cos(this.wingAngle);
                 
-                cCtx.fillStyle = this.color;
-                cCtx.shadowColor = '#FF8C00';
-                cCtx.shadowBlur = 20;
+                // Rich Metallic Premium Gold Gradient with Soft Glow
+                const grad = cCtx.createLinearGradient(-this.size, -this.size, this.size, this.size);
+                grad.addColorStop(0, '#FFF6D1');
+                grad.addColorStop(0.5, '#D4AF37');
+                grad.addColorStop(1, '#AA7C11');
+                
+                cCtx.fillStyle = grad;
+                cCtx.shadowColor = 'rgba(212, 175, 55, 0.35)';
+                cCtx.shadowBlur = 12;
 
+                // Authentic Tapered Butterfly Wings (Defined Contour, No Circles)
                 // Left Wing
                 cCtx.beginPath();
-                cCtx.ellipse(-this.size * scaleX * 0.65, 0, this.size * Math.abs(scaleX), this.size * 0.75, -0.4, 0, Math.PI * 2);
+                cCtx.moveTo(0, 0);
+                cCtx.bezierCurveTo(-this.size * scaleX * 1.5, -this.size * 1.2, -this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
                 cCtx.fill();
 
                 // Right Wing
                 cCtx.beginPath();
-                cCtx.ellipse(this.size * scaleX * 0.65, 0, this.size * Math.abs(scaleX), this.size * 0.75, 0.4, 0, Math.PI * 2);
+                cCtx.moveTo(0, 0);
+                cCtx.bezierCurveTo(this.size * scaleX * 1.5, -this.size * 1.2, this.size * scaleX * 1.7, this.size * 1.0, 0, this.size * 0.35);
                 cCtx.fill();
 
-                // Center Body
+                // Center Sleek Body
                 cCtx.fillStyle = '#FFF6D1';
-                cCtx.fillRect(-2, -this.size * 0.5, 4, this.size);
+                cCtx.fillRect(-1.5, -this.size * 0.45, 3, this.size * 0.9);
 
                 cCtx.restore();
             }
@@ -1263,12 +1273,17 @@
             celebrationButterflies = [];
             isCelebrating = true;
 
-            // Grand 3D dynamic shower from Left & Right edges
-            for (let i = 0; i < 28; i++) {
+            // Staggered cinematic flow from both sides
+            for (let i = 0; i < 16; i++) {
                 const isLeft = i % 2 === 0;
-                const startX = isLeft ? 15 : window.innerWidth - 15;
-                const startY = window.innerHeight * (0.2 + Math.random() * 0.6);
-                celebrationButterflies.push(new CanvasButterfly(startX, startY));
+                const startX = isLeft ? -40 : window.innerWidth + 40;
+                const startY = window.innerHeight * (0.25 + Math.random() * 0.5);
+                
+                setTimeout(() => {
+                    if(isCelebrating) {
+                        celebrationButterflies.push(new CanvasButterfly(startX, startY, isLeft));
+                    }
+                }, i * 140);
             }
         }
 
@@ -1282,26 +1297,25 @@
                         celebrationButterflies.splice(index, 1);
                     }
                 });
-                if (celebrationButterflies.length === 0) {
-                    isCelebrating = false;
-                }
             }
             requestAnimationFrame(animateCelebrationButterflies);
         }
         animateCelebrationButterflies();
 
+        // Balanced 3-Lane Floating Wishes Flow starting cleanly from Section 2 onwards
         function initSection4WishesFlow() {
             const container = document.getElementById('sec4WishesContainer');
-            const section4 = document.getElementById('section4');
+            const section2 = document.getElementById('section2');
 
             function spawnBubble() {
                 const b = document.createElement('div');
                 b.className = 'sec4-bubble';
                 
+                // Balanced Left, Center, Right lanes with soft side padding for natural edge overflow
                 const lanes = [
-                    { min: 4, max: 26 },
-                    { min: 35, max: 60 },
-                    { min: 66, max: 88 }
+                    { min: 2, max: 28 },   // Left lane
+                    { min: 34, max: 62 },  // Center lane
+                    { min: 68, max: 96 }   // Right lane
                 ];
                 const chosenLane = lanes[Math.floor(Math.random() * lanes.length)];
                 const randomLeft = chosenLane.min + Math.random() * (chosenLane.max - chosenLane.min);
@@ -1312,14 +1326,14 @@
                 b.innerHTML = `
                     <div class="gold-organic-spark" style="top: 4px; left: 8px;"></div>
                     <div class="gold-organic-spark" style="bottom: 4px; right: 12px; animation-delay: 1s;"></div>
-                    <img src="${randomWish.avatar}" class="w-10 h-10 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
+                    <img src="${randomWish.avatar}" class="w-9 h-9 rounded-full border-2 border-gold object-cover flex-shrink-0 shadow-[0_0_10px_#D4AF37]">
                     <div class="flex flex-col text-left overflow-hidden">
                         <span class="font-cinzel font-bold text-gold text-xs">${randomWish.name}</span>
                         <span class="text-[11px] text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">"${randomWish.text}"</span>
                     </div>
                 `;
 
-                b.style.animation = `floatFromBottomToTop 14s linear forwards`;
+                b.style.animation = `floatFromBottomToTop 15s linear forwards`;
                 
                 const openWishAction = (e) => {
                     e.preventDefault();
@@ -1332,16 +1346,16 @@
                 b.addEventListener('touchstart', openWishAction, { passive: false });
                 
                 container.appendChild(b);
-                setTimeout(() => b.remove(), 14000);
+                setTimeout(() => b.remove(), 15000);
             }
 
             const observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) { container.classList.add('active'); } 
                 else { container.classList.remove('active'); }
-            }, { threshold: 0.05 });
+            }, { threshold: 0.02 });
 
-            observer.observe(section4);
-            setInterval(spawnBubble, 1800);
+            observer.observe(section2);
+            setInterval(spawnBubble, 2200);
         }
         window.addEventListener('load', initSection4WishesFlow);
 
